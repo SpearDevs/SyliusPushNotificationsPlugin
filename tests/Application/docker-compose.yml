@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  mysql:
+    platform: linux/amd64
+    image: percona:5.7
+    labels:
+        com.symfony.server.service-prefix: 'DATABASE'
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-nopassword}
+      - MYSQL_DATABASE=sylius
+      - MYSQL_USER=sylius
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-nopassword}
+    volumes:
+      - mysql-data:/var/lib/mysql:rw
+    ports:
+      - "3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin        
+    ports:
+        - "80"
+    environment:
+        - PMA_HOST=mysql
+        - PMA_USER=sylius
+        - PMA_PASSWORD=${MYSQL_PASSWORD:-nopassword}
+    depends_on:
+        - mysql
+
+volumes:
+  mysql-data:
+  public-media:
