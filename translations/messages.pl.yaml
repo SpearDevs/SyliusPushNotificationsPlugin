@@ -1,0 +1,4 @@
+sylius:
+    ui:
+        my_account: 
+            push_notifications: Notyfikacje Push
