@@ -45,7 +45,7 @@ class WebPushNotificationCommand extends Command
         foreach ($users as $user) {
             $subscriptions = $this->userSubscriptionManager->findByUser($user);
 
-            if (!count($subscriptions)) {
+            if (count($subscriptions)) {
                 $notification = new PushNotification('Test Message!', [
                     PushNotification::BODY => 'ĄŚŻŹĆ.',
                 ]);
