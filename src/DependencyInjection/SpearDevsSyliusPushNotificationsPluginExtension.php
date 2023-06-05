@@ -30,18 +30,16 @@ final class SpearDevsSyliusPushNotificationsPluginExtension extends AbstractReso
 
     protected function getMigrationsNamespace(): string
     {
-        return 'DoctrineMigrations';
+        return 'SpearDevs\SyliusPushNotificationsPlugin\Migrations';
     }
 
     protected function getMigrationsDirectory(): string
     {
-        return '@SpearDevsSyliusPushNotificationsPlugin/migrations';
+        return '@SpearDevsSyliusPushNotificationsPlugin/Migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array
     {
-        return [
-            'Sylius\Bundle\CoreBundle\Migrations',
-        ];
+        return ['Sylius\Bundle\CoreBundle\Migrations'];
     }
 }
