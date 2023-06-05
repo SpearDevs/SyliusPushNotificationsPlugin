@@ -1,9 +1,9 @@
-acme_sylius_example_shop:
-    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/shop_routing.yml"
-    prefix: /{_locale}
-    requirements:
-        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
+bentools_webpush:
+    resource: '@WebPushBundle/Resources/config/routing.xml'
+    prefix: /webpush
 
-acme_sylius_example_admin:
-    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/admin_routing.yml"
-    prefix: /admin
+spear_devs_push_notifications_section:
+    path: /{_locale}/account/push-notifications
+    defaults:
+        _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\PushNotificationAction'
+        template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification.html.twig'
