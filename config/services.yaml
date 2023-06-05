@@ -1,0 +1,16 @@
+imports:
+    - { resource: "../vendor/bentools/webpush-bundle/src/Resources/config/services.xml" }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        
+    SpearDevs\SyliusPushNotificationsPlugin\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+    
+    app.listener.shop.menu_builder:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
