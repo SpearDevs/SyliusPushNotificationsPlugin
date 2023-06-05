@@ -1,4 +1,6 @@
 {
+    "name": "speardevs/speardevs-sylius-push-notifications-plugin",
+    "description": "Push Notifications plugin for sylius",
     "type": "sylius-plugin",
     "keywords": [
         "sylius",
