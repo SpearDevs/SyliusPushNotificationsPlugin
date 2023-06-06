@@ -22,8 +22,7 @@ class WebPushNotificationCommand extends Command
         private UserSubscriptionManager $userSubscriptionManager,
         private PushMessageSender $sender,
         string $name = null
-    )
-    {
+    ) {
         parent::__construct($name);
     }
 

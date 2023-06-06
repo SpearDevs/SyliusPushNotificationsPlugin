@@ -6,11 +6,20 @@ services:
         autowire: true
         autoconfigure: true
         
-    SpearDevs\SyliusPushNotificationsPlugin\Controller\:
-        resource: '../src/Controller'
+    SpearDevs\SyliusPushNotificationsPlugin\Services\:
+        resource: '../src/Services'
         tags: ['controller.service_arguments']
     
     app.listener.shop.menu_builder:
         class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:
             - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
+        
+    SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
+        arguments: 
+            - '@sylius.repository.shop_user'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Services\UserSubscriptionManager'
+            - '@BenTools\WebPushBundle\Sender\PushMessageSender'
+        tags:
+            - { name: console.command }
