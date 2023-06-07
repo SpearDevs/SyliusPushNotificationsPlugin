@@ -28,7 +28,7 @@ class UserSubscription implements UserSubscriptionInterface
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\User\Model\User")
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
      * @ORM\JoinColumn(nullable=false)
      */
     private User $user;
