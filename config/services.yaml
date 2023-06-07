@@ -2,6 +2,10 @@ imports:
     - { resource: "../vendor/bentools/webpush-bundle/src/Resources/config/services.xml" }
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+    
     app.listener.shop.menu_builder:
         class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:
