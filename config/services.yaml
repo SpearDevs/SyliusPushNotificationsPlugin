@@ -2,14 +2,6 @@ imports:
     - { resource: "../vendor/bentools/webpush-bundle/src/Resources/config/services.xml" }
 
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Services\:
-        resource: '../src/Services'
-        tags: [ 'controller.service_arguments' ]
-    
     app.listener.shop.menu_builder:
         class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:
@@ -21,6 +13,13 @@ services:
             - '@twig'
         tags:
             - { name: controller.service_arguments }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Services\UserSubscriptionManager :
+        class: SpearDevs\SyliusPushNotificationsPlugin\Services\UserSubscriptionManager
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
     SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
         class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
