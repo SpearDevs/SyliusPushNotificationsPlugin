@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Sylius\Component\User\Model\User;
+use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 
@@ -48,11 +49,11 @@ class UserSubscription implements UserSubscriptionInterface
 
     /**
      * UserSubscription constructor.
-     * @param User $user
+     * @param ShopUser $user
      * @param string $subscriptionHash
      * @param array $subscription
      */
-    public function __construct(User $user, string $subscriptionHash, array $subscription)
+    public function __construct(ShopUser $user, string $subscriptionHash, array $subscription)
     {
         $this->user = $user;
         $this->subscriptionHash = $subscriptionHash;

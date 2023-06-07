@@ -8,8 +8,8 @@ use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
+use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Sylius\Component\User\Model\User;
 
 final class UserSubscriptionManager implements UserSubscriptionManagerInterface
 {
@@ -21,7 +21,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function factory(UserInterface $user, string $subscriptionHash, array $subscription, array $options = []): UserSubscriptionInterface
     {
-        /** @var $user User */
+        /** @var $user ShopUser */
         return new UserSubscription($user, $subscriptionHash, $subscription);
     }
 
