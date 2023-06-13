@@ -1,0 +1,5 @@
+sylius_resource:
+    resources:
+        app.user_subscription:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription

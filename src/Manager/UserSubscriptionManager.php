@@ -2,18 +2,22 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Services;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Manager;
 
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
 use Sylius\Component\Core\Model\ShopUser;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserSubscriptionManager implements UserSubscriptionManagerInterface
 {
-    public function __construct(private ManagerRegistry $doctrine) {
+    public function __construct(
+        private ManagerRegistry  $doctrine,
+        private ObjectRepository $userSubscriptionRepository
+    ) {
     }
 
     /**
@@ -38,7 +42,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function getUserSubscription(UserInterface $user, string $subscriptionHash): ?UserSubscriptionInterface
     {
-        return $this->doctrine->getManager()->getRepository(UserSubscription::class)->findOneBy([
+        return $this->userSubscriptionRepository->findOneBy([
             'user' => $user,
             'subscriptionHash' => $subscriptionHash,
         ]);
@@ -49,7 +53,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function findByUser(UserInterface $user): iterable
     {
-        return $this->doctrine->getManager()->getRepository(UserSubscription::class)->findBy([
+        return $this->userSubscriptionRepository->findBy([
             'user' => $user,
         ]);
     }
@@ -59,7 +63,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function findByHash(string $subscriptionHash): iterable
     {
-        return $this->doctrine->getManager()->getRepository(UserSubscription::class)->findBy([
+        return $this->userSubscriptionRepository->findBy([
             'subscriptionHash' => $subscriptionHash,
         ]);
     }

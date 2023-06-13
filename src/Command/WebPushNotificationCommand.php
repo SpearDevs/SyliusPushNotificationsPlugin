@@ -6,7 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
-use SpearDevs\SyliusPushNotificationsPlugin\Services\UserSubscriptionManager;
+use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +15,7 @@ use Sylius\Component\User\Model\User;
 
 class WebPushNotificationCommand extends Command
 {
-    protected static $defaultName = 'spear-devs:webpush:send';
+    protected static $defaultName = 'speardevs:webpush:send';
 
     public function __construct(
         private RepositoryInterface $shopUserRepository,
@@ -32,7 +32,6 @@ class WebPushNotificationCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('spear-devs-web:webpush:send')
             ->setDescription('Send default web push notification.');
     }
 
@@ -40,7 +39,7 @@ class WebPushNotificationCommand extends Command
     {
         $users = $this->shopUserRepository->findAll();
 
-        /** @var  $user User */
+        /** @var User $user */
         foreach ($users as $user) {
             $subscriptions = $this->userSubscriptionManager->findByUser($user);
 
