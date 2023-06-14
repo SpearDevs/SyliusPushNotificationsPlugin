@@ -31,8 +31,8 @@ export default class extends Controller {
         }
 
         if (
-            !'Notification' in window
-            || !'serviceWorker' in navigator
+            !('Notification' in window)
+            || !('serviceWorker' in navigator)
         ) {
             return console.warn('Browser doesn\'t support push notifications.');
         }
@@ -59,7 +59,7 @@ export default class extends Controller {
                 break;
             
             case this.subscriptionStates.granted:
-                this.configurePushSubscription();
+                await this.configurePushSubscription();
                 this.showButton(this.subscriptionStates.granted);
 
                 break;
@@ -74,18 +74,14 @@ export default class extends Controller {
 
     showButton = (activeState) => {
         Object.values(this.subscriptionStates).forEach((state) => {
-            if (activeState === state) {
-                return this[`button${state}`].style.display = 'inline-block';
-            }
-
-            return this[`button${state}`].style.display = 'none';
+            this[`button${state}`].style.display = activeState === state ? 'inline-block' : 'none';
         });
     }
 
     askForNotificationPermission = () => {
-        Notification.requestPermission((result) => {
+        Notification.requestPermission(async (result) => {
             if (result === this.subscriptionStates.granted) {
-                this.configurePushSubscription();
+                await this.configurePushSubscription();
             }
 
             this.showButton(result);

@@ -7,11 +7,11 @@ self.addEventListener('push', (event) => {
     /* eslint-disable-next-line */
     if (self.pushData) {
       /* eslint-disable-next-line */
-      const notificationData = self.pushData.json();
+      const { title, options } = self.pushData.json();
 
       event.waitUntil(
         /* eslint-disable-next-line */
-        self.registration.showNotification(notificationData.title, notificationData.options),
+        self.registration.showNotification(title, options),
       );
     }
   }
