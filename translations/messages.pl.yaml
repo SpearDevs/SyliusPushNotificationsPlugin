@@ -2,3 +2,8 @@ sylius:
     ui:
         my_account: 
             push_notifications: Notyfikacje Push
+        push_notifications:
+            heading: Włącz powiadomienia, aby dostawać notyfikacje na temat najnowszych produktów.
+            subscribe: Włącz powiadomienia
+            disabled_text: Powiadomienia push wyłączone. Aktywować je możesz w ustawieniach systemu.
+            enabled_text: Powiadomienia push włączone.

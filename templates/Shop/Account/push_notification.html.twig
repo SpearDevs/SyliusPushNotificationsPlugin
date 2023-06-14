@@ -11,5 +11,21 @@
 {% endblock %}
 
 {% block subcontent %}
+    <h1 class="ui header">
+        {{ 'sylius.ui.push_notifications.heading'|trans }}
+    </h1>
 
+    {{ include('@SpearDevsSyliusPushNotificationsPlugin/Shop/PushNotifications/_push_notifications_controls.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        if ('serviceWorker' in navigator) {
+            (async () => {
+                await navigator.serviceWorker.register('/serviceWorker.js');
+            })();
+        }
+    </script>
+{% endblock javascripts %}

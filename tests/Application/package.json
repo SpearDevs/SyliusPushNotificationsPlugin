@@ -8,6 +8,12 @@
     "watch": "encore dev --watch"
   },
   "devDependencies": {
-    "@sylius-ui/frontend": "^1.0"
+    "@sylius-ui/frontend": "^1.0",
+    "@symfony/webpack-encore": "^4.3.0"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.1",
+    "@symfony/stimulus-bridge": "^3.2.2",
+    "webpush-client": "^0.4.2"
   }
 }
