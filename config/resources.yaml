@@ -3,3 +3,4 @@ sylius_resource:
         app.user_subscription:
             classes:
                 model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository

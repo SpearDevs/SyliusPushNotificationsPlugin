@@ -13,14 +13,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository")
  * @ORM\Table(name="web_push_user_subscription")
  */
 class UserSubscription implements UserSubscriptionInterface, ResourceInterface
 {
     /**
-     * @var int
-     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -35,15 +33,11 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     private User $user;
 
     /**
-     * @var string
-     *
      * @ORM\Column(type="string")
      */
     private string $subscriptionHash;
 
     /**
-     * @var array
-     *
      * @ORM\Column(type="json")
      */
     private array $subscription;
@@ -55,9 +49,6 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
         $this->subscription = $subscription;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
@@ -103,11 +94,6 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
         return $this->subscription['keys']['auth'] ?? '';
     }
 
-    /**
-     * Content-encoding (default: aesgcm).
-     *
-     * @return string
-     */
     public function getContentEncoding(): string
     {
         return $this->subscription['content-encoding'] ?? 'aesgcm';

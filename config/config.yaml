@@ -1,3 +1,4 @@
 imports:
     - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/services.xml" }
     - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/services.yaml" }
+    - { resource: '@SpearDevsSyliusPushNotificationsPlugin/config/resources.yaml' }

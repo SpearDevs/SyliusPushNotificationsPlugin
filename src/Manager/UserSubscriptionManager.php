@@ -6,24 +6,26 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Manager;
 
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
 use Sylius\Component\Core\Model\ShopUser;
-use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserSubscriptionManager implements UserSubscriptionManagerInterface
 {
     public function __construct(
-        private ManagerRegistry  $doctrine,
-        private ObjectRepository $userSubscriptionRepository
+        private UserSubscriptionRepositoryInterface $userSubscriptionRepository
     ) {
     }
 
     /**
      * @inheritDoc
      */
-    public function factory(UserInterface $user, string $subscriptionHash, array $subscription, array $options = []): UserSubscriptionInterface
+    public function factory(
+        UserInterface $user,
+        string $subscriptionHash,
+        array $subscription,
+        array $options = []): UserSubscriptionInterface
     {
         /** @var $user ShopUser */
         return new UserSubscription($user, $subscriptionHash, $subscription);
@@ -73,8 +75,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function save(UserSubscriptionInterface $userSubscription): void
     {
-        $this->doctrine->getManager()->persist($userSubscription);
-        $this->doctrine->getManager()->flush();
+        $this->userSubscriptionRepository->save($userSubscription);
     }
 
     /**
@@ -82,7 +83,6 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function delete(UserSubscriptionInterface $userSubscription): void
     {
-        $this->doctrine->getManager()->remove($userSubscription);
-        $this->doctrine->getManager()->flush();
+        $this->userSubscriptionRepository->delete($userSubscription);
     }
 }

@@ -18,10 +18,9 @@ services:
         tags:
             - { name: controller.service_arguments }
     
-    SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager :
+    SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager:
         class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
         arguments:
-            - '@doctrine'
             - '@app.repository.user_subscription'
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
