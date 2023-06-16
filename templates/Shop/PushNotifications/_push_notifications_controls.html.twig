@@ -1,0 +1,35 @@
+<div
+    {{ stimulus_controller('shop/push-notifications', { 
+        publicKey: app.request.server.get('WEBPUSH_PUBLIC_KEY'),
+        serviceWorkerPath: '/serviceWorker.js',
+        subscribeUrl: '/webpush/'
+    }) }}
+>
+    <button
+        class="ui button"
+        style="display: none"
+        data-notifications-status="default"
+    >
+        {{ 'sylius.ui.push_notifications.subscribe'|trans }}
+    </button>
+
+    <span
+        class="ui icon red basic label"
+        style="display: none"
+        data-notifications-status="denied"
+    >
+        <i class="remove icon"></i>
+
+        {{ 'sylius.ui.push_notifications.disabled_text'|trans }}
+    </span>
+
+    <span
+        class="ui icon green basic label"
+        style="display: none"
+        data-notifications-status="granted"
+    >
+        <i class="checkmark icon"></i>
+        
+        {{ 'sylius.ui.push_notifications.enabled_text'|trans }}
+    </span>
+</div>

@@ -2,3 +2,9 @@ sylius:
     ui:
         my_account:
             push_notifications: Push Notifications
+        push_notifications:
+            heading: Enable notifications to be up to date with our newest products.
+            subscribe: Enable notifications
+            disabled_text: Push notifications disabled. To enable, go to your system settings.
+            enabled_text: Push notifications enabled.
+

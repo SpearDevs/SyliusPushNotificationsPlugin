@@ -17,3 +17,5 @@
 /.php-version
 /php.ini
 .idea
+
+.vscode/
