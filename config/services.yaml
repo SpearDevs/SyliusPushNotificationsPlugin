@@ -11,10 +11,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
     
-    SpearDevs\SyliusPushNotificationsPlugin\Controller\PushNotificationAction:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Controller\PushNotificationAction
-        arguments:
-            - '@twig'
+    app.listener.admin.menu_builder:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Admin\AdminMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator
         tags:
             - { name: controller.service_arguments }
     
@@ -25,11 +28,35 @@ services:
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
-    SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
+    SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler
         arguments:
             - '@sylius.repository.shop_user'
             - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
             - '@BenTools\WebPushBundle\Sender\PushMessageSender'
+        tags:
+            - { name: controller.service_arguments }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction
+        arguments:
+            - '@twig'
+        tags:
+            - { name: controller.service_arguments }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction
+        arguments:
+            - '@twig'
+            - '@translator.data_collector'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler'
+        tags:
+            - { name: controller.service_arguments }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
+        arguments:
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator'
         tags:
             - { name: console.command }

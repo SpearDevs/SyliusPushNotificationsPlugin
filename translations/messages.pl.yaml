@@ -7,3 +7,12 @@ sylius:
             subscribe: Włącz powiadomienia
             disabled_text: Powiadomienia push wyłączone. Aktywować je możesz w ustawieniach systemu.
             enabled_text: Powiadomienia push włączone.
+            
+speardevs_sylius_push_notification_plugin:
+    ui:
+        push_notifications: 'Notyfikacje Push'
+        send_push_notification: 'Wyślij notyfikacje push'
+        send: 'Wyślij'
+        title: 'Tytuł'
+        content: 'Treść'
+        sent_success: 'Wysłano notyfikację push'

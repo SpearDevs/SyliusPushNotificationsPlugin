@@ -1,0 +1,6 @@
+# Define your own admin routes here
+speardevs_send_push_notifications:
+    path: /send-push-notifications
+    defaults:
+        _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction'
+        template: '@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/push_notification.html.twig'
