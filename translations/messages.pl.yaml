@@ -10,9 +10,11 @@ sylius:
             
 speardevs_sylius_push_notification_plugin:
     ui:
-        push_notifications: 'Notyfikacje Push'
-        send_push_notification: 'Wyślij notyfikacje push'
-        send: 'Wyślij'
-        title: 'Tytuł'
-        content: 'Treść'
-        sent_success: 'Wysłano notyfikację push'
+        push_notifications: Notyfikacje Push
+        send_push_notification: Wyślij notyfikacje push
+        send: Wyślij
+        title: Tytuł
+        content: Treść
+        sent_success: Wysłano notyfikację push
+        send_to: Wyślij do
+        all: Wszyscy
