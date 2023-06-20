@@ -5,17 +5,10 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository;
 
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-final class MySQLUserSubscriptionRepository extends ServiceEntityRepository implements UserSubscriptionRepositoryInterface
+final class MySQLUserSubscriptionRepository extends EntityRepository implements UserSubscriptionRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, UserSubscription::class);
-    }
-
     /**
      * @inheritDoc
      */
