@@ -28,8 +28,8 @@ services:
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
-    SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler
+    SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler
         arguments:
             - '@sylius.repository.shop_user'
             - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
@@ -49,7 +49,7 @@ services:
         arguments:
             - '@twig'
             - '@translator.data_collector'
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler'
         tags:
             - { name: controller.service_arguments }
     
@@ -61,7 +61,7 @@ services:
     SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
         class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
         arguments:
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler'
             - '@SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator'
         tags:
             - { name: console.command }

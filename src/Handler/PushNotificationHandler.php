@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Service;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
 
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;

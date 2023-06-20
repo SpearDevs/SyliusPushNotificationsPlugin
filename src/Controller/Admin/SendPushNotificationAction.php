@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
-use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler;
+use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
