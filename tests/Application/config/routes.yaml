@@ -1,6 +1,6 @@
 bentools_webpush:
     resource: '@WebPushBundle/Resources/config/routing.xml'
-    prefix: /webpush
+    prefix: /{_locale}/webpush
 
 spear_devs_push_notifications_admin:
     resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/admin_routing.yml"
