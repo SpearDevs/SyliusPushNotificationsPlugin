@@ -7,22 +7,21 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Service;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\ShopUserRepository;
 use Sylius\Component\User\Model\User;
 
 final class PushNotificationHandler
 {
     public function __construct(
-        private RepositoryInterface $shopUserRepository,
+        private ShopUserRepository $shopUserRepository,
         private UserSubscriptionManager $userSubscriptionManager,
         private PushMessageSender $sender,
     ) {
     }
 
-    public function sendForAllUsers(string $pushTitle, $pushContent): void
+    public function sendToUsers(string $pushTitle, string $pushContent, ?string $groupCustomer = null): void
     {
-        $users = $this->shopUserRepository->findAll();
-
+        $users = $this->shopUserRepository->findUsersByGroup($groupCustomer);
         $this->sendPushNotificationForUsers($users,  $pushTitle, $pushContent);
     }
 
