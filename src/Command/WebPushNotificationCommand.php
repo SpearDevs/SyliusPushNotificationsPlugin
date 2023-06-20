@@ -7,8 +7,10 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator;
 
@@ -33,7 +35,13 @@ class WebPushNotificationCommand extends Command
         $this
             ->setDescription('Send default web push notification.')
             ->addArgument('title', InputArgument::REQUIRED, 'Push notification title')
-            ->addArgument('content', InputArgument::REQUIRED, 'Push notification content');
+            ->addArgument('content', InputArgument::REQUIRED, 'Push notification content')
+            ->addOption(
+                'force',
+                null,
+                InputOption::VALUE_NONE,
+                'Use flag to force the execution of this command'
+            );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -70,10 +78,23 @@ class WebPushNotificationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $helper = $this->getHelper('question');
+
+        if ($input->getOption('force') === false) {
+            $output->writeln('<info>You do not use the --force flag, if you want to avoid this message and</info>');
+            $output->writeln('<info>and force send web push notifications, use the --force flag.</info>');
+
+            $question = new ConfirmationQuestion('<question>Do you want to send notification to all users?</question>', false);
+
+            if ($helper->ask($input, $output, $question) === false) {
+                return Command::SUCCESS;
+            }
+        }
+
         $pushTitle = $input->getArgument('title');
         $pushContent = $input->getArgument('content');
 
-        $this->pushNotificationHandler->sendForAllUsers($pushTitle, $pushContent);
+        $this->pushNotificationHandler->sendToUsers($pushTitle, $pushContent);
 
         $output->write('The push notification was sent successfully.');
 
