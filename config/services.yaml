@@ -53,6 +53,11 @@ services:
         tags:
             - { name: controller.service_arguments }
     
+    SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType
+        arguments:
+            - '@translator.data_collector'
+    
     SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
         class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
         arguments:
