@@ -3,3 +3,7 @@ speardevs_push_notifications_section:
     defaults:
         _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction'
         template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification.html.twig'
+
+bentools_webpush:
+    resource: '@WebPushBundle/Resources/config/routing.xml'
+    prefix: /{_locale}/webpush
