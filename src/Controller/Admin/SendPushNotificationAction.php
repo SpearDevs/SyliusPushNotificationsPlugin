@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
+use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ final class SendPushNotificationAction extends AbstractController
     public function __construct(
         private Environment $twig,
         private TranslatorInterface $translator,
-        private PushNotificationHandler $pushNotificationHandler
+        private PushNotificationHandlerFactory $pushNotificationHandlerFactory
     ) {
     }
 
@@ -32,11 +33,23 @@ final class SendPushNotificationAction extends AbstractController
 
             $pushTitle = $data['title'] ?? '';
             $pushContent = $data['body'] ?? '';
-            $groupCustomer = $data['groups']?->getName() ?? '';
+            $groupCustomer = $data['groups'] ?? null;
+            $receiver = $data['receiver'] ?? '';
+            $user = $data['user'];
 
-            $this->pushNotificationHandler->sendToUsers($pushTitle, $pushContent, $groupCustomer);
+            if ($user) {
+                $receiverObject = $user;
+            } else {
+                $receiverObject = $groupCustomer;
+            }
 
-            $this->addFlash('success', $this->translator->trans('speardevs_sylius_push_notification_plugin.ui.sent_success'));
+
+            $pushNotificationHandler = $this->pushNotificationHandlerFactory->getPushNotificationHandler($receiver);
+
+            $pushNotificationHandler->sendToReceiver($pushTitle, $pushContent, $receiverObject);
+
+
+            $this->addFlash('success', $this->translator->trans('speardevs.ui.sent_success'));
 
             return $this->redirect($request->getUri());
         }
