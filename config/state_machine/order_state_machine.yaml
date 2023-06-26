@@ -1,0 +1,9 @@
+winzou_state_machine:
+    sylius_order:
+        callbacks:
+            after:
+                sylius_send_web_push:
+                    on: [ 'create' ]
+                    do: [ '@SpearDevs\SyliusPushNotificationsPlugin\WebPush\OrderWebPush', 'sendWebPush' ]
+                    args: [ 'object', "'push_new_order'" ]
+                    priority: 100

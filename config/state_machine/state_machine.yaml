@@ -1,0 +1,3 @@
+imports:
+    - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/state_machine/order_state_machine.yaml" }
+    - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/state_machine/shipment_state_machine.yaml" }
