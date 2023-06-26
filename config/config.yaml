@@ -3,3 +3,5 @@ imports:
     - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/services.yaml" }
     - { resource: '@SpearDevsSyliusPushNotificationsPlugin/config/resources.yaml' }
     - { resource: '@SpearDevsSyliusPushNotificationsPlugin/config/events.yaml' }
+    - { resource: '@SpearDevsSyliusPushNotificationsPlugin/config/state_machine/state_machine.yaml' }
+    - { resource: '@SpearDevsSyliusPushNotificationsPlugin/config/grids.yaml' }
