@@ -8,14 +8,17 @@ sylius:
             disabled_text: Push notifications disabled. To enable, go to your system settings.
             enabled_text: Push notifications enabled.
             
-speardevs_sylius_push_notification_plugin:
+speardevs:
     ui:
         push_notifications: Push Notifications
+        push_notification_templates: Push notification templates
         send_push_notification: Send push notification
         send: Send
         title: Title
         content: Content
+        code: Code
         sent_success: Push notification sent
         send_to: Send to
         all: All
-
+        edit_push_notification_template: Edit push notification template
+        new_push_notification_template: New push notification template

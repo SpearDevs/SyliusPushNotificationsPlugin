@@ -8,13 +8,21 @@ sylius:
             disabled_text: Powiadomienia push wyłączone. Aktywować je możesz w ustawieniach systemu.
             enabled_text: Powiadomienia push włączone.
             
-speardevs_sylius_push_notification_plugin:
+speardevs:
     ui:
         push_notifications: Notyfikacje Push
+        push_notification_templates: Szablony notyfikacji push
         send_push_notification: Wyślij notyfikacje push
         send: Wyślij
         title: Tytuł
         content: Treść
-        sent_success: Wysłano notyfikację push
+        code: Kod
+        sent_success: Wysłano notyfikacje push
         send_to: Wyślij do
+        receiver: Odbiorca
+        group: Grupa
+        user: Użytkownik
+        choose_user: Wybierz użytkownika
         all: Wszyscy
+        edit_push_notification_template: Edytuj szablon notyfikacji push
+        new_push_notification_template:  Nowa szablon notyfikacji push
