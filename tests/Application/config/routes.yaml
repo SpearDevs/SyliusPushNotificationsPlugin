@@ -1,9 +1,7 @@
-bentools_webpush:
-    resource: '@WebPushBundle/Resources/config/routing.xml'
-    prefix: /webpush
+spear_devs_push_notifications_admin:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/admin_routing.yaml"
+    prefix: /admin
 
-speardevs_push_notifications_section:
-    path: /{_locale}/account/push-notifications
-    defaults:
-        _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\PushNotificationAction'
-        template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification.html.twig'
+spear_devs_push_notifications_shop:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/shop_routing.yaml"
+    prefix: /
