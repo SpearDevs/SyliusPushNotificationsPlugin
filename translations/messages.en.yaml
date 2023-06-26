@@ -1,4 +1,4 @@
-sylius:
+speardevs_sylius_push_notifications_plugin:
     ui:
         my_account:
             push_notifications: Push Notifications

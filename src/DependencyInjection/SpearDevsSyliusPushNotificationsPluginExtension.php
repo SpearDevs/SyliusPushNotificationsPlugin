@@ -35,7 +35,7 @@ final class SpearDevsSyliusPushNotificationsPluginExtension extends AbstractReso
 
     protected function getMigrationsDirectory(): string
     {
-        return '@SpearDevsSyliusPushNotificationsPlugin/Migrations';
+        return '@SpearDevsSyliusPushNotificationsPlugin/migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array
