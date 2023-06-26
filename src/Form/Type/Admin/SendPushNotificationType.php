@@ -23,7 +23,7 @@ class SendPushNotificationType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'speardevs_sylius_push_notification_plugin.ui.title',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.title',
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -32,7 +32,7 @@ class SendPushNotificationType extends AbstractType
                 ]
             ])
             ->add('body', TextareaType::class, [
-                'label' => 'speardevs_sylius_push_notification_plugin.ui.content',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.content',
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 4,
@@ -42,12 +42,12 @@ class SendPushNotificationType extends AbstractType
                 ]
             ])
             ->add('groups', EntityType::class, [
-                'label' => 'speardevs_sylius_push_notification_plugin.ui.send_to',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.send_to',
                 'class' => CustomerGroup::class,
                 'expanded' => true,
                 'required' => false,
                 'placeholder' => $this->translator->trans(
-                    'speardevs_sylius_push_notification_plugin.ui.all', [], 'messages'
+                    'speardevs_sylius_push_notifications_plugin.ui.all', [], 'messages'
                 ),
             ]);
     }
