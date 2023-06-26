@@ -22,7 +22,7 @@ class WebPushNotificationCommand extends Command
 
     public function __construct(
         private PushNotificationHandler $pushNotificationHandler,
-        string                          $name = null
+        string $name = null
     )
     {
         parent::__construct($name);
