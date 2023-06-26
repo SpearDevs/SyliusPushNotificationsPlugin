@@ -4,3 +4,13 @@ speardevs_send_push_notifications:
     defaults:
         _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction'
         template: '@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/push_notification.html.twig'
+
+
+speardevs_push_notification_template:
+    resource: |
+        alias: speardevs.push_notification_template
+        except: ['show']
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        grid: speardevs_push_notification_template
+    type: sylius.resource
