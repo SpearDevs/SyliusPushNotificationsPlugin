@@ -75,7 +75,7 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      */
     public function getEndpoint(): string
     {
-        return $this->subscription['endpoint'] ?? '';
+        return $this->subscriptions['endpoint'] ?? '';
     }
 
     /**
@@ -83,7 +83,7 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      */
     public function getPublicKey(): string
     {
-        return $this->subscription['keys']['p256dh'] ?? '';
+        return $this->subscriptions['keys']['p256dh'] ?? '';
     }
 
     /**
@@ -91,11 +91,11 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      */
     public function getAuthToken(): string
     {
-        return $this->subscription['keys']['auth'] ?? '';
+        return $this->subscriptions['keys']['auth'] ?? '';
     }
 
     public function getContentEncoding(): string
     {
-        return $this->subscription['content-encoding'] ?? 'aesgcm';
+        return $this->subscriptions['content-encoding'] ?? 'aesgcm';
     }
 }
