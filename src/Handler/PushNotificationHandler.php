@@ -19,29 +19,34 @@ final class PushNotificationHandler
     ) {
     }
 
-    public function sendToUsers(string $pushTitle, string $pushContent, ?string $groupCustomer = null): void
+    public function sendToUsers(string $pushTitle, string $pushContent, ?string $customerGroup = null): void
     {
-        $users = $this->shopUserRepository->findUsersByGroup($groupCustomer);
-        $this->sendPushNotificationForUsers($users,  $pushTitle, $pushContent);
+        $users = ($customerGroup) ?
+            $this->shopUserRepository->findUsersWithSubscriptionByGroup($customerGroup) :
+            $this->shopUserRepository->findAllUsersWithSubscription();
+
+        $this->sendPushNotificationForUsers($users, $pushTitle, $pushContent);
     }
 
-    private function sendPushNotificationForUsers(array $users, string $pushTitle, string $pushContent): void
+    private function sendPushNotificationForUsers(iterable $users, string $pushTitle, string $pushContent): void
     {
         /** @var User $user */
         foreach ($users as $user) {
             $subscriptions = $this->userSubscriptionManager->findByUser($user);
 
-            if (count($subscriptions)) {
-                $notification = new PushNotification($pushTitle, [
-                    PushNotification::BODY => $pushContent,
-                ]);
+            if ([] === $subscriptions) {
+                continue;
+            }
 
-                $responses = $this->sender->push($notification->createMessage(), $subscriptions);
+            $notification = new PushNotification($pushTitle, [
+                PushNotification::BODY => $pushContent,
+            ]);
 
-                foreach ($responses as $response) {
-                    if ($response->isExpired()) {
-                        $this->userSubscriptionManager->delete($response->getSubscription());
-                    }
+            $responses = $this->sender->push($notification->createMessage(), $subscriptions);
+
+            foreach ($responses as $response) {
+                if ($response->isExpired()) {
+                    $this->userSubscriptionManager->delete($response->getSubscription());
                 }
             }
         }

@@ -4,25 +4,39 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
 use Sylius\Bundle\CoreBundle\Doctrine\ORM\UserRepository;
 
 final class ShopUserRepository extends UserRepository
 {
-    public function findUsersByGroup(?string $groupName): array
+    public function findUsersWithSubscriptionByGroup(?string $groupName): iterable
     {
-        $queryBuilder = $this->createQueryBuilder('shopUser')
-            ->select('shopUser');
-
-        if ($groupName != '') {
-            $queryBuilder
-                ->join('shopUser.customer', 'customer')
-                ->join('customer.group', 'g')
-                ->where('g.name = :groupName')
-                ->setParameter('groupName', $groupName);
-        }
-
-        return $queryBuilder
+        return $this->getQueryUsersWithSubscription()
+            ->join('customer.group', 'g')
+            ->andWhere('g.name = :groupName')
+            ->setParameter('groupName', $groupName)
             ->getQuery()
-            ->getResult();
+            ->toIterable();
+    }
+
+    public function findAllUsersWithSubscription(): iterable
+    {
+        return $this->getQueryUsersWithSubscription()
+            ->getQuery()
+            ->toIterable();
+    }
+
+    private function getQueryUsersWithSubscription(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('shopUser')
+            ->select('shopUser')
+            ->leftJoin(
+                UserSubscription::class,
+                'userSubscription',
+                'WITH',
+                'shopUser.id = userSubscription.user'
+            )
+            ->where('userSubscription.user is not null')
+            ->join('shopUser.customer', 'customer');
     }
 }

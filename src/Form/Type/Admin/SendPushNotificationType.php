@@ -15,7 +15,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SendPushNotificationType extends AbstractType
 {
-
     public function __construct(private TranslatorInterface $translator) {
     }
 

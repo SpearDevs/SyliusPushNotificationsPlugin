@@ -6,24 +6,25 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator;
 
 class WebPushNotificationCommand extends Command
 {
     protected static $defaultName = 'speardevs:webpush:send';
+
     private SymfonyStyle $io;
 
     public function __construct(
         private PushNotificationHandler $pushNotificationHandler,
-        private Validator $validator,
-        string $name = null
-    ) {
+        string                          $name = null
+    )
+    {
         parent::__construct($name);
     }
 
@@ -37,7 +38,7 @@ class WebPushNotificationCommand extends Command
             ->addArgument('title', InputArgument::REQUIRED, 'Push notification title')
             ->addArgument('content', InputArgument::REQUIRED, 'Push notification content')
             ->addOption(
-                'force',
+                'f',
                 null,
                 InputOption::VALUE_NONE,
                 'Use flag to force the execution of this command'
@@ -67,12 +68,14 @@ class WebPushNotificationCommand extends Command
 
         $title = $input->getArgument('title');
         $titleMessage = null !== $title ? ' > <info>Title</info>: ' . $title : 'Enter push notification title';
-        $title = $this->io->ask($titleMessage, $title, [$this->validator, 'validateText']);
+        $title = $this->io->ask($titleMessage, $title);
+        $title = $this->getValue($title);
         $input->setArgument('title', $title);
 
         $content = $input->getArgument('content');
         $contentMessage = null !== $content ? ' > <info>Content</info>: ' . $content : 'Enter push notification content';
-        $content = $this->io->ask($contentMessage, $content, [$this->validator, 'validateText']);
+        $content = $this->io->ask($contentMessage, $content);
+        $content = $this->getValue($content);
         $input->setArgument('content', $content);
     }
 
@@ -80,9 +83,9 @@ class WebPushNotificationCommand extends Command
     {
         $helper = $this->getHelper('question');
 
-        if ($input->getOption('force') === false) {
+        if ($input->getOption('f') === false) {
             $output->writeln('<info>You do not use the --force flag, if you want to avoid this message and</info>');
-            $output->writeln('<info>and force send web push notifications, use the --force flag.</info>');
+            $output->writeln('<info>and force send web push notifications, use the --f flag.</info>');
 
             $question = new ConfirmationQuestion('<question>Do you want to send notification to all users?</question>', false);
 
@@ -99,5 +102,14 @@ class WebPushNotificationCommand extends Command
         $output->write('The push notification was sent successfully.');
 
         return Command::SUCCESS;
+    }
+
+    private function getValue(?string $value): string
+    {
+        if ($value === null) {
+            throw new InvalidArgumentException('The value can not be empty.');
+        }
+
+        return $value;
     }
 }

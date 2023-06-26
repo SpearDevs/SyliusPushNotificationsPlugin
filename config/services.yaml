@@ -6,21 +6,13 @@ services:
         autowire: true
         autoconfigure: true
     
-    app.listener.shop.menu_builder:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
-    
-    app.listener.admin.menu_builder:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Admin\AdminMenuListener
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator
-        tags:
-            - { name: controller.service_arguments }
-    
+    SpearDevs\SyliusPushNotificationsPlugin\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            
     SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager:
         class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
         arguments:
@@ -28,40 +20,12 @@ services:
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
-    SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler
-        arguments:
-            - '@sylius.repository.shop_user'
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
-            - '@BenTools\WebPushBundle\Sender\PushMessageSender'
+    app.listener.shop.menu_builder:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:
-            - { name: controller.service_arguments }
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction
-        arguments:
-            - '@twig'
+            - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
+
+    app.listener.admin.menu_builder:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Admin\AdminMenuListener
         tags:
-            - { name: controller.service_arguments }
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction
-        arguments:
-            - '@twig'
-            - '@translator.data_collector'
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler'
-        tags:
-            - { name: controller.service_arguments }
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType
-        arguments:
-            - '@translator.data_collector'
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
-        arguments:
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler'
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator'
-        tags:
-            - { name: console.command }
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
