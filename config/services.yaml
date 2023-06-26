@@ -4,6 +4,7 @@ imports:
 services:
     _defaults:
         autowire: true
+        public: true
         autoconfigure: true
     
     app.listener.shop.menu_builder:
@@ -28,8 +29,36 @@ services:
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
+    SpearDevs\SyliusPushNotificationsPlugin\Service\OrderMapperParameter:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Service\OrderMapperParameter
+        tags:
+            - { name: controller.service_arguments }
+        
+    SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerFactory:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerFactory
+        tags:
+            - { name: controller.service_arguments }
+
     SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler:
         class: SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler
+        arguments:
+            - '@sylius.repository.shop_user'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
+            - '@BenTools\WebPushBundle\Sender\PushMessageSender'
+        tags:
+            - { name: controller.service_arguments }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Handler\GroupPushNotificationHandler:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Handler\GroupPushNotificationHandler
+        arguments:
+            - '@sylius.repository.shop_user'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
+            - '@BenTools\WebPushBundle\Sender\PushMessageSender'
+        tags:
+            - { name: controller.service_arguments }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Handler\UserPushNotificationHandler:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Handler\UserPushNotificationHandler
         arguments:
             - '@sylius.repository.shop_user'
             - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
@@ -49,7 +78,7 @@ services:
         arguments:
             - '@twig'
             - '@translator.data_collector'
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerFactory'
         tags:
             - { name: controller.service_arguments }
     
@@ -61,7 +90,15 @@ services:
     SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
         class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
         arguments:
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\GroupPushNotificationHandler'
             - '@SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator'
+            - '@speardevs.repository.push_notification_template'
         tags:
             - { name: console.command }
+    
+    SpearDevs\SyliusPushNotificationsPlugin\WebPush\OrderWebPush:
+        class: SpearDevs\SyliusPushNotificationsPlugin\WebPush\OrderWebPush
+        arguments:
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Handler\UserPushNotificationHandler'
+            - '@speardevs.repository.push_notification_template'
+            - '@SpearDevs\SyliusPushNotificationsPlugin\Service\OrderMapperParameter'
