@@ -58,11 +58,6 @@ class WebPushNotificationCommand extends Command
 
         $this->io->title('Web Push Notifications Interactive Wizard');
         $this->io->text([
-            'If you prefer to not use this interactive wizard, provide the',
-            'arguments required by this command as follows:',
-            '',
-            ' $ php bin/console speardevs:webpush:send Title Content',
-            '',
             'Now we\'ll ask you for the value of all the missing command arguments.',
         ]);
 
