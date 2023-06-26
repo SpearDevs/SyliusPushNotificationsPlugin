@@ -40,13 +40,13 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     /**
      * @ORM\Column(type="json")
      */
-    private array $subscription;
+    private array $subscriptions;
 
-    public function __construct(ShopUser $user, string $subscriptionHash, array $subscription)
+    public function __construct(ShopUser $user, string $subscriptionHash, array $subscriptions)
     {
         $this->user = $user;
         $this->subscriptionHash = $subscriptionHash;
-        $this->subscription = $subscription;
+        $this->subscriptions = $subscriptions;
     }
 
     public function getId(): ?int

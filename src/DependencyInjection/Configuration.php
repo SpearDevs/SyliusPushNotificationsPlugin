@@ -14,7 +14,7 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('spear_devs_sylius_push_notifications_plugin');
+        $treeBuilder = new TreeBuilder('speardevs_sylius_push_notifications_plugin');
         $rootNode = $treeBuilder->getRootNode();
 
         return $treeBuilder;
