@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin;
 
+use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Customer\Model\CustomerGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,7 +25,7 @@ class SendPushNotificationType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'speardevs_sylius_push_notification_plugin.ui.title',
+                'label' => 'speardevs.ui.title',
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -32,7 +34,7 @@ class SendPushNotificationType extends AbstractType
                 ]
             ])
             ->add('body', TextareaType::class, [
-                'label' => 'speardevs_sylius_push_notification_plugin.ui.content',
+                'label' => 'speardevs.ui.content',
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 4,
@@ -41,13 +43,27 @@ class SendPushNotificationType extends AbstractType
                     new NotBlank()
                 ]
             ])
+            ->add('receiver', ChoiceType::class, [
+                'label' => 'speardevs.ui.receiver',
+                'choices'  => [
+                    'speardevs.ui.group' => 'group',
+                    'speardevs.ui.user' => 'user',
+                ],
+            ])
             ->add('groups', EntityType::class, [
-                'label' => 'speardevs_sylius_push_notification_plugin.ui.send_to',
+                'label' => 'speardevs.ui.group',
                 'class' => CustomerGroup::class,
-                'expanded' => true,
                 'required' => false,
                 'placeholder' => $this->translator->trans(
-                    'speardevs_sylius_push_notification_plugin.ui.all', [], 'messages'
+                    'speardevs.ui.all', [], 'messages'
+                ),
+            ])
+            ->add('user', EntityType::class, [
+                'label' => 'speardevs.ui.user',
+                'class' => ShopUser::class,
+                'required' => false,
+                'placeholder' => $this->translator->trans(
+                    'speardevs.ui.choose_user', [], 'messages'
                 ),
             ]);
     }
