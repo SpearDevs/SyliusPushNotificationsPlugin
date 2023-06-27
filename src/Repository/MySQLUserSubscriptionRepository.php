@@ -4,16 +4,41 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository;
 
+use Doctrine\ORM\QueryBuilder;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-final class MySQLUserSubscriptionRepository extends ServiceEntityRepository implements UserSubscriptionRepositoryInterface
+final class MySQLUserSubscriptionRepository extends EntityRepository implements UserSubscriptionRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function getSubscriptionsForAllUsers(): iterable
     {
-        parent::__construct($registry, UserSubscription::class);
+        return $this->getQueryToGetUserSubscriptions()
+            ->getQuery()
+            ->toIterable();
+    }
+
+    public function getSubscriptionsForUsersInGroup(string $groupName): iterable
+    {
+        return $this->getQueryToGetUserSubscriptions()
+            ->join('customer.group', 'g')
+            ->andWhere('g.name = :groupName')
+            ->setParameter('groupName', $groupName)
+            ->getQuery()
+            ->toIterable();
+    }
+
+    private function getQueryToGetUserSubscriptions(): QueryBuilder
+    {
+        return $this->createQueryBuilder('userSubscription')
+            ->select('userSubscription')
+            ->leftJoin(
+                'userSubscription.user',
+                'user',
+                'WITH',
+                'user.id = userSubscription.user'
+            )
+            ->where('userSubscription.user is not null')
+            ->join('user.customer', 'customer');
     }
 
     /**

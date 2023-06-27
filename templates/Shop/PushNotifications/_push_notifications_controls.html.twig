@@ -2,7 +2,7 @@
     {{ stimulus_controller('shop/push-notifications', {
         publicKey: app.request.server.get('WEBPUSH_PUBLIC_KEY'),
         serviceWorkerPath: '/serviceWorker.js',
-        subscribeUrl: '/webpush/'
+        subscribeUrl: '/' ~ app.request.locale ~ '/webpush/'
     }) }}
 >
     <button

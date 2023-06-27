@@ -75,7 +75,7 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      */
     public function getEndpoint(): string
     {
-        return $this->subscriptions['endpoint'] ?? '';
+        return $this->subscription['endpoint'] ?? '';
     }
 
     /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Controller;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

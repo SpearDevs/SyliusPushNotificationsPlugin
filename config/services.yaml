@@ -6,18 +6,14 @@ services:
         autowire: true
         autoconfigure: true
     
-    app.listener.shop.menu_builder:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
-        tags:
-            - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
-    
-    SpearDevs\SyliusPushNotificationsPlugin\Controller\PushNotificationAction:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Controller\PushNotificationAction
-        arguments:
-            - '@twig'
-        tags:
-            - { name: controller.service_arguments }
-    
+    SpearDevs\SyliusPushNotificationsPlugin\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Repository/'
+            - '../src/Kernel.php'
+            
     SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager:
         class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
         arguments:
@@ -25,11 +21,12 @@ services:
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
-    SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand:
-        class: SpearDevs\SyliusPushNotificationsPlugin\Command\WebPushNotificationCommand
-        arguments:
-            - '@sylius.repository.shop_user'
-            - '@SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager'
-            - '@BenTools\WebPushBundle\Sender\PushMessageSender'
+    app.listener.shop.menu_builder:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:
-            - { name: console.command }
+            - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addAccountMenuItems }
+
+    app.listener.admin.menu_builder:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Admin\AdminMenuListener
+        tags:
+            - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
