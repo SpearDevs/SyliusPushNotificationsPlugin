@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
+use Webmozart\Assert\Assert;
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -63,13 +63,15 @@ class WebPushNotificationCommand extends Command
         $title = $input->getArgument('title');
         $titleMessage = null !== $title ? ' > <info>Title</info>: ' . $title : 'Enter push notification title';
         $title = $this->io->ask($titleMessage, $title);
-        $title = $this->getValue($title);
+
+        Assert::notNull($title, 'The value can not be empty.');
         $input->setArgument('title', $title);
 
         $content = $input->getArgument('content');
         $contentMessage = null !== $content ? ' > <info>Content</info>: ' . $content : 'Enter push notification content';
         $content = $this->io->ask($contentMessage, $content);
-        $content = $this->getValue($content);
+
+        Assert::notNull($content, 'The value can not be empty.');
         $input->setArgument('content', $content);
     }
 
@@ -96,14 +98,5 @@ class WebPushNotificationCommand extends Command
         $output->write('The push notification was sent successfully.');
 
         return Command::SUCCESS;
-    }
-
-    private function getValue(?string $value): string
-    {
-        if ($value === null) {
-            throw new InvalidArgumentException('The value can not be empty.');
-        }
-
-        return $value;
     }
 }
