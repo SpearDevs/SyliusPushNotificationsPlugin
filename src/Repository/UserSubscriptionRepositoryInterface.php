@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository;
 
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;

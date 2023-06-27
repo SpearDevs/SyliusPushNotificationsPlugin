@@ -1,16 +1,13 @@
-sylius:
+speardevs_sylius_push_notifications_plugin:
     ui:
         my_account:
             push_notifications: Push Notifications
         push_notifications:
+            title: Push Notifications
             heading: Enable notifications to be up to date with our newest products.
             subscribe: Enable notifications
             disabled_text: Push notifications disabled. To enable, go to your system settings.
             enabled_text: Push notifications enabled.
-            
-speardevs:
-    ui:
-        push_notifications: Push Notifications
         push_notification_templates: Push notification templates
         send_push_notification: Send push notification
         send: Send

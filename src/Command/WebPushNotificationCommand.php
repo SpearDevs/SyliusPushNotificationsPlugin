@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Webmozart\Assert\Assert;
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -12,19 +14,17 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use SpearDevs\SyliusPushNotificationsPlugin\Utils\Validator;
 
 class WebPushNotificationCommand extends Command
 {
     protected static $defaultName = 'speardevs:webpush:send';
+
     private SymfonyStyle $io;
 
     public function __construct(
         private PushNotificationHandler $pushNotificationHandler,
-        private Validator $validator,
         private RepositoryInterface $pushNotificationTemplateRepository,
         string $name = null
     ) {
@@ -38,12 +38,11 @@ class WebPushNotificationCommand extends Command
     {
         $this
             ->setDescription('Send default web push notification.')
-            ->addArgument('key', InputArgument::REQUIRED, 'A push notification template key')
             ->addArgument('title', InputArgument::REQUIRED, 'Push notification title')
             ->addArgument('content', InputArgument::REQUIRED, 'Push notification content')
             ->addOption(
                 'force',
-                null,
+                'f',
                 InputOption::VALUE_NONE,
                 'Use flag to force the execution of this command'
             );
@@ -124,13 +123,16 @@ class WebPushNotificationCommand extends Command
     {
         $title = $input->getArgument('title');
         $titleMessage = null !== $title ? ' > <info>Title</info>: ' . $title : 'Enter push notification title';
-        $title = $this->io->ask($titleMessage, $title, [$this->validator, 'validateText']);
+        $title = $this->io->ask($titleMessage, $title);
+
+        Assert::notNull($title, 'The title can not be empty.');
         $input->setArgument('title', $title);
 
         $content = $input->getArgument('content');
         $contentMessage = null !== $content ? ' > <info>Content</info>: ' . $content : 'Enter push notification content';
-        $content = $this->io->ask($contentMessage, $content, [$this->validator, 'validateText']);
+        $content = $this->io->ask($contentMessage, $content);
+
+        Assert::notNull($content, 'The content can not be empty.');
         $input->setArgument('content', $content);
-        $input->setArgument('key', $choice);
     }
 }

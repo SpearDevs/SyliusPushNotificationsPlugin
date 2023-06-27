@@ -33,23 +33,21 @@ final class SendPushNotificationAction extends AbstractController
 
             $pushTitle = $data['title'] ?? '';
             $pushContent = $data['body'] ?? '';
-            $groupCustomer = $data['groups'] ?? null;
+            $customerGroup = $data['groups']?->getName() ?? '';
             $receiver = $data['receiver'] ?? '';
             $user = $data['user'];
 
             if ($user) {
                 $receiverObject = $user;
             } else {
-                $receiverObject = $groupCustomer;
+                $receiverObject = $customerGroup;
             }
-
 
             $pushNotificationHandler = $this->pushNotificationHandlerFactory->getPushNotificationHandler($receiver);
 
             $pushNotificationHandler->sendToReceiver($pushTitle, $pushContent, $receiverObject);
 
-
-            $this->addFlash('success', $this->translator->trans('speardevs.ui.sent_success'));
+            $this->addFlash('success', $this->translator->trans('speardevs_sylius_push_notifications_plugin.ui.sent_success'));
 
             return $this->redirect($request->getUri());
         }

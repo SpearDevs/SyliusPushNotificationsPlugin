@@ -6,13 +6,13 @@
         <div class="divider"> / </div>
         <a href="{{ path('sylius_shop_account_dashboard') }}" class="section">{{ 'sylius.ui.my_account'|trans }}</a>
         <div class="divider"> / </div>
-        <div class="active section">{{ 'sylius.ui.my_account.push_notifications'|trans }}</div>
+        <div class="active section">{{ 'speardevs_sylius_push_notifications_plugin.ui.my_account.push_notifications'|trans }}</div>
     </div>
 {% endblock %}
 
 {% block subcontent %}
     <h1 class="ui header">
-        {{ 'sylius.ui.push_notifications.heading'|trans }}
+        {{ 'speardevs_sylius_push_notifications_plugin.ui.push_notifications.heading'|trans }}
     </h1>
 
     {{ include('@SpearDevsSyliusPushNotificationsPlugin/Shop/PushNotifications/_push_notifications_controls.html.twig') }}

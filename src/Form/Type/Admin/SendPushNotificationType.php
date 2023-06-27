@@ -25,23 +25,23 @@ class SendPushNotificationType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'speardevs.ui.title',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.title',
                 'attr' => [
                     'class' => 'form-control',
                 ],
                 'constraints' => [
                     new NotBlank()
-                ]
+                ],
             ])
             ->add('body', TextareaType::class, [
-                'label' => 'speardevs.ui.content',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.content',
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 4,
                 ],
                 'constraints' => [
                     new NotBlank()
-                ]
+                ],
             ])
             ->add('receiver', ChoiceType::class, [
                 'label' => 'speardevs.ui.receiver',
@@ -51,11 +51,11 @@ class SendPushNotificationType extends AbstractType
                 ],
             ])
             ->add('groups', EntityType::class, [
-                'label' => 'speardevs.ui.group',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.send_to',
                 'class' => CustomerGroup::class,
                 'required' => false,
                 'placeholder' => $this->translator->trans(
-                    'speardevs.ui.all', [], 'messages'
+                    'speardevs_sylius_push_notifications_plugin.ui.all', [], 'messages'
                 ),
             ])
             ->add('user', EntityType::class, [
@@ -63,7 +63,7 @@ class SendPushNotificationType extends AbstractType
                 'class' => ShopUser::class,
                 'required' => false,
                 'placeholder' => $this->translator->trans(
-                    'speardevs.ui.choose_user', [], 'messages'
+                    'speardevs_sylius_push_notifications_plugin.ui.choose_user', [], 'messages'
                 ),
             ]);
     }

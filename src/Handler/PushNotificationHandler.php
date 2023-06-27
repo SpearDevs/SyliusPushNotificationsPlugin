@@ -7,13 +7,13 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\ShopUserRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
 abstract class PushNotificationHandler implements PushNotificationHandlerInterface
 {
     public function __construct(
-        protected ShopUserRepository $shopUserRepository,
+        protected MySQLUserSubscriptionRepository $mySQLUserSubscriptionRepository,
         protected UserSubscriptionManager $userSubscriptionManager,
         protected PushMessageSender $sender,
     ) {
@@ -21,19 +21,17 @@ abstract class PushNotificationHandler implements PushNotificationHandlerInterfa
 
     abstract public function sendToReceiver(string $pushTitle, string $pushContent, ?ResourceInterface $receiver = null): void;
 
-    protected function send(array $subscriptions, string $pushTitle, string $pushContent): void
+    protected function send(iterable $subscriptions, string $pushTitle, string $pushContent): void
     {
-        if (count($subscriptions)) {
-            $notification = new PushNotification($pushTitle, [
-                PushNotification::BODY => $pushContent,
-            ]);
+        $notification = new PushNotification($pushTitle, [
+            PushNotification::BODY => $pushContent,
+        ]);
 
-            $responses = $this->sender->push($notification->createMessage(), $subscriptions);
+        $responses = $this->sender->push($notification->createMessage(), $subscriptions);
 
-            foreach ($responses as $response) {
-                if ($response->isExpired()) {
-                    $this->userSubscriptionManager->delete($response->getSubscription());
-                }
+        foreach ($responses as $response) {
+            if ($response->isExpired()) {
+                $this->userSubscriptionManager->delete($response->getSubscription());
             }
         }
     }

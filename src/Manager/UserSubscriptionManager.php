@@ -25,8 +25,8 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
         UserInterface $user,
         string $subscriptionHash,
         array $subscription,
-        array $options = []): UserSubscriptionInterface
-    {
+        array $options = []
+    ): UserSubscriptionInterface {
         /** @var $user ShopUser */
         return new UserSubscription($user, $subscriptionHash, $subscription);
     }
