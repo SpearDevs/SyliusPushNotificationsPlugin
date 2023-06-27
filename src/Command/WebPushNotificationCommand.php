@@ -64,14 +64,14 @@ class WebPushNotificationCommand extends Command
         $titleMessage = null !== $title ? ' > <info>Title</info>: ' . $title : 'Enter push notification title';
         $title = $this->io->ask($titleMessage, $title);
 
-        Assert::notNull($title, 'The value can not be empty.');
+        Assert::notNull($title, 'The title can not be empty.');
         $input->setArgument('title', $title);
 
         $content = $input->getArgument('content');
         $contentMessage = null !== $content ? ' > <info>Content</info>: ' . $content : 'Enter push notification content';
         $content = $this->io->ask($contentMessage, $content);
 
-        Assert::notNull($content, 'The value can not be empty.');
+        Assert::notNull($content, 'The content can not be empty.');
         $input->setArgument('content', $content);
     }
 
