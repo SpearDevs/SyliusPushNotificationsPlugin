@@ -24,12 +24,11 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
     public function factory(
         UserInterface $user,
         string $subscriptionHash,
-        array $subscriptions,
+        array $subscription,
         array $options = []
-    ): UserSubscriptionInterface
-    {
+    ): UserSubscriptionInterface {
         /** @var $user ShopUser */
-        return new UserSubscription($user, $subscriptionHash, $subscriptions);
+        return new UserSubscription($user, $subscriptionHash, $subscription);
     }
 
     /**
