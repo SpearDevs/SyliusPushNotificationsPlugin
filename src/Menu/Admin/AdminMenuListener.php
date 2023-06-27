@@ -14,18 +14,18 @@ final class AdminMenuListener
 
         $newSubmenu = $menu
             ->addChild('speardevs_sylius_push_notification_plugin')
-            ->setLabel('speardevs.ui.push_notifications');
+            ->setLabel('speardevs_sylius_push_notifications_plugin.ui.push_notifications');
 
         $newSubmenu
             ->addChild('send_push_notifications', [
                 'route' => 'speardevs_send_push_notifications',
             ])
-            ->setLabel('speardevs.ui.send_push_notification');
+            ->setLabel('speardevs_sylius_push_notifications_plugin.ui.send_push_notification');
 
         $newSubmenu
             ->addChild('push_notification_template_index', [
                 'route' => 'speardevs_admin_push_notification_template_index',
             ])
-            ->setLabel('speardevs.ui.push_notification_templates');
+            ->setLabel('speardevs_sylius_push_notifications_plugin.ui.push_notification_templates');
     }
 }

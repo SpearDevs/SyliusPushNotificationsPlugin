@@ -6,12 +6,13 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
 
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\ShopUserRepository;
 
 final class PushNotificationHandlerFactory
 {
     public function __construct(
-        private ShopUserRepository $shopUserRepository,
+        private MySQLUserSubscriptionRepository $mySQLUserSubscriptionRepository,
         private UserSubscriptionManager $userSubscriptionManager,
         private PushMessageSender $sender,
     ) {
@@ -24,7 +25,7 @@ final class PushNotificationHandlerFactory
         $class = sprintf(self::INSTANCE_CLASS_TEMPLATE, ucfirst($receiverType).'PushNotificationHandler');
 
         return new $class(
-            $this->shopUserRepository,
+            $this->mySQLUserSubscriptionRepository,
             $this->userSubscriptionManager,
             $this->sender,
         );

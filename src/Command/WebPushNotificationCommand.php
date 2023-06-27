@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate;
+use SpearDevs\SyliusPushNotificationsPlugin\Handler\GroupPushNotificationHandler;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Webmozart\Assert\Assert;
-use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,7 +24,7 @@ class WebPushNotificationCommand extends Command
     private SymfonyStyle $io;
 
     public function __construct(
-        private PushNotificationHandler $pushNotificationHandler,
+        private GroupPushNotificationHandler $pushNotificationHandler,
         private RepositoryInterface $pushNotificationTemplateRepository,
         string $name = null
     ) {
@@ -45,7 +45,8 @@ class WebPushNotificationCommand extends Command
                 'f',
                 InputOption::VALUE_NONE,
                 'Use flag to force the execution of this command'
-            );
+            )
+            ->addArgument('key', InputArgument::REQUIRED, 'A push notification key');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -134,5 +135,6 @@ class WebPushNotificationCommand extends Command
 
         Assert::notNull($content, 'The content can not be empty.');
         $input->setArgument('content', $content);
+        $input->setArgument('key', $choice);
     }
 }

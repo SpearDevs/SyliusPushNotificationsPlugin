@@ -44,10 +44,10 @@ class SendPushNotificationType extends AbstractType
                 ],
             ])
             ->add('receiver', ChoiceType::class, [
-                'label' => 'speardevs.ui.receiver',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.receiver',
                 'choices'  => [
-                    'speardevs.ui.group' => 'group',
-                    'speardevs.ui.user' => 'user',
+                    'speardevs_sylius_push_notifications_plugin.ui.group' => 'group',
+                    'speardevs_sylius_push_notifications_plugin.ui.user' => 'user',
                 ],
             ])
             ->add('groups', EntityType::class, [
@@ -59,7 +59,7 @@ class SendPushNotificationType extends AbstractType
                 ),
             ])
             ->add('user', EntityType::class, [
-                'label' => 'speardevs.ui.user',
+                'label' => 'speardevs_sylius_push_notifications_plugin.ui.user',
                 'class' => ShopUser::class,
                 'required' => false,
                 'placeholder' => $this->translator->trans(

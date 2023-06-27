@@ -8,7 +8,6 @@ use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository;
-use Sylius\Component\Resource\Model\ResourceInterface;
 
 abstract class PushNotificationHandler implements PushNotificationHandlerInterface
 {
@@ -19,7 +18,7 @@ abstract class PushNotificationHandler implements PushNotificationHandlerInterfa
     ) {
     }
 
-    abstract public function sendToReceiver(string $pushTitle, string $pushContent, ?ResourceInterface $receiver = null): void;
+    abstract public function sendToReceiver(string $pushTitle, string $pushContent, ?string $receiver = null): void;
 
     protected function send(iterable $subscriptions, string $pushTitle, string $pushContent): void
     {

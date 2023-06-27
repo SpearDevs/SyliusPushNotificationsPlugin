@@ -31,7 +31,7 @@ final class OrderWebPush
         $this->pushNotificationHandler->sendToReceiver(
             $this->mapperParameter->getContent($order, $pushNotificationTemplate),
             $this->mapperParameter->getTitle($order, $pushNotificationTemplate),
-            $user
+            $user->getEmail()
         );
     }
 }
