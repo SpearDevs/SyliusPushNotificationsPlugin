@@ -12,14 +12,14 @@ final class MySQLUserSubscriptionRepository extends EntityRepository implements 
 {
     public function getSubscriptionsForAllUsers(): iterable
     {
-        return $this->getQueryToGetUserSubscription()
+        return $this->getQueryToGetUserSubscriptions()
             ->getQuery()
             ->toIterable();
     }
 
     public function getSubscriptionsForUsersInGroup(string $groupName): iterable
     {
-        return $this->getQueryToGetUserSubscription()
+        return $this->getQueryToGetUserSubscriptions()
             ->join('customer.group', 'g')
             ->andWhere('g.name = :groupName')
             ->setParameter('groupName', $groupName)
@@ -27,7 +27,7 @@ final class MySQLUserSubscriptionRepository extends EntityRepository implements 
             ->toIterable();
     }
 
-    private function getQueryToGetUserSubscription(): QueryBuilder
+    private function getQueryToGetUserSubscriptions(): QueryBuilder
     {
         return $this->createQueryBuilder('userSubscription')
             ->select('userSubscription')
