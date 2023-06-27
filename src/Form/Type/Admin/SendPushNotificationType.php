@@ -28,7 +28,7 @@ class SendPushNotificationType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank()
-                ]
+                ],
             ])
             ->add('body', TextareaType::class, [
                 'label' => 'speardevs_sylius_push_notifications_plugin.ui.content',
@@ -38,7 +38,7 @@ class SendPushNotificationType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank()
-                ]
+                ],
             ])
             ->add('groups', EntityType::class, [
                 'label' => 'speardevs_sylius_push_notifications_plugin.ui.send_to',

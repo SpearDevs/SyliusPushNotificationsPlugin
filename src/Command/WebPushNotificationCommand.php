@@ -23,8 +23,7 @@ class WebPushNotificationCommand extends Command
     public function __construct(
         private PushNotificationHandler $pushNotificationHandler,
         string $name = null
-    )
-    {
+    ) {
         parent::__construct($name);
     }
 
@@ -38,8 +37,8 @@ class WebPushNotificationCommand extends Command
             ->addArgument('title', InputArgument::REQUIRED, 'Push notification title')
             ->addArgument('content', InputArgument::REQUIRED, 'Push notification content')
             ->addOption(
+                'force',
                 'f',
-                null,
                 InputOption::VALUE_NONE,
                 'Use flag to force the execution of this command'
             );
