@@ -8,7 +8,7 @@ speardevs_send_push_notifications:
 
 speardevs_push_notification_template:
     resource: |
-        alias: speardevs.push_notification_template
+        alias: speardevs_sylius_push_notifications_plugin.push_notification_template
         except: ['show']
         section: admin
         templates: "@SyliusAdmin\\Crud"
