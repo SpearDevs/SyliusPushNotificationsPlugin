@@ -1,7 +1,7 @@
-spear_devs_push_notifications_admin:
+speardevs_push_notifications_admin:
     resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/admin_routing.yaml"
     prefix: /admin
 
-spear_devs_push_notifications_shop:
+speardevs_push_notifications_shop:
     resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/shop_routing.yaml"
     prefix: /
