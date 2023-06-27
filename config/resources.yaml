@@ -4,6 +4,6 @@ sylius_resource:
             classes:
                 model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription
                 repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository
-        speardevs.push_notification_template:
+        speardevs_sylius_push_notifications_plugin.push_notification_template:
             classes:
                 model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate
