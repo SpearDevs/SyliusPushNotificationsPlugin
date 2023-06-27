@@ -14,7 +14,7 @@ final class AdminMenuListener
 
         $newSubmenu = $menu
             ->addChild('speardevs_sylius_push_notification_plugin')
-            ->setLabel('speardevs_sylius_push_notifications_plugin.ui.push_notifications');
+            ->setLabel('speardevs_sylius_push_notifications_plugin.ui.push_notifications.title');
 
         $newSubmenu
             ->addChild('send_push_notifications', [
