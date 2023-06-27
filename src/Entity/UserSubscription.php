@@ -40,13 +40,13 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     /**
      * @ORM\Column(type="json")
      */
-    private array $subscriptions;
+    private array $subscription;
 
-    public function __construct(ShopUser $user, string $subscriptionHash, array $subscriptions)
+    public function __construct(ShopUser $user, string $subscriptionHash, array $subscription)
     {
         $this->user = $user;
         $this->subscriptionHash = $subscriptionHash;
-        $this->subscriptions = $subscriptions;
+        $this->subscription = $subscription;
     }
 
     public function getId(): ?int
@@ -83,7 +83,7 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      */
     public function getPublicKey(): string
     {
-        return $this->subscriptions['keys']['p256dh'] ?? '';
+        return $this->subscription['keys']['p256dh'] ?? '';
     }
 
     /**
@@ -91,11 +91,11 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      */
     public function getAuthToken(): string
     {
-        return $this->subscriptions['keys']['auth'] ?? '';
+        return $this->subscription['keys']['auth'] ?? '';
     }
 
     public function getContentEncoding(): string
     {
-        return $this->subscriptions['content-encoding'] ?? 'aesgcm';
+        return $this->subscription['content-encoding'] ?? 'aesgcm';
     }
 }
