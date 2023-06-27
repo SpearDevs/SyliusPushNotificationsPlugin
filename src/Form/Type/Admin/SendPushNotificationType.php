@@ -27,7 +27,7 @@ class SendPushNotificationType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank(),
                 ],
             ])
             ->add('body', TextareaType::class, [
@@ -37,7 +37,7 @@ class SendPushNotificationType extends AbstractType
                     'rows' => 4,
                 ],
                 'constraints' => [
-                    new NotBlank()
+                    new NotBlank(),
                 ],
             ])
             ->add('groups', EntityType::class, [
