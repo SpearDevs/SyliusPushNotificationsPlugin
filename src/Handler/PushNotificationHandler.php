@@ -7,47 +7,37 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\ShopUserRepository;
-use Sylius\Component\User\Model\User;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository;
 
 final class PushNotificationHandler
 {
     public function __construct(
-        private ShopUserRepository $shopUserRepository,
         private UserSubscriptionManager $userSubscriptionManager,
         private PushMessageSender $sender,
+        private MySQLUserSubscriptionRepository $mySQLUserSubscriptionRepository,
     ) {
     }
 
     public function sendToUsers(string $pushTitle, string $pushContent, ?string $customerGroup = null): void
     {
-        $users = ($customerGroup) ?
-            $this->shopUserRepository->findUsersWithSubscriptionByGroup($customerGroup) :
-            $this->shopUserRepository->findAllUsersWithSubscription();
+        $subscriptions = ($customerGroup) ?
+            $this->mySQLUserSubscriptionRepository->getSubscriptionsForUsersInGroup($customerGroup) :
+            $this->mySQLUserSubscriptionRepository->getSubscriptionsForAllUsers();
 
-        $this->sendPushNotificationForUsers($users, $pushTitle, $pushContent);
+        $this->sendPushNotificationForUsers($subscriptions, $pushTitle, $pushContent);
     }
 
-    private function sendPushNotificationForUsers(iterable $users, string $pushTitle, string $pushContent): void
+    private function sendPushNotificationForUsers(iterable $subscriptions, string $pushTitle, string $pushContent): void
     {
-        /** @var User $user */
-        foreach ($users as $user) {
-            $subscriptions = $this->userSubscriptionManager->findByUser($user);
+        $notification = new PushNotification($pushTitle, [
+            PushNotification::BODY => $pushContent,
+        ]);
 
-            if ([] === $subscriptions) {
-                continue;
-            }
+        $responses = $this->sender->push($notification->createMessage(), $subscriptions);
 
-            $notification = new PushNotification($pushTitle, [
-                PushNotification::BODY => $pushContent,
-            ]);
-
-            $responses = $this->sender->push($notification->createMessage(), $subscriptions);
-
-            foreach ($responses as $response) {
-                if ($response->isExpired()) {
-                    $this->userSubscriptionManager->delete($response->getSubscription());
-                }
+        foreach ($responses as $response) {
+            if ($response->isExpired()) {
+                $this->userSubscriptionManager->delete($response->getSubscription());
             }
         }
     }

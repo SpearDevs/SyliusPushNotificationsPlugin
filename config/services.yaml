@@ -11,6 +11,7 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
+            - '../src/Repository/'
             - '../src/Kernel.php'
             
     SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager:

@@ -77,9 +77,9 @@ class WebPushNotificationCommand extends Command
     {
         $helper = $this->getHelper('question');
 
-        if ($input->getOption('f') === false) {
+        if ($input->getOption('force') === false) {
             $output->writeln('<info>You do not use the --force flag, if you want to avoid this message and</info>');
-            $output->writeln('<info>and force send web push notifications, use the --f flag.</info>');
+            $output->writeln('<info>and force send web push notifications, use the --force flag.</info>');
 
             $question = new ConfirmationQuestion('<question>Do you want to send notification to all users?</question>', false);
 
