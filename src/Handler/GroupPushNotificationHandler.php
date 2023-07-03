@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
 
-use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
+use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\ShopUserRepository;
-use Sylius\Component\Customer\Model\CustomerGroupInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
-use Sylius\Component\User\Model\User;
-use Sylius\Component\User\Model\UserInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
 
 final class GroupPushNotificationHandler extends PushNotificationHandler
 {
@@ -20,9 +17,18 @@ final class GroupPushNotificationHandler extends PushNotificationHandler
         protected MySQLUserSubscriptionRepository $mySQLUserSubscriptionRepository,
         protected UserSubscriptionManager $userSubscriptionManager,
         protected PushMessageSender $sender,
-    )
-    {
-        parent::__construct($mySQLUserSubscriptionRepository, $userSubscriptionManager, $sender);
+        protected PushNotificationHistoryFactory $pushNotificationHistoryFactory,
+        protected PushNotificationHistoryRepository $pushNotificationHistoryRepository,
+        protected PushNotificationConfigurationService $pushNotificationConfigurationService,
+    ) {
+        parent::__construct(
+            $mySQLUserSubscriptionRepository,
+            $userSubscriptionManager,
+            $sender,
+            $pushNotificationHistoryFactory,
+            $pushNotificationHistoryRepository,
+            $pushNotificationConfigurationService,
+        );
     }
 
     public function sendToReceiver(string $pushTitle, string $pushContent, ?string $receiver = null): void

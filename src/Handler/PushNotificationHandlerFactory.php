@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
 
 use BenTools\WebPushBundle\Sender\PushMessageSender;
+use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
 use SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\ShopUserRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
 
 final class PushNotificationHandlerFactory
 {
@@ -15,6 +17,9 @@ final class PushNotificationHandlerFactory
         private MySQLUserSubscriptionRepository $mySQLUserSubscriptionRepository,
         private UserSubscriptionManager $userSubscriptionManager,
         private PushMessageSender $sender,
+        private PushNotificationHistoryFactory $pushNotificationHistoryFactory,
+        private PushNotificationHistoryRepository $pushNotificationHistoryRepository,
+        private PushNotificationConfigurationService $pushNotificationConfigurationService,
     ) {
     }
 
@@ -28,6 +33,9 @@ final class PushNotificationHandlerFactory
             $this->mySQLUserSubscriptionRepository,
             $this->userSubscriptionManager,
             $this->sender,
+            $this->pushNotificationHistoryFactory,
+            $this->pushNotificationHistoryRepository,
+            $this->pushNotificationConfigurationService,
         );
     }
 }
