@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
 
 use Sylius\Component\Resource\Model\ResourceInterface;

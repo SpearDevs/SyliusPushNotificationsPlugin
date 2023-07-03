@@ -5,25 +5,20 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="app_push_notification")
+ * @ORM\Table(name="speardevs_push_notification_template")
  */
 class PushNotificationTemplate implements PushNotificationTemplateInterface
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
+    use EntityIdTrait;
 
     /**
      * @ORM\Column(type="string")
      */
     private string $title;
-
 
     /**
      * @ORM\Column(type="text")
@@ -35,16 +30,10 @@ class PushNotificationTemplate implements PushNotificationTemplateInterface
      */
     private string $code;
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getTitle(): string
     {
         return $this->title;
     }
-
 
     public function setTitle(string $title): void
     {
