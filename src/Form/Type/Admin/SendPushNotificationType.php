@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Customer\Model\CustomerGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -44,7 +46,7 @@ class SendPushNotificationType extends AbstractType
             ])
             ->add('receiver', ChoiceType::class, [
                 'label' => 'speardevs_sylius_push_notifications_plugin.ui.receiver',
-                'choices'  => [
+                'choices' => [
                     'speardevs_sylius_push_notifications_plugin.ui.group' => 'group',
                     'speardevs_sylius_push_notifications_plugin.ui.user' => 'user',
                 ],
@@ -64,6 +66,15 @@ class SendPushNotificationType extends AbstractType
                 'placeholder' => $this->translator->trans(
                     'speardevs_sylius_push_notifications_plugin.ui.choose_user', [], 'messages'
                 ),
+                'query_builder' => function (EntityRepository $shopUserRepository) {
+                    return $shopUserRepository->createQueryBuilder('shopUser')
+                        ->leftJoin(UserSubscription::class,
+                            'userSubscription',
+                            'WITH',
+                            'userSubscription.user = shopUser.id'
+                        )
+                        ->where('userSubscription IS NOT NULL');
+                },
             ]);
     }
 }
