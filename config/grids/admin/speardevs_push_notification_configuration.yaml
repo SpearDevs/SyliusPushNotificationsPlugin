@@ -1,0 +1,16 @@
+sylius_grid:
+    grids:
+        speardevs_push_notification_configuration:
+            driver:
+                options:
+                    class: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfiguration
+            fields:
+                iconPath:
+                    type: twig
+                    label: speardevs_sylius_push_notifications_plugin.ui.iconPath
+                    options:
+                        template: '@SpearDevsSyliusPushNotificationsPlugin/Admin/Grid/icon.html.twig'
+            actions:
+                item:
+                    update:
+                        type: update

@@ -1,0 +1,5 @@
+sylius_fixtures:
+    suites:
+        speardevs_push_notification_plugin:
+            fixtures:
+                push_notification_configuration:

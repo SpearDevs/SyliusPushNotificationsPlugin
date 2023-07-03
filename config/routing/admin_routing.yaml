@@ -14,3 +14,12 @@ speardevs_push_notification_template:
         templates: "@SyliusAdmin\\Crud"
         grid: speardevs_push_notification_template
     type: sylius.resource
+
+speardevs_push_notification_configuration:
+    resource: |
+        alias: speardevs_sylius_push_notifications_plugin.push_notification_configuration
+        only: ['index', 'update']
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        grid: speardevs_push_notification_configuration
+    type: sylius.resource
