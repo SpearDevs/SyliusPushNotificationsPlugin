@@ -1,0 +1,9 @@
+{% if data %}
+    <span class="ui image">
+        <img style="width: 50%; float: right;" class="ui fluid image" src="{{ "/media/image" ~ asset(data) }}">
+    </span>
+{% else %}
+    <span class="ui label red">
+        {{ 'speardevs_sylius_push_notifications_plugin.ui.no_icon'|trans }}
+    </span>
+{% endif %}
