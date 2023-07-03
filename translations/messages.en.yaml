@@ -2,14 +2,21 @@ speardevs_sylius_push_notifications_plugin:
     ui:
         my_account:
             push_notifications: Push Notifications
+            push_notification_history: Push notification history
         push_notifications:
             title: Push Notifications
             heading: Enable notifications to be up to date with our newest products.
             subscribe: Enable notifications
             disabled_text: Push notifications disabled. To enable, go to your system settings.
             enabled_text: Push notifications enabled.
+        push_notification_history:
+            heading: Push notification history
+            unread: Number of unread notifications
         push_notification_templates: Push notification templates
         send_push_notification: Send push notification
+        push_notification_configurations: Push notification configuration
+        iconPath: Ikona
+        edit_push_notification_configuration: Edycja konfiguracja notyfikacji push
         send: Send
         title: Title
         content: Content
@@ -23,3 +30,9 @@ speardevs_sylius_push_notifications_plugin:
         all: All
         edit_push_notification_template: Edit push notification template
         new_push_notification_template: New push notification template
+        createdAt: Created at
+        isReceived: Have customer received?
+        no: No
+        yes: Yes
+        markAsReceived: Mark as received
+        no_icon: The push notification icon is not set
