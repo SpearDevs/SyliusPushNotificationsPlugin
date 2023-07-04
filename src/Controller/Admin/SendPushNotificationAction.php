@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,12 +37,14 @@ final class SendPushNotificationAction extends AbstractController
             $receiver = $data['receiver'] ?? '';
             $user = $data['user']?->getEmail() ?? '';
 
+            $webPush = new WebPush(null, null, $pushTitle, $pushContent);
+
             if ($receiver === 'user') {
-                $this->pushNotificationHandler->sendToUser($pushTitle, $pushContent, $user);
+                $this->pushNotificationHandler->sendToUser($webPush, $user);
             }
 
             if ($receiver === 'group') {
-                $this->pushNotificationHandler->sendToGroup($pushTitle, $pushContent, $customerGroup);
+                $this->pushNotificationHandler->sendToGroup($webPush, $customerGroup);
             }
 
             $this->addFlash('success', $this->translator->trans('speardevs_sylius_push_notifications_plugin.ui.sent_success'));

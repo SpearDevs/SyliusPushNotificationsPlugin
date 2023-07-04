@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -116,7 +117,9 @@ class WebPushNotificationCommand extends Command
         $pushTitle = $input->getArgument('title');
         $pushContent = $input->getArgument('content');
 
-        $this->pushNotificationHandler->sendToGroup($pushTitle, $pushContent);
+        $webPush = new WebPush(null, null, $pushTitle, $pushContent);
+
+        $this->pushNotificationHandler->sendToGroup($webPush);
 
         $output->write('The push notification was sent successfully.');
 

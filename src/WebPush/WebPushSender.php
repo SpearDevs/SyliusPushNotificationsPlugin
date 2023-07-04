@@ -6,7 +6,6 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\WebPush;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Service\OrderMapperParameter;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\User\Model\UserInterface;
@@ -19,7 +18,6 @@ final class WebPushSender
     public function __construct(
         private PushNotificationHandlerInterface $pushNotificationHandler,
         private RepositoryInterface $pushNotificationTemplateRepository,
-        private OrderMapperParameter $mapperParameter,
     ) {
     }
 
@@ -31,9 +29,10 @@ final class WebPushSender
         /** @var UserInterface $user */
         $user = $order->getCustomer()->getUser();
 
+        $webPush = new WebPush($order, $pushNotificationTemplate);
+
         $this->pushNotificationHandler->sendToUser(
-            $this->mapperParameter->getContent($order, $pushNotificationTemplate),
-            $this->mapperParameter->getTitle($order, $pushNotificationTemplate),
+            $webPush,
             $user->getEmail()
         );
     }
