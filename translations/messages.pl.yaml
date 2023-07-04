@@ -29,7 +29,7 @@ speardevs_sylius_push_notifications_plugin:
         choose_user: Wybierz użytkownika
         all: Wszyscy
         edit_push_notification_template: Edytuj szablon notyfikacji push
-        new_push_notification_template:  Nowa szablon notyfikacji push
+        new_push_notification_template:  Nowy szablon notyfikacji push
         createdAt: Utworzone
         isReceived: Czy otrzymano? 
         no: Nie

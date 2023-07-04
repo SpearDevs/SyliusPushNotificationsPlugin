@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
 
+use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
+use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\User;
-use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Component\Security\Core\User\UserInterface;
-use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 
 /**
  * @ORM\Entity(repositoryClass="SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository")

@@ -31,6 +31,9 @@ services:
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
+    SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushSender:
+        public: true
+        
     app.listener.shop.menu_builder:
         class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Service;
 
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplateInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplateInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
 class OrderMapperParameter
@@ -35,7 +35,7 @@ class OrderMapperParameter
 
     private function getOrderData(OrderInterface $order): array
     {
-        if (!empty($this->orderData)) {
+        if (!count($this->orderData) === 0) {
             return $this->orderData;
         }
 

@@ -1,0 +1,9 @@
+sylius_resource:
+    resources:
+        app.user_subscription:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository
+        speardevs_sylius_push_notifications_plugin.push_notification_template:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate

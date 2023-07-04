@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate;
 
 use Doctrine\ORM\Mapping as ORM;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
