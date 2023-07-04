@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="app_push_notification")
+ * @ORM\Table(name="speardevs_push_notification_template")
  */
 class PushNotificationTemplate implements PushNotificationTemplateInterface
 {
@@ -23,7 +23,6 @@ class PushNotificationTemplate implements PushNotificationTemplateInterface
      * @ORM\Column(type="string")
      */
     private string $title;
-
 
     /**
      * @ORM\Column(type="text")
@@ -44,7 +43,6 @@ class PushNotificationTemplate implements PushNotificationTemplateInterface
     {
         return $this->title;
     }
-
 
     public function setTitle(string $title): void
     {

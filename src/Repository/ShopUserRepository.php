@@ -8,12 +8,11 @@ use Sylius\Bundle\CoreBundle\Doctrine\ORM\UserRepository;
 
 final class ShopUserRepository extends UserRepository
 {
-    public function findUsersByGroup(?string $groupName): array
+    public function findUsersByGroup(?string $groupName): iterable
     {
-        $queryBuilder = $this->createQueryBuilder('shopUser')
-            ->select('shopUser');
+        $queryBuilder = $this->createQueryBuilder('shopUser')->select('shopUser');
 
-        if ($groupName != '') {
+        if ($groupName !== '') {
             $queryBuilder
                 ->join('shopUser.customer', 'customer')
                 ->join('customer.group', 'g')
@@ -23,6 +22,6 @@ final class ShopUserRepository extends UserRepository
 
         return $queryBuilder
             ->getQuery()
-            ->getResult();
+            ->toIterable();
     }
 }

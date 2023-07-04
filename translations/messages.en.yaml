@@ -16,10 +16,10 @@ speardevs_sylius_push_notifications_plugin:
         code: Code
         sent_success: Push notification sent
         send_to: Send to
-        receiver: Odbiorca
-        group: Grupa
-        user: Użytkownik
-        choose_user: Wybierz użytkownika
+        receiver: Receiver
+        group: Group
+        user: User
+        choose_user: Choose user
         all: All
         edit_push_notification_template: Edit push notification template
         new_push_notification_template: New push notification template

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Manager;
 
-use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
+use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
 use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Component\Security\Core\User\UserInterface;

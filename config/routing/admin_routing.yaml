@@ -5,7 +5,6 @@ speardevs_send_push_notifications:
         _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction'
         template: '@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/push_notification.html.twig'
 
-
 speardevs_push_notification_template:
     resource: |
         alias: speardevs_sylius_push_notifications_plugin.push_notification_template

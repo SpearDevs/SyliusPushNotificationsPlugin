@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate;
-use SpearDevs\SyliusPushNotificationsPlugin\Handler\GroupPushNotificationHandler;
-use Symfony\Component\Console\Question\ChoiceQuestion;
-use Webmozart\Assert\Assert;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
+use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Webmozart\Assert\Assert;
 
 class WebPushNotificationCommand extends Command
 {
@@ -23,8 +23,10 @@ class WebPushNotificationCommand extends Command
 
     private SymfonyStyle $io;
 
+    public const PUSH_NOTIFICATION_CUSTOM_TYPE = 'Custom';
+
     public function __construct(
-        private GroupPushNotificationHandler $pushNotificationHandler,
+        private PushNotificationHandlerInterface $pushNotificationHandler,
         private RepositoryInterface $pushNotificationTemplateRepository,
         string $name = null
     ) {
@@ -46,7 +48,7 @@ class WebPushNotificationCommand extends Command
                 InputOption::VALUE_NONE,
                 'Use flag to force the execution of this command'
             )
-            ->addArgument('key', InputArgument::REQUIRED, 'A push notification key');
+            ->addArgument('template', InputArgument::REQUIRED, 'A push notification template');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -68,7 +70,7 @@ class WebPushNotificationCommand extends Command
             return $template->getTitle();
         }, $pushTemlpates);
 
-        array_unshift($choices, 'Custom');
+        array_unshift($choices, self::PUSH_NOTIFICATION_CUSTOM_TYPE);
 
         $question = new ChoiceQuestion(
             '<question>Which push notification template would you like to choose?</question>',
@@ -83,6 +85,7 @@ class WebPushNotificationCommand extends Command
 
         if ($choice === 'Custom') {
             $this->setCommandArgumentForCustomChoice($input, $choice);
+
             return;
         }
 
@@ -92,7 +95,7 @@ class WebPushNotificationCommand extends Command
         $input->setArgument('title', $pushMessageTemplate->getTitle());
         $input->setArgument('content', $pushMessageTemplate->getContent());
 
-        $input->setArgument('key', $choice);
+        $input->setArgument('template', $choice);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -113,7 +116,7 @@ class WebPushNotificationCommand extends Command
         $pushTitle = $input->getArgument('title');
         $pushContent = $input->getArgument('content');
 
-        $this->pushNotificationHandler->sendToReceiver($pushTitle, $pushContent);
+        $this->pushNotificationHandler->sendToGroup($pushTitle, $pushContent);
 
         $output->write('The push notification was sent successfully.');
 
@@ -135,6 +138,6 @@ class WebPushNotificationCommand extends Command
 
         Assert::notNull($content, 'The content can not be empty.');
         $input->setArgument('content', $content);
-        $input->setArgument('key', $choice);
+        $input->setArgument('template', $choice);
     }
 }
