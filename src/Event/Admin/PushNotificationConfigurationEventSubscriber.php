@@ -6,12 +6,13 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Event\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Uploader\PushNotificationIconUploader;
+use SpearDevs\SyliusPushNotificationsPlugin\Uploader\PushNotificationIconUploaderInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class PushNotificationConfigurationEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private PushNotificationIconUploader $uploader){
+    public function __construct(private PushNotificationIconUploaderInterface $uploader) {
     }
 
     public static function getSubscribedEvents(): array

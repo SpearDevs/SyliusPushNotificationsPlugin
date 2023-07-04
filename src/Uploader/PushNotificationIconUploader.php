@@ -7,14 +7,14 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Uploader;
 use Webmozart\Assert\Assert;
 use Gaufrette\Filesystem;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Generator\IconPathGenerator;
+use SpearDevs\SyliusPushNotificationsPlugin\Generator\IconPathGeneratorInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepository;
 
-final class PushNotificationIconUploader
+final class PushNotificationIconUploader implements PushNotificationIconUploaderInterface
 {
     public function __construct(
         private PushNotificationConfigurationRepository $pushNotificationConfigurationRepository,
-        private IconPathGenerator $iconPathGenerator,
+        private IconPathGeneratorInterface $iconPathGenerator,
         private Filesystem $filesystem,
     ) {
     }

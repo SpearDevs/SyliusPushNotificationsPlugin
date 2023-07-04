@@ -9,7 +9,7 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Doctrine\ORM\QueryBuilder;
 
-final class PushNotificationHistoryRepository extends EntityRepository
+final class PushNotificationHistoryRepository extends EntityRepository implements PushNotificationHistoryRepositoryInterface
 {
     public function createOwnedByUserQueryBuilder(ShopUserInterface $user): QueryBuilder
     {

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Service;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepositoryInterface;
 
 final class PushNotificationConfigurationService
 {
     public function __construct(
-        private PushNotificationConfigurationRepository $pushNotificationConfigurationRepository,
+        private PushNotificationConfigurationRepositoryInterface $pushNotificationConfigurationRepository,
         private string $imagesUrl,
     ) {
     }

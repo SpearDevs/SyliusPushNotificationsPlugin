@@ -2,11 +2,11 @@ sylius_resource:
     resources:
         app.user_subscription:
             classes:
-                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription
                 repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository
         speardevs_sylius_push_notifications_plugin.push_notification_template:
             classes:
-                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate
         speardevs_sylius_push_notifications_plugin.push_notification_history:
             classes:
                 model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistory

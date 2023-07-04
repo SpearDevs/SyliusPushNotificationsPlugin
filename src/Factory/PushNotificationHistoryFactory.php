@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Factory;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistory;
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Webmozart\Assert\Assert;
 use Sylius\Component\User\Model\User;

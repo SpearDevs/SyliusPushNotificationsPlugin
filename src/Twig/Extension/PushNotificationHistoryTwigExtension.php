@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Twig\Extension;
 
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepositoryInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -12,7 +12,7 @@ use Twig\TwigFilter;
 final class PushNotificationHistoryTwigExtension extends AbstractExtension
 {
     public function __construct(
-        private PushNotificationHistoryRepository $pushNotificationHistoryRepository
+        private PushNotificationHistoryRepositoryInterface $pushNotificationHistoryRepository
     ) {
     }
 

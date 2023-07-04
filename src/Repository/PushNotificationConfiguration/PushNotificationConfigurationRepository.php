@@ -7,7 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationCon
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
-final class PushNotificationConfigurationRepository extends EntityRepository
+final class PushNotificationConfigurationRepository extends EntityRepository implements PushNotificationConfigurationRepositoryInterface
 {
     public function save(PushNotificationConfigurationInterface $pushNotificationHistory): void
     {

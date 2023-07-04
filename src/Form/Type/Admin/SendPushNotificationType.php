@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin;
 
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Customer\Model\CustomerGroup;

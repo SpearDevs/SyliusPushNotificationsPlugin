@@ -7,7 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Generator;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
-final class IconPathGenerator
+final class IconPathGenerator implements IconPathGeneratorInterface
 {
     public function generate(PushNotificationConfigurationInterface $configuration): string
     {
