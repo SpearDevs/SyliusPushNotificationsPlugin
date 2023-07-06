@@ -120,3 +120,133 @@ To be able to set up a plugin's database, remember to configure you database cre
     (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
     (cd tests/Application && APP_ENV=dev symfony server:start -d)
     ```
+
+## Frontend setup
+### Enable Stimulus in admin build. (Skip this step if Stimulus is already enabled)    
+  - Install Stimulus `@hotwired/stimulus` and `@symfony/stimulus-bridge` packages via project's frontend package manager.
+
+  -  Add `bootstrap.js` file to your assets folder:
+  ```
+  import { startStimulusApp } from '@symfony/stimulus-bridge';
+    export const app = startStimulusApp(require.context(
+      '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
+      true,
+      /\.(j|t)sx?$/,
+    ));
+  ```
+
+  - Add `controllers.json` file to your assets folder:
+  ```
+  {
+    "controllers": [],
+    "entrypoints": []
+  }
+  ```
+
+  - Import `bootstrap.js` at the end of admin's and shop's `entry.js` files.
+
+  - In admin's and shop's `webpack.config` files, after `.addEntry(...)` line add `.enableStimulusBridge('<path-to-controllers-file>/controllers.json')`
+
+### Admin Panel  
+
+1. Copy file `assets/admin/controllers/push-notifications-generate_controller.js` into your project next to other admin controllers.
+
+2. `templates/Admin/PushNotifications/Generate/_formWidget.html.twig` template should automatically use `push-notifications-generate_controller.js` script.
+
+### Storefront
+
+1. Copy file `assets/shop/controllers/_push-notifications_controller.js` into your project next to other shop controllers.
+
+2. `templates/Shop/PushNotifications/push_notifications_controls.html.twig` template should automatically use `push-notifications_controller.js` script.
+
+3. Controller params:
+    - publicKey - public key for Web Push Protocol,
+    - serviceWorkerPath - path to projects service worker file
+    - subscribeUrl - url for listening to push notifications
+
+4. Handle push notifications in project's service worker. Example script:
+
+```
+self.addEventListener('push', (event) => {
+  if (event && event.data) {
+    /* eslint-disable-next-line */
+    self.pushData = event.data;
+
+    /* eslint-disable-next-line */
+    if (self.pushData) {
+      /* eslint-disable-next-line */
+      const { title, options } = self.pushData.json();
+
+      event.waitUntil(
+        /* eslint-disable-next-line */
+        self.registration.showNotification(title, options),
+      );
+    }
+  }
+});
+```
+
+## Frontend setup
+### Enable Stimulus in admin build. (Skip this step if Stimulus is already enabled)    
+  - Install Stimulus `@hotwired/stimulus` and `@symfony/stimulus-bridge` packages via project's frontend package manager.
+
+  -  Add `bootstrap.js` file to your assets folder:
+  ```
+  import { startStimulusApp } from '@symfony/stimulus-bridge';
+    export const app = startStimulusApp(require.context(
+      '@symfony/stimulus-bridge/lazy-controller-loader!./controllers',
+      true,
+      /\.(j|t)sx?$/,
+    ));
+  ```
+
+  - Add `controllers.json` file to your assets folder:
+  ```
+  {
+    "controllers": [],
+    "entrypoints": []
+  }
+  ```
+
+  - Import `bootstrap.js` at the end of admin's and shop's `entry.js` files.
+
+  - In admin's and shop's `webpack.config` files, after `.addEntry(...)` line add `.enableStimulusBridge('<path-to-controllers-file>/controllers.json')`
+
+### Admin Panel  
+
+1. Copy file `assets/admin/controllers/push-notifications-generate_controller.js` into your project next to other admin controllers.
+
+2. `templates/Admin/PushNotifications/Generate/_formWidget.html.twig` template should automatically use `push-notifications-generate_controller.js` script.
+
+### Storefront
+
+1. Copy file `assets/shop/controllers/_push-notifications_controller.js` into your project next to other shop controllers.
+
+2. `templates/Shop/PushNotifications/push_notifications_controls.html.twig` template should automatically use `push-notifications_controller.js` script.
+
+3. Controller params:
+    - publicKey - public key for Web Push Protocol,
+    - serviceWorkerPath - path to projects service worker file
+    - subscribeUrl - url for listening to push notifications
+
+4. Handle push notifications in project's service worker. Example script:
+
+```
+self.addEventListener('push', (event) => {
+  if (event && event.data) {
+    /* eslint-disable-next-line */
+    self.pushData = event.data;
+
+    /* eslint-disable-next-line */
+    if (self.pushData) {
+      /* eslint-disable-next-line */
+      const { title, options } = self.pushData.json();
+
+      event.waitUntil(
+        /* eslint-disable-next-line */
+        self.registration.showNotification(title, options),
+      );
+    }
+  }
+});
+```
