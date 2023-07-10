@@ -3,7 +3,7 @@ sylius_grid:
         speardevs_push_notification_template:
             driver:
                 options:
-                    class: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate
+                    class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_template.class%'
             filters:
                 search:
                     type: string

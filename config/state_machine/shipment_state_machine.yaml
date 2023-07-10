@@ -4,6 +4,6 @@ winzou_state_machine:
             after:
                 sylius_send_web_push:
                     on: [ 'ship' ]
-                    do: [ '@SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushSender', 'sendWebPush' ]
-                    args: ['object.getOrder()', !php/const SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushSender::PUSH_ORDER_SEND_CODE ]
+                    do: [ '@SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSender', 'sendOrderWebPush' ]
+                    args: ['object.getOrder()', !php/const SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSender::PUSH_ORDER_SHIPPED_CODE ]
                     priority: 100
