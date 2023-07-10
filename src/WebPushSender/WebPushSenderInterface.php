@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Handler;
+namespace SpearDevs\SyliusPushNotificationsPlugin\WebPushSender;
 
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 
-interface PushNotificationHandlerInterface
+interface WebPushSenderInterface
 {
     public function sendToGroup(WebPushInterface $webPush, ?string $receiver = null): void;
 
     public function sendToUser(WebPushInterface $webPush, ?string $receiver = null): void;
+
+    public function sendOrderWebPush(OrderInterface $order, string $pushNotificationCode): void;
 }

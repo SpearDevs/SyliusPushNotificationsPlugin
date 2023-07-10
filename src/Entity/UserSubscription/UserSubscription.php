@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository")
- * @ORM\Table(name="speardevs_user_subscription")
+ * @ORM\Table(name="speardevs_web_push_user_subscription")
  */
 class UserSubscription implements UserSubscriptionInterface, ResourceInterface
 {

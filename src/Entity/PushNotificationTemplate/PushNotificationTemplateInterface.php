@@ -8,6 +8,8 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 
 interface PushNotificationTemplateInterface extends ResourceInterface
 {
+    public function getId(): int;
+
     public function getTitle(): string;
 
     public function setTitle(string $title): void;

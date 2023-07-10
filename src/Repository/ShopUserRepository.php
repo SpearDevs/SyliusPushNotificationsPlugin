@@ -12,7 +12,7 @@ final class ShopUserRepository extends UserRepository
     {
         $queryBuilder = $this->createQueryBuilder('shopUser')->select('shopUser');
 
-        if ($groupName !== '') {
+        if ($groupName !== null) {
             $queryBuilder
                 ->join('shopUser.customer', 'customer')
                 ->join('customer.group', 'g')

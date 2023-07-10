@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
-use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandlerInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
+use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,7 +27,7 @@ class WebPushNotificationCommand extends Command
     public const PUSH_NOTIFICATION_CUSTOM_TYPE = 'Custom';
 
     public function __construct(
-        private PushNotificationHandlerInterface $pushNotificationHandler,
+        private WebPushSenderInterface $webPushSender,
         private RepositoryInterface $pushNotificationTemplateRepository,
         string $name = null
     ) {
@@ -119,7 +119,7 @@ class WebPushNotificationCommand extends Command
 
         $webPush = new WebPush(null, null, $pushTitle, $pushContent);
 
-        $this->pushNotificationHandler->sendToGroup($webPush);
+        $this->webPushSender->sendToGroup($webPush);
 
         $output->write('The push notification was sent successfully.');
 
