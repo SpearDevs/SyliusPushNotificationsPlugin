@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,7 +28,7 @@ class WebPushNotificationCommand extends Command
 
     public function __construct(
         private WebPushSenderInterface $webPushSender,
-        private RepositoryInterface $pushNotificationTemplateRepository,
+        private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
         string $name = null
     ) {
         parent::__construct($name);

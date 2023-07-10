@@ -8,11 +8,11 @@ use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Sylius\Component\User\Model\UserInterface;
 
 final class WebPushSender implements WebPushSenderInterface
@@ -24,7 +24,7 @@ final class WebPushSender implements WebPushSenderInterface
         private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
         private UserSubscriptionManagerInterface $userSubscriptionManager,
         private PushMessageSender $sender,
-        private RepositoryInterface $pushNotificationTemplateRepository,
+        private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
     ) {
     }
 

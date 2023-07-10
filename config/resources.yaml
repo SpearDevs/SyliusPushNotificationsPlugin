@@ -7,3 +7,4 @@ sylius_resource:
         speardevs_sylius_push_notifications_plugin.push_notification_template:
             classes:
                 model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplateRepository
