@@ -8,12 +8,12 @@ use Webmozart\Assert\Assert;
 use Gaufrette\Filesystem;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Generator\IconPathGeneratorInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepository;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepositoryInterface;
 
 final class PushNotificationIconUploader implements PushNotificationIconUploaderInterface
 {
     public function __construct(
-        private PushNotificationConfigurationRepository $pushNotificationConfigurationRepository,
+        private PushNotificationConfigurationRepositoryInterface $pushNotificationConfigurationRepository,
         private IconPathGeneratorInterface $iconPathGenerator,
         private Filesystem $filesystem,
     ) {

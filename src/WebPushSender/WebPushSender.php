@@ -8,15 +8,15 @@ use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplateRepositoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepositoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\User\Model\UserInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepository;
-use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
 use Traversable;
 
 final class WebPushSender implements WebPushSenderInterface
@@ -29,9 +29,9 @@ final class WebPushSender implements WebPushSenderInterface
         private UserSubscriptionManagerInterface $userSubscriptionManager,
         private PushMessageSender $sender,
         private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
-        protected PushNotificationHistoryFactory $pushNotificationHistoryFactory,
-        protected PushNotificationHistoryRepository $pushNotificationHistoryRepository,
-        protected PushNotificationConfigurationService $pushNotificationConfigurationService,
+        private PushNotificationHistoryFactory $pushNotificationHistoryFactory,
+        private PushNotificationHistoryRepositoryInterface $pushNotificationHistoryRepository,
+        private PushNotificationConfigurationService $pushNotificationConfigurationService,
     ) {
     }
 

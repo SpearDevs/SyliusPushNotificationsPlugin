@@ -3,7 +3,7 @@ sylius_grid:
         speardevs_push_notification_history:
             driver:
                 options:
-                    class: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistory
+                    class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_history.class%'
                     repository:
                         method: createOwnedByUserQueryBuilder
                         arguments:

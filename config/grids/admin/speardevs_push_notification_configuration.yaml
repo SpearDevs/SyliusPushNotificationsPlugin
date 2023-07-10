@@ -3,7 +3,7 @@ sylius_grid:
         speardevs_push_notification_configuration:
             driver:
                 options:
-                    class: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfiguration
+                    class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_configuration.class%'
             fields:
                 iconPath:
                     type: twig
