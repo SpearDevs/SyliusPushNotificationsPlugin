@@ -3,3 +3,18 @@ sylius_fixtures:
         speardevs_push_notification_plugin:
             fixtures:
                 push_notification_configuration:
+                push_notification_template:
+                    options:
+                        templates:
+                            push_notification_template_order_shipped:
+                                title: "Order number {order_id} has been shipped"
+                                content: "{customer_name}, your order has been shipped"
+                                code: "push_order_shipped"
+                            push_notification_template_order_new:
+                                title: "New order number {order_id}"
+                                content: "A new order has just been created"
+                                code: "push_new_order"
+                            push_notification_template_test:
+                                title: "Test"
+                                content: "Test"
+                                code: "test"
