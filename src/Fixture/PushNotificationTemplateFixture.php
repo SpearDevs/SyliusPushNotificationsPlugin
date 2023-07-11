@@ -29,7 +29,6 @@ final class PushNotificationTemplateFixture extends AbstractFixture implements F
             $pushNotificationTemplate->setCode($template['code']);
             $this->pushNotificationTemplateRepository->add($pushNotificationTemplate);
         }
-
     }
 
     public function getName(): string
