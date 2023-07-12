@@ -44,21 +44,6 @@ final class WebPushSender implements WebPushSenderInterface
         $this->send($webPush, $subscriptions);
     }
 
-    private function send(WebPushInterface $webPush, iterable $subscriptions): void
-    {
-        $notification = new PushNotification($webPush->getTitle(), [
-            PushNotification::BODY => $webPush->getContent(),
-        ]);
-
-        $responses = $this->sender->push($notification->createMessage(), $subscriptions);
-
-        foreach ($responses as $response) {
-            if ($response->isExpired()) {
-                $this->userSubscriptionManager->delete($response->getSubscription());
-            }
-        }
-    }
-
     public function sendOrderWebPush(OrderInterface $order, string $pushNotificationCode): void
     {
         /** @var PushNotificationTemplate $pushNotificationTemplate */
@@ -73,5 +58,20 @@ final class WebPushSender implements WebPushSenderInterface
             $webPush,
             $user->getEmail()
         );
+    }
+
+    private function send(WebPushInterface $webPush, iterable $subscriptions): void
+    {
+        $notification = new PushNotification($webPush->getTitle(), [
+            PushNotification::BODY => $webPush->getContent(),
+        ]);
+
+        $responses = $this->sender->push($notification->createMessage(), $subscriptions);
+
+        foreach ($responses as $response) {
+            if ($response->isExpired()) {
+                $this->userSubscriptionManager->delete($response->getSubscription());
+            }
+        }
     }
 }
