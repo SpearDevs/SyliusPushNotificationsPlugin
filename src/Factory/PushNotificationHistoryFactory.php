@@ -12,17 +12,13 @@ use Sylius\Component\User\Model\User;
 
 final class PushNotificationHistoryFactory implements FactoryInterface
 {
-    private FactoryInterface $decoratedFactory;
-
-    public function __construct(FactoryInterface $factory)
-    {
-        $this->decoratedFactory = $factory;
+    public function __construct(private FactoryInterface $factory) {
     }
 
     public function createNew(): PushNotificationHistory
     {
         /** @var PushNotificationHistory $pushNotificationHistory */
-        $pushNotificationHistory = $this->decoratedFactory->createNew();
+        $pushNotificationHistory = $this->factory->createNew();
         Assert::isInstanceOf($pushNotificationHistory, PushNotificationHistory::class);
         return $pushNotificationHistory;
     }
