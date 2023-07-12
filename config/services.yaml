@@ -10,7 +10,6 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
         bind:
             $imagesUrl: '%env(APP_SCHEME)%:%env(APP_HOST)%%images_directory%'
             Gaufrette\Filesystem: '@gaufrette.sylius_image_filesystem'
