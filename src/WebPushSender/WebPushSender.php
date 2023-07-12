@@ -51,6 +51,22 @@ final class WebPushSender implements WebPushSenderInterface
         $this->send($webPush, $subscriptions);
     }
 
+    public function sendOrderWebPush(OrderInterface $order, string $pushNotificationCode): void
+    {
+        /** @var PushNotificationTemplate $pushNotificationTemplate */
+        $pushNotificationTemplate = $this->pushNotificationTemplateRepository->findOneBy(['code' => $pushNotificationCode]);
+
+        /** @var UserInterface $user */
+        $user = $order->getCustomer()->getUser();
+
+        $webPush = new WebPush($order, $pushNotificationTemplate);
+
+        $this->sendToUser(
+            $webPush,
+            $user->getEmail()
+        );
+    }
+
     private function send(WebPushInterface $webPush, iterable $subscriptions): void
     {
         $notification = new PushNotification($webPush->getTitle(), [
@@ -76,21 +92,5 @@ final class WebPushSender implements WebPushSenderInterface
                 $this->userSubscriptionManager->delete($response->getSubscription());
             }
         }
-    }
-
-    public function sendOrderWebPush(OrderInterface $order, string $pushNotificationCode): void
-    {
-        /** @var PushNotificationTemplate $pushNotificationTemplate */
-        $pushNotificationTemplate = $this->pushNotificationTemplateRepository->findOneBy(['code' => $pushNotificationCode]);
-
-        /** @var UserInterface $user */
-        $user = $order->getCustomer()->getUser();
-
-        $webPush = new WebPush($order, $pushNotificationTemplate);
-
-        $this->sendToUser(
-            $webPush,
-            $user->getEmail()
-        );
     }
 }
