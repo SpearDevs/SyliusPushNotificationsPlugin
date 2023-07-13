@@ -27,4 +27,8 @@ interface PushNotificationHistoryInterface extends ResourceInterface
     public function getState(): string;
 
     public function setState(string $state): void;
+
+    public function getResponseStatusCode(): int;
+
+    public function setResponseStatusCode(int $responseStatusCode): void;
 }

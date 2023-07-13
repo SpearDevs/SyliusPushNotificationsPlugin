@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Service\WebPushHistoryCreator;
 
+use BenTools\WebPushBundle\Model\Response\PushResponse;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
@@ -16,14 +17,12 @@ final class WebPushHistoryCreator implements WebPushHistoryCreatorInterface
     ) {
     }
 
-    public function create(WebPushInterface $webPush, array $subscriptionsArray): void
+    public function create(WebPushInterface $webPush, PushResponse $pushResponse): void
     {
-        foreach ($subscriptionsArray as $subscription) {
-            $pushNotificationHistory =
-                $this->pushNotificationHistoryFactory
-                    ->createNewWithPushNotificationData($webPush->getTitle(), $webPush->getContent(), $subscription);
+        $pushNotificationHistory =
+            $this->pushNotificationHistoryFactory
+                ->createNewWithPushNotificationData($webPush->getTitle(), $webPush->getContent(), $pushResponse);
 
-            $this->pushNotificationHistoryRepository->save($pushNotificationHistory);
-        }
+        $this->pushNotificationHistoryRepository->save($pushNotificationHistory);
     }
 }

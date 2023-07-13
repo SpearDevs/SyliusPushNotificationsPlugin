@@ -77,9 +77,9 @@ final class WebPushSender implements WebPushSenderInterface
 
         $responses = $this->sender->push($notification->createMessage(), $subscriptionsArray);
 
-        $this->webPushHistoryCreator->create($webPush, $subscriptionsArray);
-
         foreach ($responses as $response) {
+            $this->webPushHistoryCreator->create($webPush, $response);
+
             if ($response->isExpired()) {
                 $this->userSubscriptionManager->delete($response->getSubscription());
             }
