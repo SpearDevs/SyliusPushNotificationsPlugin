@@ -35,5 +35,6 @@ speardevs_sylius_push_notifications_plugin:
         isReceived: Czy otrzymano? 
         no: Nie
         yes: Tak
+        responseStatusCode: Kod stanu odpowiedzi
         markAsReceived: Oznacz jako otrzymane
         no_icon: Ikona push notyfikacji nie jest ustawiona

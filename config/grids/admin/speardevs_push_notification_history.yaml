@@ -34,12 +34,15 @@ sylius_grid:
                 user:
                     type: string
                     label: speardevs_sylius_push_notifications_plugin.ui.user
-                createdAt:
-                    type: datetime
-                    label: speardevs_sylius_push_notifications_plugin.ui.createdAt
-                    sortable: createdAt
+                responseStatusCode:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.responseStatusCode
                 state:
                     type: twig
                     label: speardevs_sylius_push_notifications_plugin.ui.isReceived
                     options:
                         template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/Grid/isReceived.html.twig'
+                createdAt:
+                    type: datetime
+                    label: speardevs_sylius_push_notifications_plugin.ui.createdAt
+                    sortable: createdAt
