@@ -22,3 +22,12 @@ speardevs_push_notification_configuration:
         templates: "@SyliusAdmin\\Crud"
         grid: speardevs_push_notification_configuration
     type: sylius.resource
+
+speardevs_admin_push_notification_history:
+    resource: |
+        alias: speardevs_sylius_push_notifications_plugin.push_notification_history
+        only: ['index']
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        grid: speardevs_admin_push_notification_history
+    type: sylius.resource

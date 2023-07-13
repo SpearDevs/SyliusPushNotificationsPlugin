@@ -13,6 +13,7 @@ speardevs_sylius_push_notifications_plugin:
             heading: Historia notyfikacji push
             unread: Liczba nieodczytanych notyfikacji
         push_notification_templates: Szablony notyfikacji push
+        push_notification_histories: Historia notyfikacji push
         send_push_notification: Wyślij notyfikacje push
         push_notification_configurations: Konfiguracja notyfikacji push
         icon: Ikona
