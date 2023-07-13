@@ -11,7 +11,7 @@ final class PushNotificationConfigurationService
 {
     public function __construct(
         private PushNotificationConfigurationRepositoryInterface $pushNotificationConfigurationRepository,
-        private string $imagesUrl,
+        private string $imageUrl,
     ) {
     }
 
@@ -24,6 +24,6 @@ final class PushNotificationConfigurationService
         }
 
         /** @var $pushNotificationConfiguration PushNotificationConfigurationInterface */
-        return $this->imagesUrl . $pushNotificationConfiguration->getIconPath();
+        return $this->imageUrl . $pushNotificationConfiguration->getIconPath();
     }
 }

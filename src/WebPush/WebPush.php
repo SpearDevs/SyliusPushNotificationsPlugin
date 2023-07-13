@@ -20,11 +20,11 @@ class WebPush implements WebPushInterface
         private ?string $customTitle = null,
         private ?string $customContent = null,
     ) {
-        if ($this->order !== null && $this->pushNotificationTemplate === null) {
+        if ($order !== null && $pushNotificationTemplate === null) {
             throw new WebPushException('Push notification template can not be null');
         }
 
-        if ($pushNotificationTemplate === null && $customTitle === null || $customContent === null) {
+        if ($pushNotificationTemplate === null && ($customTitle === null || $customContent === null)) {
             throw new WebPushException('Custom push notification title and content can not be null');
         }
     }

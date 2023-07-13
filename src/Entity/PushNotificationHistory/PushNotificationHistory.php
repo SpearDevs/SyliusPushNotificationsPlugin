@@ -39,6 +39,11 @@ class PushNotificationHistory implements PushNotificationHistoryInterface
     private string $state = self::STATE_NOT_RECEIVED;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $responseStatusCode;
+
+    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
      * @ORM\JoinColumn(nullable=false)
@@ -88,5 +93,15 @@ class PushNotificationHistory implements PushNotificationHistoryInterface
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function getResponseStatusCode(): int
+    {
+        return $this->responseStatusCode;
+    }
+
+    public function setResponseStatusCode(int $responseStatusCode): void
+    {
+        $this->responseStatusCode = $responseStatusCode;
     }
 }

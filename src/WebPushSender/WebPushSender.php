@@ -8,11 +8,10 @@ use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
-use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
-use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
+use SpearDevs\SyliusPushNotificationsPlugin\Service\WebPushHistoryCreator\WebPushHistoryCreatorInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -29,9 +28,8 @@ final class WebPushSender implements WebPushSenderInterface
         private UserSubscriptionManagerInterface $userSubscriptionManager,
         private PushMessageSender $sender,
         private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
-        private PushNotificationHistoryFactory $pushNotificationHistoryFactory,
-        private PushNotificationHistoryRepositoryInterface $pushNotificationHistoryRepository,
         private PushNotificationConfigurationService $pushNotificationConfigurationService,
+        private WebPushHistoryCreatorInterface $webPushHistoryCreator,
     ) {
     }
 
@@ -79,15 +77,9 @@ final class WebPushSender implements WebPushSenderInterface
 
         $responses = $this->sender->push($notification->createMessage(), $subscriptionsArray);
 
-        foreach ($subscriptionsArray as $subscription) {
-            $pushNotificationHistory =
-                $this->pushNotificationHistoryFactory
-                    ->createNewWithPushNotificationData($webPush->getTitle(), $webPush->getContent(), $subscription);
-
-            $this->pushNotificationHistoryRepository->save($pushNotificationHistory);
-        }
-
         foreach ($responses as $response) {
+            $this->webPushHistoryCreator->create($webPush, $response);
+
             if ($response->isExpired()) {
                 $this->userSubscriptionManager->delete($response->getSubscription());
             }
