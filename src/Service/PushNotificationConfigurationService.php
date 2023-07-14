@@ -6,12 +6,13 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Service;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepositoryInterface;
+use Psr\Container\ContainerInterface;
 
 final class PushNotificationConfigurationService
 {
     public function __construct(
         private PushNotificationConfigurationRepositoryInterface $pushNotificationConfigurationRepository,
-        private string $imageUrl,
+        private ContainerInterface $container,
     ) {
     }
 
@@ -23,7 +24,11 @@ final class PushNotificationConfigurationService
             return null;
         }
 
+        $appScheme = $this->container->getParameter('router.request_context.scheme');
+        $appHost = $this->container->get('sylius.context.channel')->getChannel()->getHostName();
+        $imagesDirectory = $this->container->getParameter('images_directory');
+
         /** @var $pushNotificationConfiguration PushNotificationConfigurationInterface */
-        return $this->imageUrl . $pushNotificationConfiguration->getIconPath();
+        return $appScheme . '://' . $appHost . $imagesDirectory . $pushNotificationConfiguration->getIconPath();
     }
 }
