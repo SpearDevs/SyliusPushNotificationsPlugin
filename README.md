@@ -9,13 +9,11 @@ Plugin for Sylius, based on the [bpolaszek/webpush-bundle](https://github.com/bp
 ## Backend setup
 
 1. Generate your VAPID keys:
-
 ```bash
 php bin/console webpush:generate:keys
 ```
 
 2. Set VAPID keys:
-
 .env file:
 ```
 WEBPUSH_PUBLIC_KEY=publickey
@@ -40,20 +38,30 @@ imports:
     - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/config.yaml" }
 ```
 
-4. Set env variables:
+4. Configure routing in config/routes.yaml:
+```yaml
+# config/routes.yaml
+
+speardevs_push_notifications_admin:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/admin_routing.yaml"
+    prefix: /admin
+
+speardevs_push_notifications_shop:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/shop_routing.yaml"
+    prefix: /
+```
+
+5. Set env variables:
 Example:
 ```
-APP_HOST='//your.host.page.com'
 APP_SCHEME='https'
 ```
-5.  Update the database schema:
-
+6.  Update the database schema:
 ```
 $  bin/console doctrine:schema:update --force
 ```
 
-6. Finish the instalation by running fixture:
-
+7. Finish the instalation by running fixture:
 ```
 $ bin/console sylius:fixtures:load speardevs_push_notification_plugin
 ```
@@ -120,3 +128,16 @@ self.addEventListener('push', (event) => {
   - Import `bootstrap.js` at the end of admin's and shop's `entry.js` files.
 
   - In admin's and shop's `webpack.config` files, after `.addEntry(...)` line add `.enableStimulusBridge('<path-to-controllers-file>/controllers.json')`
+
+### Customization
+
+#### Available services you can decorate and forms you can extend
+```bash
+$ bin/console debug:container | grep speardevs_sylius_push_notifications_plugin
+```
+
+#### Under the path:
+```
+admin/push-notification-configurations/
+```
+in the admin panel, you can set push notification icon.
