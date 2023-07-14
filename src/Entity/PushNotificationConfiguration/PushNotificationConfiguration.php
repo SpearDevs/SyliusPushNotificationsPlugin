@@ -10,15 +10,14 @@ use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="speardevs_push_notification_configuration")
  */
 class PushNotificationConfiguration implements PushNotificationConfigurationInterface
 {
     use EntityIdTrait;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    /** @ORM\Column(type="string", nullable=true) */
     private ?string $iconPath = null;
 
     protected ?File $icon = null;

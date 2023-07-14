@@ -10,6 +10,7 @@ use Sylius\Component\User\Model\User;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="speardevs_push_notification_history")
  */
 class PushNotificationHistory implements PushNotificationHistoryInterface
@@ -18,34 +19,28 @@ class PushNotificationHistory implements PushNotificationHistoryInterface
 
     /**
      * @ORM\Column(type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    /** @ORM\Column(type="string") */
     private string $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    /** @ORM\Column(type="text") */
     private string $content;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    /** @ORM\Column(type="string") */
     private string $state = self::STATE_NOT_RECEIVED;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** @ORM\Column(type="integer") */
     private int $responseStatusCode;
 
     /**
-     * @var User
      * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
+     *
      * @ORM\JoinColumn(nullable=false)
      */
     private User $user;

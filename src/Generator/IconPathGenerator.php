@@ -17,7 +17,7 @@ final class IconPathGenerator implements IconPathGeneratorInterface
         $hash = bin2hex(random_bytes(16));
 
         return $this->expandPath(
-            sprintf('%s.%s', $hash, $file->guessExtension())
+            sprintf('%s.%s', $hash, $file->guessExtension()),
         );
     }
 
@@ -27,7 +27,7 @@ final class IconPathGenerator implements IconPathGeneratorInterface
             '/%s/%s/%s',
             substr($path, 0, 2),
             substr($path, 2, 2),
-            substr($path, 4)
+            substr($path, 4),
         );
     }
 }

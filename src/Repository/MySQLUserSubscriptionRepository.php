@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository;
 
-use Doctrine\ORM\QueryBuilder;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
+use Doctrine\ORM\QueryBuilder;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 final class MySQLUserSubscriptionRepository extends EntityRepository implements UserSubscriptionRepositoryInterface
@@ -44,7 +44,7 @@ final class MySQLUserSubscriptionRepository extends EntityRepository implements 
                 'userSubscription.user',
                 'user',
                 'WITH',
-                'user.id = userSubscription.user'
+                'user.id = userSubscription.user',
             )
             ->where('userSubscription.user is not null')
             ->join('user.customer', 'customer');
