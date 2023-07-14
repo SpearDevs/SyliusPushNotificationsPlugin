@@ -13,6 +13,7 @@ speardevs_sylius_push_notifications_plugin:
             heading: Push notification history
             unread: Number of unread notifications
         push_notification_templates: Push notification templates
+        push_notification_histories: Push notification history
         send_push_notification: Send push notification
         push_notification_configurations: Push notification configuration
         iconPath: Ikona
@@ -34,5 +35,6 @@ speardevs_sylius_push_notifications_plugin:
         isReceived: Have customer received?
         no: No
         yes: Yes
+        responseStatusCode: Response status code
         markAsReceived: Mark as received
         no_icon: The push notification icon is not set
