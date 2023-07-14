@@ -49,3 +49,10 @@ services:
     SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\PushNotificationConfigurationType:
         arguments:
             - '%speardevs_sylius_push_notifications_plugin.model.push_notification_configuration.class%'
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContext:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContext
+        arguments:
+            - '@sylius.repository.channel'
+        tags:
+            - { name: 'sylius.context.channel', priority: -256 }
