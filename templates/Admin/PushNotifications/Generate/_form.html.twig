@@ -3,11 +3,13 @@
         {{ form_errors(form) }}
         <div class="ui segment">
             {{ form_row(form.title) }}
-            
+
             {{ form_row(form.body) }}
-            
+
+            {{ form_row(form.channel) }}
+
             {{ form_row(form.receiver, { attr: { 'data-form-field': 'receiver' } }) }}
-            
+
             <div class="field" data-form-row="send-to">
                 {{ form_label(form.groups) }}
                 {{ form_widget(form.groups) }}

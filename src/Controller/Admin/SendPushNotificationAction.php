@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
@@ -23,6 +24,7 @@ final class SendPushNotificationAction extends AbstractController
         private Environment $twig,
         private TranslatorInterface $translator,
         private WebPushSenderInterface $webPushSender,
+        private ChannelContextInterface $channelContext,
     ) {
     }
 
@@ -40,6 +42,8 @@ final class SendPushNotificationAction extends AbstractController
             $customerGroup = $data['groups']?->getName() ?? '';
             $receiver = $data['receiver'] ?? '';
             $user = $data['user']?->getEmail() ?? '';
+
+            $this->channelContext->setChannelCode($data['channel']->getCode());
 
             $webPush = new WebPush(null, null, $pushTitle, $pushContent);
 
