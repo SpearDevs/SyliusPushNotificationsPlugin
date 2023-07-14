@@ -9,25 +9,20 @@ use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
 
 /**
  * @ORM\Entity
+ *
  * @ORM\Table(name="speardevs_push_notification_template")
  */
 class PushNotificationTemplate implements PushNotificationTemplateInterface
 {
     use EntityIdTrait;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    /** @ORM\Column(type="string") */
     private string $title;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    /** @ORM\Column(type="text") */
     private string $content;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    /** @ORM\Column(type="string") */
     private string $code;
 
     public function getTitle(): string

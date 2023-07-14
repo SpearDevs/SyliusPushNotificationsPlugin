@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class UserSubscriptionManager implements UserSubscriptionManagerInterface
 {
     public function __construct(
-        private UserSubscriptionRepositoryInterface $userSubscriptionRepository
+        private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
     ) {
     }
 
@@ -25,7 +25,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
         UserInterface $user,
         string $subscriptionHash,
         array $subscription,
-        array $options = []
+        array $options = [],
     ): UserSubscriptionInterface {
         /** @var $user ShopUser */
         return new UserSubscription($user, $subscriptionHash, $subscription);

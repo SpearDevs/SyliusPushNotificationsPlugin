@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Uploader;
 
-use Webmozart\Assert\Assert;
 use Gaufrette\Filesystem;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Generator\IconPathGeneratorInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepositoryInterface;
+use Webmozart\Assert\Assert;
 
 final class PushNotificationIconUploader implements PushNotificationIconUploaderInterface
 {
@@ -41,7 +41,7 @@ final class PushNotificationIconUploader implements PushNotificationIconUploader
 
         $this->filesystem->write(
             $path,
-            $fileContents
+            $fileContents,
         );
 
         $this->pushNotificationConfigurationRepository->save($configuration);

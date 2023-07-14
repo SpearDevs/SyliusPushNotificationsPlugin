@@ -10,18 +10,19 @@ use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 final class SendPushNotificationAction extends AbstractController
 {
     public const USER_RECEIVER = 'user';
+
     public const GROUP_RECEIVER = 'group';
 
     public function __construct(
         private Environment $twig,
         private TranslatorInterface $translator,
-        private WebPushSenderInterface $webPushSender
+        private WebPushSenderInterface $webPushSender,
     ) {
     }
 
@@ -57,7 +58,7 @@ final class SendPushNotificationAction extends AbstractController
 
         return new Response($this->twig->render(
             $request->get('template'),
-            ['form' => $form->createView()]
+            ['form' => $form->createView()],
         ));
     }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory;
 
+use Doctrine\ORM\QueryBuilder;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Doctrine\ORM\QueryBuilder;
 
 final class PushNotificationHistoryRepository extends EntityRepository implements PushNotificationHistoryRepositoryInterface
 {

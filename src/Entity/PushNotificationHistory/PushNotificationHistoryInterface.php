@@ -10,6 +10,7 @@ use Sylius\Component\User\Model\User;
 interface PushNotificationHistoryInterface extends ResourceInterface
 {
     public const STATE_NOT_RECEIVED = 'not_received';
+
     public const STATE_RECEIVED = 'received';
 
     public function getTitle(): string;

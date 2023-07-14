@@ -7,8 +7,8 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Factory;
 use BenTools\WebPushBundle\Model\Response\PushResponse;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistoryInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Webmozart\Assert\Assert;
 use Sylius\Component\User\Model\User;
+use Webmozart\Assert\Assert;
 
 final class PushNotificationHistoryFactory implements FactoryInterface
 {
@@ -27,7 +27,7 @@ final class PushNotificationHistoryFactory implements FactoryInterface
     public function createNewWithPushNotificationData(
         string $pushTitle,
         string $pushContent,
-        PushResponse $pushResponse
+        PushResponse $pushResponse,
     ): PushNotificationHistoryInterface {
         $subscription = $pushResponse->getSubscription();
 

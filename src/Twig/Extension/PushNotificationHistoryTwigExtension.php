@@ -12,7 +12,7 @@ use Twig\TwigFilter;
 final class PushNotificationHistoryTwigExtension extends AbstractExtension
 {
     public function __construct(
-        private PushNotificationHistoryRepositoryInterface $pushNotificationHistoryRepository
+        private PushNotificationHistoryRepositoryInterface $pushNotificationHistoryRepository,
     ) {
     }
 

@@ -21,6 +21,7 @@ use Traversable;
 final class WebPushSender implements WebPushSenderInterface
 {
     public const PUSH_NEW_ORDER_CODE = "'push_new_order'";
+
     public const PUSH_ORDER_SHIPPED_CODE = "'push_order_shipped'";
 
     public function __construct(
@@ -61,7 +62,7 @@ final class WebPushSender implements WebPushSenderInterface
 
         $this->sendToUser(
             $webPush,
-            $user->getEmail()
+            $user->getEmail(),
         );
     }
 
