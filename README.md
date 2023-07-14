@@ -37,7 +37,7 @@ bentools_webpush:
 imports:
     ...
 
-    - { resource: "@BitBagSyliusBannerPlugin/Resources/config/config.yaml" }
+    - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/config.yaml" }
 ```
 
 4. Set env variables:
