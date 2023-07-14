@@ -1,0 +1,8 @@
+{% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
+
+{% set breadcrumbs = [
+    { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+    { label: 'speardevs_sylius_push_notifications_plugin.ui.send_push_notification'|trans, url: path('speardevs_send_push_notifications') },
+] %}
+
+{{ breadcrumb.crumble(breadcrumbs) }}

@@ -1,9 +1,7 @@
-acme_sylius_example_shop:
-    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/shop_routing.yml"
-    prefix: /{_locale}
-    requirements:
-        _locale: ^[a-z]{2}(?:_[A-Z]{2})?$
-
-acme_sylius_example_admin:
-    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/admin_routing.yml"
+speardevs_push_notifications_admin:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/admin_routing.yaml"
     prefix: /admin
+
+speardevs_push_notifications_shop:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/shop_routing.yaml"
+    prefix: /

@@ -2,6 +2,10 @@ start:
 	(cd tests/Application && docker compose up -d)
 	(cd tests/Application && APP_ENV=dev symfony server:start -d)
 
+stop:
+	(cd tests/Application && docker compose down)
+	(cd tests/Application && APP_ENV=dev symfony server:stop)
+
 phpunit:
 	vendor/bin/phpunit
 

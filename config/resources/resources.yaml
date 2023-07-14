@@ -1,0 +1,19 @@
+sylius_resource:
+    resources:
+        speardevs_sylius_push_notifications_plugin.user_subscription:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository
+        speardevs_sylius_push_notifications_plugin.push_notification_template:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepository
+        speardevs_sylius_push_notifications_plugin.push_notification_history:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistory
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepository
+        speardevs_sylius_push_notifications_plugin.push_notification_configuration:
+            classes:
+                model: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfiguration
+                form: SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\PushNotificationConfigurationType
+                repository: SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepository

@@ -1,0 +1,42 @@
+sylius_grid:
+    grids:
+        speardevs_push_notification_history:
+            driver:
+                options:
+                    class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_history.class%'
+                    repository:
+                        method: createOwnedByUserQueryBuilder
+                        arguments:
+                            - "expr:service('sylius.context.customer').getCustomer().getUser()"
+            sorting:
+                createdAt: desc
+            fields:
+                title:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.title
+                content:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.content
+                createdAt:
+                    type: datetime
+                    label: speardevs_sylius_push_notifications_plugin.ui.createdAt
+                    sortable: createdAt
+                state:
+                    type: twig
+                    label: speardevs_sylius_push_notifications_plugin.ui.isReceived
+                    options:
+                        template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/Grid/isReceived.html.twig'
+            actions:
+                item:
+                    markAsReceived:
+                        type: apply_transition
+                        label: speardevs_sylius_push_notifications_plugin.ui.markAsReceived
+                        icon: check
+                        options:
+                            link:
+                                route: speardevs_push_notifications_history_mark_as_received
+                                parameters:
+                                    id: resource.id
+                            graph: speardevs_push_notification_history
+                            transition: receive
+                            class: green

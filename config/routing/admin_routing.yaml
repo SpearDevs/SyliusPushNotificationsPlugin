@@ -1,0 +1,33 @@
+# Define your own admin routes here
+speardevs_send_push_notifications:
+    path: /send-push-notifications
+    defaults:
+        _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin\SendPushNotificationAction'
+        template: '@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/push_notification.html.twig'
+
+speardevs_push_notification_template:
+    resource: |
+        alias: speardevs_sylius_push_notifications_plugin.push_notification_template
+        except: ['show']
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        grid: speardevs_push_notification_template
+    type: sylius.resource
+
+speardevs_push_notification_configuration:
+    resource: |
+        alias: speardevs_sylius_push_notifications_plugin.push_notification_configuration
+        only: ['index', 'update']
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        grid: speardevs_push_notification_configuration
+    type: sylius.resource
+
+speardevs_admin_push_notification_history:
+    resource: |
+        alias: speardevs_sylius_push_notifications_plugin.push_notification_history
+        only: ['index']
+        section: admin
+        templates: "@SyliusAdmin\\Crud"
+        grid: speardevs_admin_push_notification_history
+    type: sylius.resource

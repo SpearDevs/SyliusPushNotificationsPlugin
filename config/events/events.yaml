@@ -1,0 +1,13 @@
+sylius_ui:
+    events:
+        sylius.admin.push_notifications.content:
+            blocks:
+                header:
+                    template: '@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/_headerWidget.html.twig'
+                    priority: 30
+                breadcrumb:
+                    template: "@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/Generate/_breadcrumb.html.twig"
+                    priority: 20
+                content:
+                    template: "@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/Generate/_formWidget.html.twig"
+                    priority: 10

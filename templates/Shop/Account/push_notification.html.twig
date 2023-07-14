@@ -1,0 +1,31 @@
+{% extends '@SyliusShop/Account/layout.html.twig' %}
+
+{% block breadcrumb %}
+    <div class="ui breadcrumb">
+        <a href="{{ path('sylius_shop_homepage') }}" class="section">{{ 'sylius.ui.home'|trans }}</a>
+        <div class="divider"> / </div>
+        <a href="{{ path('sylius_shop_account_dashboard') }}" class="section">{{ 'sylius.ui.my_account'|trans }}</a>
+        <div class="divider"> / </div>
+        <div class="active section">{{ 'speardevs_sylius_push_notifications_plugin.ui.my_account.push_notifications'|trans }}</div>
+    </div>
+{% endblock %}
+
+{% block subcontent %}
+    <h1 class="ui header">
+        {{ 'speardevs_sylius_push_notifications_plugin.ui.push_notifications.heading'|trans }}
+    </h1>
+
+    {{ include('@SpearDevsSyliusPushNotificationsPlugin/Shop/PushNotifications/_push_notifications_controls.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        if ('serviceWorker' in navigator) {
+            (async () => {
+                await navigator.serviceWorker.register('/serviceWorker.js');
+            })();
+        }
+    </script>
+{% endblock javascripts %}

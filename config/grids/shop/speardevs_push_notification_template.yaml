@@ -1,0 +1,31 @@
+sylius_grid:
+    grids:
+        speardevs_push_notification_template:
+            driver:
+                options:
+                    class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_template.class%'
+            filters:
+                search:
+                    type: string
+                    label: sylius.ui.search
+                    options:
+                        fields: [ title, content, code ]
+            fields:
+                title:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.title
+                content:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.content
+                code:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.code
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                    delete:
+                        type: delete

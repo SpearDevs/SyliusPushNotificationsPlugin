@@ -1,0 +1,9 @@
+imports:
+    - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/services.xml" }
+    - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/services.yaml" }
+    - { resource: 'resources/*.yaml'}
+    - { resource: 'events/events.yaml' }
+    - { resource: 'state_machine/*.yaml'}
+    - { resource: 'grids/shop/*.yaml'}
+    - { resource: 'grids/admin/*.yaml'}
+    - { resource: 'fixtures/*.yaml'}

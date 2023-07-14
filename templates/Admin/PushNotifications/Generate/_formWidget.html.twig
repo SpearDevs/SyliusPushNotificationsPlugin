@@ -1,0 +1,17 @@
+{% form_theme form '@SyliusAdmin/Form/theme.html.twig' %}
+
+{{ form_start(form, {
+    'attr': stimulus_controller('admin/push-notifications-generate').toArray()|merge({ 'class': 'ui loadable form', 'novalidate': 'novalidate' })
+}) }}
+<div class="ui segment">
+    {% include '@SpearDevsSyliusPushNotificationsPlugin/Admin/PushNotifications/Generate/_form.html.twig' %}
+    <div class="ui basic segment">
+        <div class="ui buttons">
+            <button class="ui labeled icon primary button" type="submit"><i
+                    class="paper plane icon"></i>{{- 'speardevs_sylius_push_notifications_plugin.ui.send'|trans -}}
+            </button>
+        </div>
+    </div>
+</div>
+{{ form_row(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
