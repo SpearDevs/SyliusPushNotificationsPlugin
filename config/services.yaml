@@ -1,26 +1,38 @@
 imports:
     - { resource: "../vendor/bentools/webpush-bundle/src/Resources/config/services.xml" }
 
+parameters:
+    router.request_context.host: '%env(APP_HOST)%'
+    router.request_context.scheme: '%env(APP_SCHEME)%'
+    images_directory: '/media/image'
+
 services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $imageUrl: '%env(APP_SCHEME)%:%env(APP_HOST)%%images_directory%'
+            Gaufrette\Filesystem: '@gaufrette.sylius_image_filesystem'
     
     SpearDevs\SyliusPushNotificationsPlugin\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
+            - '../src/Factory/'
             - '../src/Repository/'
             - '../src/Kernel.php'
             
     SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager:
         class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
         arguments:
-            - '@app.repository.user_subscription'
+            - '@speardevs_sylius_push_notifications_plugin.repository.user_subscription'
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
+    SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSender:
+        public: true
+        
     app.listener.shop.menu_builder:
         class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Shop\AccountMenuListener
         tags:
@@ -30,3 +42,11 @@ services:
         class: SpearDevs\SyliusPushNotificationsPlugin\Menu\Admin\AdminMenuListener
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
+
+    SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory:
+        decorates: speardevs_sylius_push_notifications_plugin.factory.push_notification_history
+        arguments: [ '@.inner' ]
+        
+    SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\PushNotificationConfigurationType:
+        arguments:
+            - '%speardevs_sylius_push_notifications_plugin.model.push_notification_configuration.class%'

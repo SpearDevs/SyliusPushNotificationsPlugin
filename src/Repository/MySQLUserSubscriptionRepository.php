@@ -27,6 +27,15 @@ final class MySQLUserSubscriptionRepository extends EntityRepository implements 
             ->toIterable();
     }
 
+    public function getSubscriptionsForUserByEmail(string $email): iterable
+    {
+        return $this->getQueryToGetUserSubscriptions()
+            ->where('user.username = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->toIterable();
+    }
+
     private function getQueryToGetUserSubscriptions(): QueryBuilder
     {
         return $this->createQueryBuilder('userSubscription')

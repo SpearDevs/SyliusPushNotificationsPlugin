@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
-use SpearDevs\SyliusPushNotificationsPlugin\Handler\PushNotificationHandler;
+use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
+use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class SendPushNotificationAction extends AbstractController
 {
+    public const USER_RECEIVER = 'user';
+    public const GROUP_RECEIVER = 'group';
+
     public function __construct(
         private Environment $twig,
         private TranslatorInterface $translator,
-        private PushNotificationHandler $pushNotificationHandler
+        private WebPushSenderInterface $webPushSender
     ) {
     }
 
@@ -33,8 +37,18 @@ final class SendPushNotificationAction extends AbstractController
             $pushTitle = $data['title'] ?? '';
             $pushContent = $data['body'] ?? '';
             $customerGroup = $data['groups']?->getName() ?? '';
+            $receiver = $data['receiver'] ?? '';
+            $user = $data['user']?->getEmail() ?? '';
 
-            $this->pushNotificationHandler->sendToUsers($pushTitle, $pushContent, $customerGroup);
+            $webPush = new WebPush(null, null, $pushTitle, $pushContent);
+
+            if ($receiver === self::USER_RECEIVER) {
+                $this->webPushSender->sendToUser($webPush, $user);
+            }
+
+            if ($receiver === self::GROUP_RECEIVER) {
+                $this->webPushSender->sendToGroup($webPush, $customerGroup);
+            }
 
             $this->addFlash('success', $this->translator->trans('speardevs_sylius_push_notifications_plugin.ui.sent_success'));
 

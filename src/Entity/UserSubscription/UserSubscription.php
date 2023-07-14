@@ -2,28 +2,24 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\Entity;
+namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
 
+use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\ORM\Mapping as ORM;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
+use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\User;
-use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Component\Security\Core\User\UserInterface;
-use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 
 /**
  * @ORM\Entity(repositoryClass="SpearDevs\SyliusPushNotificationsPlugin\Repository\MySQLUserSubscriptionRepository")
- * @ORM\Table(name="web_push_user_subscription")
+ * @ORM\Table(name="speardevs_web_push_user_subscription")
  */
 class UserSubscription implements UserSubscriptionInterface, ResourceInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    use EntityIdTrait;
 
     /**
      * @var User
@@ -47,11 +43,6 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
         $this->user = $user;
         $this->subscriptionHash = $subscriptionHash;
         $this->subscription = $subscription;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**

@@ -15,7 +15,11 @@ final class AccountMenuListener
         $menu
             ->addChild('new', ['route' => 'speardevs_push_notifications_section'])
             ->setLabel('speardevs_sylius_push_notifications_plugin.ui.my_account.push_notifications')
-            ->setLabelAttribute('icon', 'star')
-        ;
+            ->setLabelAttribute('icon', 'star');
+
+        $menu
+            ->addChild('push_notification_history', ['route' => 'speardevs_push_notifications_history_index'])
+            ->setLabel('speardevs_sylius_push_notifications_plugin.ui.my_account.push_notification_history')
+            ->setLabelAttribute('icon', 'history');
     }
 }

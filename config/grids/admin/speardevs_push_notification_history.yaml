@@ -1,0 +1,48 @@
+sylius_grid:
+    grids:
+        speardevs_admin_push_notification_history:
+            driver:
+                options:
+                    class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_history.class%'
+            sorting:
+                createdAt: desc
+            limits: [10, 25, 50, 100]
+            filters:
+                state:
+                    type: select
+                    label: speardevs_sylius_push_notifications_plugin.ui.isReceived
+                    form_options:
+                        choices:
+                            speardevs_sylius_push_notifications_plugin.ui.yes: received
+                            speardevs_sylius_push_notifications_plugin.ui.no: not_received
+                user:
+                    type: entity
+                    label: speardevs_sylius_push_notifications_plugin.ui.user
+                    enabled: true
+                    position: 100
+                    options:
+                        fields: [ user ]
+                    form_options:
+                        class: "%sylius.model.shop_user.class%"
+            fields:
+                title:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.title
+                content:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.content
+                user:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.user
+                responseStatusCode:
+                    type: string
+                    label: speardevs_sylius_push_notifications_plugin.ui.responseStatusCode
+                state:
+                    type: twig
+                    label: speardevs_sylius_push_notifications_plugin.ui.isReceived
+                    options:
+                        template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/Grid/isReceived.html.twig'
+                createdAt:
+                    type: datetime
+                    label: speardevs_sylius_push_notifications_plugin.ui.createdAt
+                    sortable: createdAt

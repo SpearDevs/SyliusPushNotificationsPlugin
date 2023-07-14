@@ -2,16 +2,39 @@ speardevs_sylius_push_notifications_plugin:
     ui:
         my_account:
             push_notifications: Notyfikacje Push
+            push_notification_history: Historia notyfikacji push
         push_notifications:
             title: Notyfikacje Push
             heading: Włącz powiadomienia, aby dostawać notyfikacje na temat najnowszych produktów.
             subscribe: Włącz powiadomienia
             disabled_text: Powiadomienia push wyłączone. Aktywować je możesz w ustawieniach systemu.
             enabled_text: Powiadomienia push włączone.
+        push_notification_history:
+            heading: Historia notyfikacji push
+            unread: Liczba nieodczytanych notyfikacji
+        push_notification_templates: Szablony notyfikacji push
+        push_notification_histories: Historia notyfikacji push
         send_push_notification: Wyślij notyfikacje push
+        push_notification_configurations: Konfiguracja notyfikacji push
+        icon: Ikona
+        edit_push_notification_configuration: Edycja konfiguracja notyfikacji push
         send: Wyślij
         title: Tytuł
         content: Treść
-        sent_success: Wysłano notyfikację push
+        code: Kod
+        sent_success: Wysłano notyfikacje push
         send_to: Wyślij do
+        receiver: Odbiorca
+        group: Grupa
+        user: Użytkownik
+        choose_user: Wybierz użytkownika
         all: Wszyscy
+        edit_push_notification_template: Edytuj szablon notyfikacji push
+        new_push_notification_template:  Nowy szablon notyfikacji push
+        createdAt: Utworzone
+        isReceived: Czy otrzymano? 
+        no: Nie
+        yes: Tak
+        responseStatusCode: Kod stanu odpowiedzi
+        markAsReceived: Oznacz jako otrzymane
+        no_icon: Ikona push notyfikacji nie jest ustawiona
