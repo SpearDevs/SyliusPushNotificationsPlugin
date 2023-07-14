@@ -1,125 +1,70 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
-    </a>
-</p>
+# Sylius Push Notification Plugin
 
-<h1 align="center">Plugin Skeleton</h1>
+Plugin for Sylius, based on the [bpolaszek/webpush-bundle](https://github.com/bpolaszek/webpush-bundle) package, enabling the sending of push notifications within an online store. This plugin provides the functionality to send push notifications in two key scenarios: after order placement and after order shipment. Additionally, it allows for the sending of push notifications to individual users or user groups.
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+### Instalation
 
-## Documentation
+1. Run `speardevs/sylius-push-notifications-plugin`.
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+## Backend setup
 
-## Quickstart Installation
+1. Generate your VAPID keys:
+```bash
+php bin/console webpush:generate:keys
+```
 
-### Traditional
+2. Set VAPID keys:
+.env file:
+```
+WEBPUSH_PUBLIC_KEY=publickey
+WEBPUSH_PUBLIC_KEY=privatekey
+```
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+```yaml
+# config/packages/bentools_webpush.yaml (SF4) 
+bentools_webpush:
+    settings:
+        public_key: '%env(WEBPUSH_PUBLIC_KEY)%'
+        private_key: '%env(WEBPUSH_PRIVATE_KEY)%'
+```
 
-2. From the plugin skeleton root directory, run the following commands:
+3. Import required config in your `config/packages/_sylius.yaml` file:
+```yaml
+# config/packages/_sylius.yaml
 
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-    
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
-    ```
+imports:
+    ...
 
-To be able to set up a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+    - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/config.yaml" }
+```
 
-### Docker
+4. Configure routing in config/routes.yaml:
+```yaml
+# config/routes.yaml
 
-1. Execute `docker compose up -d`
+speardevs_push_notifications_admin:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/admin_routing.yaml"
+    prefix: /admin
 
-2. Initialize plugin `docker compose exec app make init`
+speardevs_push_notifications_shop:
+    resource: "@SpearDevsSyliusPushNotificationsPlugin/config/routing/shop_routing.yaml"
+    prefix: /
+```
 
-3. See your browser `open localhost`
+5. Set env variables:
+Example:
+```
+APP_SCHEME='https'
+```
+6.  Update the database schema:
+```
+$  bin/console doctrine:schema:update --force
+```
 
-## Usage
-
-### Running plugin tests
-
-  - PHPUnit
-
-    ```bash
-    vendor/bin/phpunit
-    ```
-
-  - PHPSpec
-
-    ```bash
-    vendor/bin/phpspec run
-    ```
-
-  - Behat (non-JS scenarios)
-
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript"
-    ```
-
-  - Behat (JS scenarios)
- 
-    1. [Install Symfony CLI command](https://symfony.com/download).
- 
-    2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-      ```
-    
-    4. Run Behat:
-    
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript"
-      ```
-    
-  - Static Analysis
-  
-    - Psalm
-    
-      ```bash
-      vendor/bin/psalm
-      ```
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
-
-  - Coding Standard
-  
-    ```bash
-    vendor/bin/ecs check
-    ```
-
-### Opening Sylius with your plugin
-
-- Using `test` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test symfony server:start -d)
-    ```
-    
-- Using `dev` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev symfony server:start -d)
-    ```
+7. Finish the instalation by running fixture:
+```
+$ bin/console sylius:fixtures:load speardevs_push_notification_plugin
+```
 
 ## Frontend setup
 Requires Stimulus framework (https://stimulus.hotwired.dev/handbook/introduction).
@@ -183,3 +128,16 @@ self.addEventListener('push', (event) => {
   - Import `bootstrap.js` at the end of admin's and shop's `entry.js` files.
 
   - In admin's and shop's `webpack.config` files, after `.addEntry(...)` line add `.enableStimulusBridge('<path-to-controllers-file>/controllers.json')`
+
+### Customization
+
+#### Available services you can decorate and forms you can extend
+```bash
+$ bin/console debug:container | grep speardevs_sylius_push_notifications_plugin
+```
+
+#### Under the path:
+```
+admin/push-notification-configurations/
+```
+in the admin panel, you can set push notification icon.
