@@ -2,7 +2,6 @@ imports:
     - { resource: "../vendor/bentools/webpush-bundle/src/Resources/config/services.xml" }
 
 parameters:
-    router.request_context.host: '%env(APP_HOST)%'
     router.request_context.scheme: '%env(APP_SCHEME)%'
     images_directory: '/media/image'
 
