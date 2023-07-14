@@ -4,6 +4,36 @@ speardevs_push_notifications_section:
         _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction'
         template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification.html.twig'
 
+speardevs_push_notifications_history_index:
+    path: /{_locale}/account/push-notifications-history
+    methods: [ GET ]
+    defaults:
+        _controller: speardevs_sylius_push_notifications_plugin.controller.push_notification_history::indexAction
+        _sylius:
+            sortable: true
+            sorting:
+                createdAt: desc
+            grid: speardevs_push_notification_history
+            section: shop_account
+            permission: true
+            template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification_history.html.twig'
+            repository:
+                method: findByCustomer
+                arguments:
+                    - "expr:service('sylius.context.customer').getCustomer()"
+
+speardevs_push_notifications_history_mark_as_received:
+    path: /{_locale}/account/push-notifications-history/{id}/mark-as-received
+    methods: [ PUT ]
+    defaults:
+        _controller: speardevs_sylius_push_notifications_plugin.controller.push_notification_history::applyStateMachineTransitionAction
+        _sylius:
+            state_machine:
+                graph: speardevs_push_notification_history
+                transition: receive
+            redirect: referer
+            flash: false
+
 bentools_webpush:
     resource: '@WebPushBundle/Resources/config/routing.xml'
     prefix: /{_locale}/webpush

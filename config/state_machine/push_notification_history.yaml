@@ -1,0 +1,13 @@
+winzou_state_machine:
+    push_notification_history:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistory
+        property_path: state
+        graph: speardevs_push_notification_history
+        state_machine_class: '%sylius.state_machine.class%'
+        states:
+            - not_received
+            - received
+        transitions:
+            receive:
+                from: [not_received]
+                to: received

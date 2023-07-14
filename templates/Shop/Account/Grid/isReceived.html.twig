@@ -1,0 +1,8 @@
+{% set map = {
+    'not_received': {'color': 'red', 'text': 'speardevs_sylius_push_notifications_plugin.ui.no'},
+    'received': {'color': 'green', 'text': 'speardevs_sylius_push_notifications_plugin.ui.yes'},
+} %}
+
+<span class="ui label {{ map[data].color }}">
+    {{ map[data].text | trans }}
+</span>
