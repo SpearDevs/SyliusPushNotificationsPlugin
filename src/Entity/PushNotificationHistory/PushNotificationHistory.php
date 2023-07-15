@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Sylius\Component\Channel\Model\Channel;
 use Sylius\Component\User\Model\User;
 
 /**
@@ -44,6 +45,13 @@ class PushNotificationHistory implements PushNotificationHistoryInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private User $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel")
+     *
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Channel $channel;
 
     public function getId(): int
     {
@@ -88,6 +96,16 @@ class PushNotificationHistory implements PushNotificationHistoryInterface
     public function setUser(User $user): void
     {
         $this->user = $user;
+    }
+
+    public function getChannel(): Channel
+    {
+        return $this->channel;
+    }
+
+    public function setChannel(Channel $channel): void
+    {
+        $this->channel = $channel;
     }
 
     public function getResponseStatusCode(): int
