@@ -35,10 +35,7 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     /** @ORM\Column(type="json") */
     private array $subscription;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel")
-     *
-     */
+    /** @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel") */
     private Channel $channel;
 
     public function __construct(ShopUser $user, string $subscriptionHash, array $subscription)
