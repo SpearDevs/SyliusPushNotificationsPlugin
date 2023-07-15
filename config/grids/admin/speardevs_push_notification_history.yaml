@@ -24,6 +24,15 @@ sylius_grid:
                         fields: [ user ]
                     form_options:
                         class: "%sylius.model.shop_user.class%"
+                channel:
+                    type: entity
+                    label: sylius.ui.channel
+                    enabled: true
+                    position: 100
+                    options:
+                        fields: [ channel ]
+                    form_options:
+                        class: "%sylius.model.channel.class%"
             fields:
                 title:
                     type: string
@@ -42,6 +51,9 @@ sylius_grid:
                     label: speardevs_sylius_push_notifications_plugin.ui.isReceived
                     options:
                         template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/Grid/isReceived.html.twig'
+                channel:
+                    type: string
+                    label: sylius.ui.channel
                 createdAt:
                     type: datetime
                     label: speardevs_sylius_push_notifications_plugin.ui.createdAt
