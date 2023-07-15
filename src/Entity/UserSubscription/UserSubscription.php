@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\ORM\Mapping as ORM;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
+use Sylius\Component\Channel\Model\Channel;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\User;
@@ -33,6 +34,12 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
 
     /** @ORM\Column(type="json") */
     private array $subscription;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel")
+     *
+     */
+    private Channel $channel;
 
     public function __construct(ShopUser $user, string $subscriptionHash, array $subscription)
     {
@@ -84,5 +91,15 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     public function getContentEncoding(): string
     {
         return $this->subscription['content-encoding'] ?? 'aesgcm';
+    }
+
+    public function getChannel(): Channel
+    {
+        return $this->channel;
+    }
+
+    public function setChannel(Channel $channel): void
+    {
+        $this->channel = $channel;
     }
 }

@@ -26,6 +26,8 @@ services:
         class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
         arguments:
             - '@speardevs_sylius_push_notifications_plugin.repository.user_subscription'
+            - '@sylius.repository.channel'
+            - '@request_stack'
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
