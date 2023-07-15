@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfigu
 
 use Doctrine\ORM\Mapping as ORM;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
+use Sylius\Component\Channel\Model\Channel;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -21,6 +22,13 @@ class PushNotificationConfiguration implements PushNotificationConfigurationInte
     private ?string $iconPath = null;
 
     protected ?File $icon = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel")
+     *
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Channel $channel;
 
     public function getIconPath(): ?string
     {
@@ -45,5 +53,15 @@ class PushNotificationConfiguration implements PushNotificationConfigurationInte
     public function hasIcon(): bool
     {
         return null !== $this->icon;
+    }
+
+    public function getChannel(): Channel
+    {
+        return $this->channel;
+    }
+
+    public function setChannel(Channel $channel): void
+    {
+        $this->channel = $channel;
     }
 }

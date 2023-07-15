@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration;
 
+use Sylius\Component\Channel\Model\Channel;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -18,4 +19,8 @@ interface PushNotificationConfigurationInterface extends ResourceInterface
     public function setIcon(?File $icon): void;
 
     public function hasIcon(): bool;
+
+    public function getChannel(): Channel;
+
+    public function setChannel(Channel $channel): void;
 }
