@@ -10,7 +10,8 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            $imageUrl: '%env(APP_SCHEME)%:%env(APP_HOST)%%images_directory%'
+            $appScheme: '%router.request_context.scheme%'
+            $imagesDirectory: '%images_directory%'
             Gaufrette\Filesystem: '@gaufrette.sylius_image_filesystem'
     
     SpearDevs\SyliusPushNotificationsPlugin\:

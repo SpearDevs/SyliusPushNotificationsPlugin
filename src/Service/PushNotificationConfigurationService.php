@@ -4,31 +4,32 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Service;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepositoryInterface;
-use Psr\Container\ContainerInterface;
 
 final class PushNotificationConfigurationService
 {
     public function __construct(
         private PushNotificationConfigurationRepositoryInterface $pushNotificationConfigurationRepository,
-        private ContainerInterface $container,
+        private ChannelContextInterface $channelContext,
+        private string $appScheme,
+        private string $imagesDirectory,
     ) {
     }
 
     public function getLinkToPushNotificationIcon(): ?string
     {
-        $pushNotificationConfiguration = $this->pushNotificationConfigurationRepository->findOneBy([]);
+        $channel = $this->channelContext->getChannel();
+        $pushNotificationConfiguration = $this->pushNotificationConfigurationRepository->findOneBy(['channel' => $channel->getId()]);
 
         if (null === $pushNotificationConfiguration) {
             return null;
         }
 
-        $appScheme = $this->container->getParameter('router.request_context.scheme');
-        $appHost = $this->container->get('sylius.context.channel')->getChannel()->getHostName();
-        $imagesDirectory = $this->container->getParameter('images_directory');
+        $appHost = $channel->getHostname();
 
-        /** @var $pushNotificationConfiguration PushNotificationConfigurationInterface */
-        return $appScheme . '://' . $appHost . $imagesDirectory . $pushNotificationConfiguration->getIconPath();
+        /** @var PushNotificationConfigurationInterface $pushNotificationConfiguration */
+        return $this->appScheme . '://' . $appHost . $this->imagesDirectory . $pushNotificationConfiguration->getIconPath();
     }
 }
