@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\WebPushSender;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
+use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
@@ -31,6 +32,7 @@ final class WebPushSender implements WebPushSenderInterface
         private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
         private PushNotificationConfigurationService $pushNotificationConfigurationService,
         private WebPushHistoryCreatorInterface $webPushHistoryCreator,
+        private ChannelContextInterface $channelContext,
     ) {
     }
 
@@ -57,6 +59,8 @@ final class WebPushSender implements WebPushSenderInterface
 
         /** @var UserInterface $user */
         $user = $order->getCustomer()->getUser();
+
+        $this->channelContext->setChannelCode($order->getChannel()->getCode());
 
         $webPush = new WebPush($order, $pushNotificationTemplate);
 

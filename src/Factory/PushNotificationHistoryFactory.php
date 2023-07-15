@@ -47,7 +47,7 @@ final class PushNotificationHistoryFactory implements FactoryInterface
 
         $channel = $this->channelContext->getChannel();
 
-        /** @var Channel $channel **/
+        /** @var Channel $channel * */
         $pushNotificationHistory->setChannel($channel);
 
         return $pushNotificationHistory;
