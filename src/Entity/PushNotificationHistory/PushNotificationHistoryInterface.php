@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory;
 
-use Sylius\Component\Channel\Model\Channel;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\User;
 

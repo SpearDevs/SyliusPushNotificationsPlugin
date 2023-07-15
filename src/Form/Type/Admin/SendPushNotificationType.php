@@ -6,7 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
-use Sylius\Component\Channel\Model\Channel;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Customer\Model\CustomerGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

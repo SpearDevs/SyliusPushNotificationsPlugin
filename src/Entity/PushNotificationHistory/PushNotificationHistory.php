@@ -6,7 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Sylius\Component\Channel\Model\Channel;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\User\Model\User;
 
 /**
@@ -47,7 +47,7 @@ class PushNotificationHistory implements PushNotificationHistoryInterface
     private User $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel")
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\Channel")
      *
      * @ORM\JoinColumn(nullable=false)
      */

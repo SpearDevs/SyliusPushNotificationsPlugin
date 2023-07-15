@@ -7,7 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Factory;
 use BenTools\WebPushBundle\Model\Response\PushResponse;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistoryInterface;
-use Sylius\Component\Channel\Model\Channel;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\User\Model\User;
 use Webmozart\Assert\Assert;

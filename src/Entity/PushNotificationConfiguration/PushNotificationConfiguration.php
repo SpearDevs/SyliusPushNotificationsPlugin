@@ -6,7 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfigu
 
 use Doctrine\ORM\Mapping as ORM;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
-use Sylius\Component\Channel\Model\Channel;
+use Sylius\Component\Core\Model\Channel;
 use Symfony\Component\HttpFoundation\File\File;
 
 /**
@@ -24,7 +24,7 @@ class PushNotificationConfiguration implements PushNotificationConfigurationInte
     protected ?File $icon = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Channel\Model\Channel")
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\Channel")
      *
      * @ORM\JoinColumn(nullable=false)
      */
