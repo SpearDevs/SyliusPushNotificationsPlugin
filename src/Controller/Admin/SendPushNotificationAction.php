@@ -8,6 +8,7 @@ use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,14 +46,17 @@ final class SendPushNotificationAction extends AbstractController
 
             $this->channelContext->setChannelCode($data['channel']->getCode());
 
+            /** @var ChannelInterface $channel */
+            $channel = $this->channelContext->getChannel();
+
             $webPush = new WebPush(null, null, $pushTitle, $pushContent);
 
             if ($receiver === self::USER_RECEIVER) {
-                $this->webPushSender->sendToUser($webPush, $user);
+                $this->webPushSender->sendToUser($webPush, $channel, $user);
             }
 
             if ($receiver === self::GROUP_RECEIVER) {
-                $this->webPushSender->sendToGroup($webPush, $customerGroup);
+                $this->webPushSender->sendToGroup($webPush, $channel, $customerGroup);
             }
 
             $this->addFlash('success', $this->translator->trans('speardevs_sylius_push_notifications_plugin.ui.sent_success'));
