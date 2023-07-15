@@ -10,6 +10,7 @@ use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -140,7 +141,9 @@ class WebPushNotificationCommand extends Command
 
         $webPush = new WebPush(null, null, $pushTitle, $pushContent);
 
-        $this->webPushSender->sendToGroup($webPush);
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
+        $this->webPushSender->sendToGroup($webPush, $channel);
 
         $output->write('The push notification was sent successfully.');
 
