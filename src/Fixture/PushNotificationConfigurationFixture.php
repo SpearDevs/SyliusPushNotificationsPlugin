@@ -27,7 +27,6 @@ final class PushNotificationConfigurationFixture extends AbstractFixture impleme
         foreach ($channels as $channel) {
             /** @var PushNotificationConfigurationInterface $pushNotificationConfiguration */
             $pushNotificationConfiguration = $this->pushNotificationConfigurationFactory->createNew();
-            $pushNotificationConfiguration->setIconPath(null);
             $pushNotificationConfiguration->setChannel($channel);
 
             $this->pushNotificationConfigurationRepository->save($pushNotificationConfiguration);

@@ -30,6 +30,11 @@ class PushNotificationConfiguration implements PushNotificationConfigurationInte
      */
     private Channel $channel;
 
+    public function __construct()
+    {
+        $this->setIconPath(null);
+    }
+
     public function getIconPath(): ?string
     {
         return $this->iconPath;
