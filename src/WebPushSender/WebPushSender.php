@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\WebPushSender;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
+use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
@@ -14,6 +15,7 @@ use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfiguratio
 use SpearDevs\SyliusPushNotificationsPlugin\Service\WebPushHistoryCreator\WebPushHistoryCreatorInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\User\Model\UserInterface;
 use Traversable;
@@ -21,6 +23,7 @@ use Traversable;
 final class WebPushSender implements WebPushSenderInterface
 {
     public const PUSH_NEW_ORDER_CODE = "'push_new_order'";
+
     public const PUSH_ORDER_SHIPPED_CODE = "'push_order_shipped'";
 
     public function __construct(
@@ -30,26 +33,27 @@ final class WebPushSender implements WebPushSenderInterface
         private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
         private PushNotificationConfigurationService $pushNotificationConfigurationService,
         private WebPushHistoryCreatorInterface $webPushHistoryCreator,
+        private ChannelContextInterface $channelContext,
     ) {
     }
 
-    public function sendToGroup(WebPushInterface $webPush, ?string $receiver = null): void
+    public function sendToGroup(WebPushInterface $webPush, ChannelInterface $channel, ?string $receiver = null): void
     {
         $subscriptions = ($receiver) ?
-            $this->userSubscriptionRepository->getSubscriptionsForUsersInGroup($receiver) :
-            $this->userSubscriptionRepository->getSubscriptionsForAllUsers();
+            $this->userSubscriptionRepository->getSubscriptionsForUsersInGroup($receiver, $channel) :
+            $this->userSubscriptionRepository->getSubscriptionsForAllUsers($channel);
 
         $this->send($webPush, $subscriptions);
     }
 
-    public function sendToUser(WebPushInterface $webPush, ?string $receiver = null): void
+    public function sendToUser(WebPushInterface $webPush, ChannelInterface $channel, ?string $receiver = null): void
     {
-        $subscriptions = $this->userSubscriptionRepository->getSubscriptionsForUserByEmail($receiver);
+        $subscriptions = $this->userSubscriptionRepository->getSubscriptionsForUserByEmail($receiver, $channel);
 
         $this->send($webPush, $subscriptions);
     }
 
-    public function sendOrderWebPush(OrderInterface $order, string $pushNotificationCode): void
+    public function sendOrderWebPush(OrderInterface $order, string $pushNotificationCode, ChannelInterface $channel): void
     {
         /** @var PushNotificationTemplate $pushNotificationTemplate */
         $pushNotificationTemplate = $this->pushNotificationTemplateRepository->findOneBy(['code' => $pushNotificationCode]);
@@ -57,12 +61,17 @@ final class WebPushSender implements WebPushSenderInterface
         /** @var UserInterface $user */
         $user = $order->getCustomer()->getUser();
 
-        $webPush = new WebPush($order, $pushNotificationTemplate);
+        if ($user) {
+            $this->channelContext->setChannelCode($channel->getCode());
 
-        $this->sendToUser(
-            $webPush,
-            $user->getEmail()
-        );
+            $webPush = new WebPush($order, $pushNotificationTemplate);
+
+            $this->sendToUser(
+                $webPush,
+                $channel,
+                $user->getEmail(),
+            );
+        }
     }
 
     private function send(WebPushInterface $webPush, iterable $subscriptions): void

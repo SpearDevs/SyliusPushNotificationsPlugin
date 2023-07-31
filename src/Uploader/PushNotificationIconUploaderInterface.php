@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SpearDevs\SyliusPushNotificationsPlugin\Uploader;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;

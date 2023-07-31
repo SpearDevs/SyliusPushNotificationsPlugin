@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Factory;
 
 use BenTools\WebPushBundle\Model\Response\PushResponse;
+use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistoryInterface;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Webmozart\Assert\Assert;
 use Sylius\Component\User\Model\User;
+use Webmozart\Assert\Assert;
 
 final class PushNotificationHistoryFactory implements FactoryInterface
 {
-    public function __construct(private FactoryInterface $factory) {
+    public function __construct(
+        private FactoryInterface $factory,
+        private ChannelContextInterface $channelContext,
+    ) {
     }
 
     public function createNew(): PushNotificationHistoryInterface
@@ -27,7 +32,7 @@ final class PushNotificationHistoryFactory implements FactoryInterface
     public function createNewWithPushNotificationData(
         string $pushTitle,
         string $pushContent,
-        PushResponse $pushResponse
+        PushResponse $pushResponse,
     ): PushNotificationHistoryInterface {
         $subscription = $pushResponse->getSubscription();
 
@@ -39,6 +44,11 @@ final class PushNotificationHistoryFactory implements FactoryInterface
         $user = $subscription->getUser();
         $pushNotificationHistory->setUser($user);
         $pushNotificationHistory->setResponseStatusCode($pushResponse->getStatusCode());
+
+        $channel = $this->channelContext->getChannel();
+
+        /** @var Channel $channel * */
+        $pushNotificationHistory->setChannel($channel);
 
         return $pushNotificationHistory;
     }

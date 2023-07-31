@@ -7,14 +7,20 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Manager;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription as SpearDevsUserSubscriptionInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ShopUser;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserSubscriptionManager implements UserSubscriptionManagerInterface
 {
     public function __construct(
-        private UserSubscriptionRepositoryInterface $userSubscriptionRepository
+        private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
+        private ChannelRepositoryInterface $channelRepository,
+        private RequestStack $request,
     ) {
     }
 
@@ -25,9 +31,9 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
         UserInterface $user,
         string $subscriptionHash,
         array $subscription,
-        array $options = []
+        array $options = [],
     ): UserSubscriptionInterface {
-        /** @var $user ShopUser */
+        /** @var ShopUser $user */
         return new UserSubscription($user, $subscriptionHash, $subscription);
     }
 
@@ -75,7 +81,13 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function save(UserSubscriptionInterface $userSubscription): void
     {
-        $this->userSubscriptionRepository->save($userSubscription);
+        /** @var Channel $channel * */
+        $hostName = $this->request->getCurrentRequest()->getHttpHost();
+        $channel = $this->channelRepository->findOneEnabledByHostname($hostName);
+
+        /** @var SpearDevsUserSubscriptionInterface $userSubscription */
+        $userSubscription->setChannel($channel);
+        $this->userSubscriptionRepository->add($userSubscription);
     }
 
     /**
@@ -83,6 +95,7 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function delete(UserSubscriptionInterface $userSubscription): void
     {
-        $this->userSubscriptionRepository->delete($userSubscription);
+        /** @var SpearDevsUserSubscriptionInterface $userSubscription */
+        $this->userSubscriptionRepository->remove($userSubscription);
     }
 }

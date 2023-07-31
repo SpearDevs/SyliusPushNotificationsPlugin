@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription\UserSubscription;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Customer\Model\CustomerGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,7 +20,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SendPushNotificationType extends AbstractType
 {
-    public function __construct(private TranslatorInterface $translator) {
+    public function __construct(private TranslatorInterface $translator)
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -44,6 +46,16 @@ class SendPushNotificationType extends AbstractType
                     new NotBlank(),
                 ],
             ])
+            ->add('channel', EntityType::class, [
+                'label' => 'sylius.ui.channel',
+                'required' => true,
+                'class' => Channel::class,
+                'constraints' => [
+                    new NotBlank([
+                        'groups' => 'sylius',
+                    ]),
+                ],
+            ])
             ->add('receiver', ChoiceType::class, [
                 'label' => 'speardevs_sylius_push_notifications_plugin.ui.receiver',
                 'choices' => [
@@ -56,7 +68,9 @@ class SendPushNotificationType extends AbstractType
                 'class' => CustomerGroup::class,
                 'required' => false,
                 'placeholder' => $this->translator->trans(
-                    'speardevs_sylius_push_notifications_plugin.ui.all', [], 'messages'
+                    'speardevs_sylius_push_notifications_plugin.ui.all',
+                    [],
+                    'messages',
                 ),
             ])
             ->add('user', EntityType::class, [
@@ -64,14 +78,17 @@ class SendPushNotificationType extends AbstractType
                 'class' => ShopUser::class,
                 'required' => false,
                 'placeholder' => $this->translator->trans(
-                    'speardevs_sylius_push_notifications_plugin.ui.choose_user', [], 'messages'
+                    'speardevs_sylius_push_notifications_plugin.ui.choose_user',
+                    [],
+                    'messages',
                 ),
                 'query_builder' => function (EntityRepository $shopUserRepository) {
                     return $shopUserRepository->createQueryBuilder('shopUser')
-                        ->leftJoin(UserSubscription::class,
+                        ->leftJoin(
+                            UserSubscription::class,
                             'userSubscription',
                             'WITH',
-                            'userSubscription.user = shopUser.id'
+                            'userSubscription.user = shopUser.id',
                         )
                         ->where('userSubscription IS NOT NULL');
                 },

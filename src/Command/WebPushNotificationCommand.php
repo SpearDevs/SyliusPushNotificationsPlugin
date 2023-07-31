@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepository;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
+use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
+use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,13 +32,15 @@ class WebPushNotificationCommand extends Command
     public function __construct(
         private WebPushSenderInterface $webPushSender,
         private PushNotificationTemplateRepository $pushNotificationTemplateRepository,
-        string $name = null
+        private ChannelRepositoryInterface $channelRepository,
+        private ChannelContextInterface $channelContext,
+        string $name = null,
     ) {
         parent::__construct($name);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure(): void
     {
@@ -47,7 +52,7 @@ class WebPushNotificationCommand extends Command
                 'force',
                 'f',
                 InputOption::VALUE_NONE,
-                'Use flag to force the execution of this command'
+                'Use flag to force the execution of this command',
             )
             ->addArgument('template', InputArgument::REQUIRED, 'A push notification template');
     }
@@ -65,18 +70,35 @@ class WebPushNotificationCommand extends Command
 
         $this->io->title('Web Push Notifications Interactive Wizard');
 
-        $pushTemlpates = $this->pushNotificationTemplateRepository->findAll();
+        $pushTemplates = $this->pushNotificationTemplateRepository->findAll();
+        $channels = $this->channelRepository->findAll();
+
+        $channelChoices = array_map(function ($channel) {
+            return $channel->getCode();
+        }, $channels);
+
+        $channelQuestion = new ChoiceQuestion(
+            '<question>Choose channel</question>',
+            $channelChoices,
+            0,
+        );
+        $channelQuestion->setErrorMessage('Channel %s does not exists.');
+        $channelChoice = $this->getHelper('question')->ask($input, $output, $channelQuestion);
+
+        $output->writeln('<info>You have just selected: ' . $channelChoice . '</info>');
+
+        $this->channelContext->setChannelCode($channelChoice);
 
         $choices = array_map(function ($template) {
             return $template->getTitle();
-        }, $pushTemlpates);
+        }, $pushTemplates);
 
         array_unshift($choices, self::PUSH_NOTIFICATION_CUSTOM_TYPE);
 
         $question = new ChoiceQuestion(
             '<question>Which push notification template would you like to choose?</question>',
             $choices,
-            0
+            0,
         );
         $question->setErrorMessage('Push notification template %s does not exists.');
 
@@ -119,7 +141,9 @@ class WebPushNotificationCommand extends Command
 
         $webPush = new WebPush(null, null, $pushTitle, $pushContent);
 
-        $this->webPushSender->sendToGroup($webPush);
+        /** @var ChannelInterface $channel */
+        $channel = $this->channelContext->getChannel();
+        $this->webPushSender->sendToGroup($webPush, $channel);
 
         $output->write('The push notification was sent successfully.');
 

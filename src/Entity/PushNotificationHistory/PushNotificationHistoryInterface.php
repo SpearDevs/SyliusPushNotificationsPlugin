@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory;
 
+use Sylius\Component\Core\Model\Channel;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\User;
 
 interface PushNotificationHistoryInterface extends ResourceInterface
 {
     public const STATE_NOT_RECEIVED = 'not_received';
+
     public const STATE_RECEIVED = 'received';
 
     public function getTitle(): string;
@@ -23,6 +25,10 @@ interface PushNotificationHistoryInterface extends ResourceInterface
     public function getUser(): User;
 
     public function setUser(User $user): void;
+
+    public function getChannel(): Channel;
+
+    public function setChannel(Channel $channel): void;
 
     public function getState(): string;
 

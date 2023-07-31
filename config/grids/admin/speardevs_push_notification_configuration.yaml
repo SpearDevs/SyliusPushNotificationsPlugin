@@ -5,6 +5,9 @@ sylius_grid:
                 options:
                     class: '%speardevs_sylius_push_notifications_plugin.model.push_notification_configuration.class%'
             fields:
+                channel:
+                    type: string
+                    label: sylius.ui.channel
                 iconPath:
                     type: twig
                     label: speardevs_sylius_push_notifications_plugin.ui.iconPath

@@ -8,6 +8,7 @@ sylius_grid:
                         method: createOwnedByUserQueryBuilder
                         arguments:
                             - "expr:service('sylius.context.customer').getCustomer().getUser()"
+                            - "expr:service('sylius.context.channel').getChannel()"
             sorting:
                 createdAt: desc
             fields:

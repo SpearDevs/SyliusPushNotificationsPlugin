@@ -2,7 +2,6 @@ imports:
     - { resource: "../vendor/bentools/webpush-bundle/src/Resources/config/services.xml" }
 
 parameters:
-    router.request_context.host: '%env(APP_HOST)%'
     router.request_context.scheme: '%env(APP_SCHEME)%'
     images_directory: '/media/image'
 
@@ -11,7 +10,8 @@ services:
         autowire: true
         autoconfigure: true
         bind:
-            $imageUrl: '%env(APP_SCHEME)%:%env(APP_HOST)%%images_directory%'
+            $appScheme: '%router.request_context.scheme%'
+            $imagesDirectory: '%images_directory%'
             Gaufrette\Filesystem: '@gaufrette.sylius_image_filesystem'
     
     SpearDevs\SyliusPushNotificationsPlugin\:
@@ -27,6 +27,8 @@ services:
         class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
         arguments:
             - '@speardevs_sylius_push_notifications_plugin.repository.user_subscription'
+            - '@sylius.repository.channel'
+            - '@request_stack'
         tags:
             - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
     
@@ -50,3 +52,10 @@ services:
     SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\PushNotificationConfigurationType:
         arguments:
             - '%speardevs_sylius_push_notifications_plugin.model.push_notification_configuration.class%'
+    
+    SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContext:
+        class: SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContext
+        arguments:
+            - '@sylius.repository.channel'
+        tags:
+            - { name: 'sylius.context.channel', priority: -256 }
