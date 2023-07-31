@@ -23,11 +23,10 @@ final class IconPathGenerator implements IconPathGeneratorInterface
 
     private function expandPath(string $path): string
     {
-        return sprintf(
-            '/%s/%s/%s',
-            substr($path, 0, 2),
-            substr($path, 2, 2),
-            substr($path, 4),
-        );
+        $firstTwoCharacters = substr($path, 0, 2);
+        $secondTwoCharacters = substr($path, 2, 2);
+        $remainingPart = substr($path, 4);
+
+        return sprintf('/%s/%s/%s', $firstTwoCharacters, $secondTwoCharacters, $remainingPart);
     }
 }
