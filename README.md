@@ -80,7 +80,7 @@ APP_SCHEME='https'
 $  bin/console doctrine:schema:update --force
 ```
 
-8. Finish the instalation by running fixture:
+9. Finish the instalation by running fixture:
 ```
 $ bin/console sylius:fixtures:load speardevs_push_notification_plugin
 ```
