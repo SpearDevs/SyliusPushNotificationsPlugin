@@ -4,7 +4,7 @@ Plugin for Sylius, based on the [bpolaszek/webpush-bundle](https://github.com/bp
 
 ### Instalation
 
-1. Run `speardevs/sylius-push-notifications-plugin`.
+1. Run `composer require speardevs/sylius-push-notifications-plugin`.
 
 ## Backend setup
 
@@ -38,7 +38,26 @@ imports:
     - { resource: "@SpearDevsSyliusPushNotificationsPlugin/config/config.yaml" }
 ```
 
-4. Configure routing in config/routes.yaml:
+4. If you extend `Sylius\Component\Core\Model\ShopUser` class, you need to register `UserSubscriptionManager` with your `user_class`, 
+   for example:
+```yaml
+# config/services.yaml
+
+SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager:
+    class: SpearDevs\SyliusPushNotificationsPlugin\Manager\UserSubscriptionManager
+    tags:
+        - { name: bentools_webpush.subscription_manager, user_class: 'App\Entity\User\ShopUser' }
+```
+
+5. Update your `bundles.php` file:
+```yaml
+# config/bundles.php
+
+BenTools\WebPushBundle\WebPushBundle::class => ['all' => true],
+SpearDevs\SyliusPushNotificationsPlugin\SpearDevsSyliusPushNotificationsPlugin::class => ['all' => true],
+```
+
+6. Configure routing in config/routes.yaml:
 ```yaml
 # config/routes.yaml
 
@@ -51,17 +70,17 @@ speardevs_push_notifications_shop:
     prefix: /
 ```
 
-5. Set env variables:
+7. Set env variables:
 Example:
 ```
 APP_SCHEME='https'
 ```
-6.  Update the database schema:
+8. Update the database schema:
 ```
 $  bin/console doctrine:schema:update --force
 ```
 
-7. Finish the instalation by running fixture:
+8. Finish the instalation by running fixture:
 ```
 $ bin/console sylius:fixtures:load speardevs_push_notification_plugin
 ```
