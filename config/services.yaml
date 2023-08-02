@@ -27,7 +27,7 @@ services:
             - '@sylius.repository.channel'
             - '@request_stack'
         tags:
-            - { name: bentools_webpush.subscription_manager, user_class: 'Sylius\Component\Core\Model\ShopUser' }
+            - { name: bentools_webpush.subscription_manager, user_class: 'SpearDevs\SyliusPushNotificationsPlugin\Entity\ShopUser' }
     
     SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSender:
         public: true
@@ -56,3 +56,10 @@ services:
             - '@sylius.repository.channel'
         tags:
             - { name: 'sylius.context.channel', priority: -256 }
+
+sylius_user:
+    resources:
+        shop:
+            user:
+                classes:
+                    model: SpearDevs\SyliusPushNotificationsPlugin\Entity\ShopUser
