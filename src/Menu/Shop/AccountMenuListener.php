@@ -13,7 +13,7 @@ final class AccountMenuListener
         $menu = $event->getMenu();
 
         $menu
-            ->addChild('new', ['route' => 'speardevs_push_notifications_section'])
+            ->addChild('push_notification_section', ['route' => 'speardevs_push_notifications_section'])
             ->setLabel('speardevs_sylius_push_notifications_plugin.ui.my_account.push_notifications')
             ->setLabelAttribute('icon', 'star');
 
