@@ -8,6 +8,7 @@ use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\ORM\Mapping as ORM;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
 use Sylius\Component\Core\Model\Channel;
+use Sylius\Component\Core\Model\Customer;
 use Sylius\Component\Core\Model\ShopUser;
 use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\User\Model\User;
@@ -28,6 +29,13 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
      * @ORM\JoinColumn(nullable=false)
      */
     private User $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Customer::class)
+     *
+     * @ORM\JoinColumn(nullable=false, name="customer_id",)
+     */
+    private Customer $customer;
 
     /** @ORM\Column(type="string") */
     private string $subscriptionHash;
@@ -51,6 +59,18 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     public function getUser(): UserInterface
     {
         return $this->user;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
+
+        return $this;
     }
 
     /**
