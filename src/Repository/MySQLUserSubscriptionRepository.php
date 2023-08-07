@@ -34,7 +34,7 @@ final class MySQLUserSubscriptionRepository extends EntityRepository implements 
     public function getSubscriptionsForUserByEmail(string $email, ChannelInterface $channel): iterable
     {
         return $this->getQueryToGetUserSubscriptions()
-            ->where('user.username = :email')
+            ->where('customer.email = :email')
             ->setParameter('email', $email)
             ->andWhere('userSubscription.channel = :channel')
             ->setParameter('channel', $channel)
@@ -47,12 +47,11 @@ final class MySQLUserSubscriptionRepository extends EntityRepository implements 
         return $this->createQueryBuilder('userSubscription')
             ->select('userSubscription')
             ->leftJoin(
-                'userSubscription.user',
-                'user',
+                'userSubscription.customer',
+                'customer',
                 'WITH',
-                'user.id = userSubscription.user',
+                'customer.id = userSubscription.customer',
             )
-            ->where('userSubscription.user is not null')
-            ->join('user.customer', 'customer');
+            ->where('userSubscription.customer is not null');
     }
 }
