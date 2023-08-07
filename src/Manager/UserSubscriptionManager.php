@@ -81,12 +81,16 @@ final class UserSubscriptionManager implements UserSubscriptionManagerInterface
      */
     public function save(UserSubscriptionInterface $userSubscription): void
     {
-        /** @var Channel $channel * */
         $hostName = $this->request->getCurrentRequest()->getHttpHost();
+
+        /** @var Channel $channel * */
         $channel = $this->channelRepository->findOneEnabledByHostname($hostName);
 
         /** @var SpearDevsUserSubscriptionInterface $userSubscription */
         $userSubscription->setChannel($channel);
+
+        $userSubscription->setCustomer($userSubscription->getUser()->getCustomer());
+
         $this->userSubscriptionRepository->add($userSubscription);
     }
 
