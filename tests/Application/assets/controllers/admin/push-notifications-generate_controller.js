@@ -30,7 +30,7 @@ export default class extends Controller {
 
         this.handleValueChange();
 
-        this.receiverInput.addEventListener('input', () => {
+        this.receiverInput.addEventListener('change', () => {
             this.handleValueChange();
         });
     }
