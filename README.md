@@ -17,7 +17,7 @@ php bin/console webpush:generate:keys
 .env file:
 ```
 WEBPUSH_PUBLIC_KEY=publickey
-WEBPUSH_PUBLIC_KEY=privatekey
+WEBPUSH_PRIVATE_KEY=privatekey
 ```
 
 ```yaml
