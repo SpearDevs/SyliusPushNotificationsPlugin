@@ -42,7 +42,7 @@ final class SendPushNotificationAction extends AbstractController
             $pushContent = $data['body'] ?? '';
             $customerGroup = $data['groups']?->getName() ?? '';
             $receiver = $data['receiver'] ?? '';
-            $user = $data['user']?->getEmail() ?? '';
+            $user = $data['user']?->getUsername() ?? '';
 
             $this->channelContext->setChannelCode($data['channel']->getCode());
 
