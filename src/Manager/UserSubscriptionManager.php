@@ -15,7 +15,7 @@ use Sylius\Component\Core\Model\ShopUser;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class UserSubscriptionManager implements UserSubscriptionManagerInterface
+class UserSubscriptionManager implements UserSubscriptionManagerInterface
 {
     public function __construct(
         private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
