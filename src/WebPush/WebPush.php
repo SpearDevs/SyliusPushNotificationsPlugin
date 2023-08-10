@@ -4,80 +4,21 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\WebPush;
 
-use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplateInterface;
-use Sylius\Component\Core\Model\OrderInterface;
-
 class WebPush implements WebPushInterface
 {
-    private array $orderData = [];
-
-    /**
-     * @throws WebPushException
-     */
     public function __construct(
-        private ?OrderInterface $order,
-        private ?PushNotificationTemplateInterface $pushNotificationTemplate,
-        private ?string $customTitle = null,
-        private ?string $customContent = null,
+        private string $title,
+        private string $content,
     ) {
-        if ($order !== null && $pushNotificationTemplate === null) {
-            throw new WebPushException('Push notification template can not be null');
-        }
-
-        if ($pushNotificationTemplate === null && ($customTitle === null || $customContent === null)) {
-            throw new WebPushException('Custom push notification title and content can not be null');
-        }
     }
 
     public function getTitle(): string
     {
-        if ($this->order) {
-            return $this->mapParameters($this->order, $this->pushNotificationTemplate->getTitle());
-        }
-
-        if ($this->customTitle) {
-            return $this->customTitle;
-        }
-
-        return $this->pushNotificationTemplate->getTitle();
+        return $this->title;
     }
 
     public function getContent(): string
     {
-        if ($this->order) {
-            return $this->mapParameters($this->order, $this->pushNotificationTemplate->getContent());
-        }
-
-        if ($this->customContent) {
-            return $this->customContent;
-        }
-
-        return $this->pushNotificationTemplate->getContent();
-    }
-
-    private function mapParameters(?OrderInterface $order, string $text)
-    {
-        $orderData = $this->getOrderData($order);
-
-        $change = [
-            '{order_id}' => $orderData['number'],
-            '{customer_name}' => $orderData['customer_name'],
-        ];
-
-        return strtr($text, $change);
-    }
-
-    private function getOrderData(OrderInterface $order): array
-    {
-        if (!count($this->orderData) === 0) {
-            return $this->orderData;
-        }
-
-        $this->orderData = [
-            'number' => $order->getNumber(),
-            'customer_name' => $order->getCustomer()->getFirstName(),
-        ];
-
-        return $this->orderData;
+        return $this->content;
     }
 }
