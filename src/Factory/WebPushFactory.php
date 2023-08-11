@@ -6,14 +6,14 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Factory;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplateInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\OrderParameterMapper\OrderParameterMapper;
+use SpearDevs\SyliusPushNotificationsPlugin\OrderParameterMapper\OrderParameterMapperInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use Sylius\Component\Core\Model\OrderInterface;
 
 final class WebPushFactory implements WebPushFactoryInterface
 {
     public function __construct(
-        private OrderParameterMapper $parameterMapper,
+        private OrderParameterMapperInterface $parameterMapper,
     ) {
     }
 
