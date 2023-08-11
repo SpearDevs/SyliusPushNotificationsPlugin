@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
-use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +26,7 @@ final class SendPushNotificationAction extends AbstractController
         private TranslatorInterface $translator,
         private WebPushSenderInterface $webPushSender,
         private ChannelContextInterface $channelContext,
+        private WebPushFactoryInterface $webPushFactory,
     ) {
     }
 
@@ -49,7 +50,7 @@ final class SendPushNotificationAction extends AbstractController
             /** @var ChannelInterface $channel */
             $channel = $this->channelContext->getChannel();
 
-            $webPush = new WebPush(null, null, $pushTitle, $pushContent);
+            $webPush = $this->webPushFactory->create(null, null, $pushTitle, $pushContent);
 
             if ($receiver === self::USER_RECEIVER) {
                 $this->webPushSender->sendToUser($webPush, $channel, $user);
