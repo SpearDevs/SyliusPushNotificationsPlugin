@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\OrderMapperParameter;
+namespace SpearDevs\SyliusPushNotificationsPlugin\OrderParameterMapper;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplateInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class OrderMapperParameter
+class OrderParameterMapper implements OrderParameterMapperInterface
 {
     private array $orderData = [];
 
