@@ -10,6 +10,7 @@ use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\WebPushFactory;
+use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\OrderParameterMapper;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
@@ -65,7 +66,9 @@ final class WebPushSender implements WebPushSenderInterface
         if ($user) {
             $this->channelContext->setChannelCode($channel->getCode());
 
-            $webPush = $this->webPushFactory->create($order, $pushNotificationTemplate);
+            $orderParameterMapper = new OrderParameterMapper();
+
+            $webPush = $this->webPushFactory->create($orderParameterMapper, $order, $pushNotificationTemplate);
 
             $this->sendToUser(
                 $webPush,

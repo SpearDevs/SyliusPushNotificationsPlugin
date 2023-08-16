@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace SpearDevs\SyliusPushNotificationsPlugin\OrderParameterMapper;
+namespace SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper;
 
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplateInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
-class OrderParameterMapper implements OrderParameterMapperInterface
+class OrderParameterMapper implements ParameterMapperInterface
 {
     private array $orderData = [];
 
     public function getTitle(
-        ?OrderInterface $order,
+        ?ResourceInterface $order,
         ?PushNotificationTemplateInterface $pushNotificationTemplate,
         ?string $customTitle,
     ): string {
@@ -32,7 +33,7 @@ class OrderParameterMapper implements OrderParameterMapperInterface
     }
 
     public function getContent(
-        ?OrderInterface $order,
+        ?ResourceInterface $order,
         ?PushNotificationTemplateInterface $pushNotificationTemplate,
         ?string $customContent,
     ): string {
@@ -51,8 +52,9 @@ class OrderParameterMapper implements OrderParameterMapperInterface
         return '';
     }
 
-    public function mapParameters(OrderInterface $order, string $text): string
+    public function mapParameters(ResourceInterface $order, string $text): string
     {
+        /** @var OrderInterface $order */
         $orderData = $this->getOrderData($order);
 
         $change = [
