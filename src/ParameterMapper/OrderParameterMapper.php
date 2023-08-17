@@ -6,6 +6,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
+use Webmozart\Assert\Assert;
 
 class OrderParameterMapper extends AbstractParameterMapper
 {
@@ -13,6 +14,12 @@ class OrderParameterMapper extends AbstractParameterMapper
 
     public function mapParameters(ResourceInterface $resource, string $text): string
     {
+        Assert::isInstanceOf(
+            $resource,
+            OrderInterface::class,
+            'Mapper can be used with an entity that implements the Sylius\Component\Core\Model\OrderInterface',
+        );
+
         /** @var OrderInterface $resource */
         $orderData = $this->getOrderData($resource);
 
