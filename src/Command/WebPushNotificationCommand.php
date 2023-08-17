@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Command;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\ParameterMapperInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepository;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -35,6 +36,7 @@ class WebPushNotificationCommand extends Command
         private ChannelRepositoryInterface $channelRepository,
         private ChannelContextInterface $channelContext,
         private WebPushFactoryInterface $webPushFactory,
+        private ParameterMapperInterface $orderParameterMapper,
         string $name = null,
     ) {
         parent::__construct($name);
@@ -139,7 +141,8 @@ class WebPushNotificationCommand extends Command
 
         $pushTitle = $input->getArgument('title');
         $pushContent = $input->getArgument('content');
-        $webPush = $this->webPushFactory->create(null, null, $pushTitle, $pushContent);
+
+        $webPush = $this->webPushFactory->create($this->orderParameterMapper, null, null, $pushTitle, $pushContent);
 
         /** @var ChannelInterface $channel */
         $channel = $this->channelContext->getChannel();
