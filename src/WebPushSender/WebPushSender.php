@@ -9,8 +9,8 @@ use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
-use SpearDevs\SyliusPushNotificationsPlugin\Factory\WebPushFactory;
-use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\OrderParameterMapper;
+use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\ParameterMapperInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
@@ -35,7 +35,8 @@ final class WebPushSender implements WebPushSenderInterface
         private PushNotificationConfigurationService $pushNotificationConfigurationService,
         private WebPushHistoryCreatorInterface $webPushHistoryCreator,
         private ChannelContextInterface $channelContext,
-        private WebPushFactory $webPushFactory,
+        private WebPushFactoryInterface $webPushFactory,
+        private ParameterMapperInterface $orderParameterMapper,
     ) {
     }
 
@@ -66,9 +67,7 @@ final class WebPushSender implements WebPushSenderInterface
         if ($user) {
             $this->channelContext->setChannelCode($channel->getCode());
 
-            $orderParameterMapper = new OrderParameterMapper();
-
-            $webPush = $this->webPushFactory->create($orderParameterMapper, $order, $pushNotificationTemplate);
+            $webPush = $this->webPushFactory->create($this->orderParameterMapper, $order, $pushNotificationTemplate);
 
             $this->sendToUser(
                 $webPush,
