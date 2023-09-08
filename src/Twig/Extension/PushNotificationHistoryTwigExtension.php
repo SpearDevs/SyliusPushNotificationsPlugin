@@ -31,6 +31,6 @@ final class PushNotificationHistoryTwigExtension extends AbstractExtension
         $channel = $this->channelContext->getChannel();
 
         /** @var ChannelInterface $channel */
-        return $this->pushNotificationHistoryRepository->getCountOfNotReceivedPushNotifications($user, $channel);
+        return $this->pushNotificationHistoryRepository->getCountOfNotReceivedCustomerPushNotifications($user, $channel);
     }
 }

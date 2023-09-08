@@ -14,7 +14,7 @@ interface PushNotificationHistoryRepositoryInterface extends RepositoryInterface
 {
     public function createOwnedByUserQueryBuilder(ShopUserInterface $user, ChannelInterface $channel): QueryBuilder;
 
-    public function getCountOfNotReceivedPushNotifications(ShopUserInterface $user, ChannelInterface $channel): int;
+    public function getCountOfNotReceivedCustomerPushNotifications(ShopUserInterface $user, ChannelInterface $channel): int;
 
     public function save(PushNotificationHistoryInterface $pushNotificationHistory): void;
 }

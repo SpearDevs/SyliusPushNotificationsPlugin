@@ -18,11 +18,13 @@ final class PushNotificationHistoryRepository extends EntityRepository implement
             ->innerJoin('pushNotificationHistory.user', 'user')
             ->where('user = :user')
             ->andWhere('pushNotificationHistory.channel = :channel')
+            ->andWhere('pushNotificationHistory.responseStatusCode = :code')
             ->setParameter('user', $user)
-            ->setParameter('channel', $channel);
+            ->setParameter('channel', $channel)
+            ->setParameter('code', PushNotificationHistoryInterface::RESPONSE_CREATED_CODE);
     }
 
-    public function getCountOfNotReceivedPushNotifications(ShopUserInterface $user, ChannelInterface $channel): int
+    public function getCountOfNotReceivedCustomerPushNotifications(ShopUserInterface $user, ChannelInterface $channel): int
     {
         return $this->createQueryBuilder('pushNotificationHistory')
             ->select('COUNT(pushNotificationHistory)')
@@ -30,9 +32,11 @@ final class PushNotificationHistoryRepository extends EntityRepository implement
             ->where('user = :user')
             ->andWhere('pushNotificationHistory.state = :state')
             ->andWhere('pushNotificationHistory.channel = :channel')
+            ->andWhere('pushNotificationHistory.responseStatusCode = :code')
             ->setParameter('user', $user)
             ->setParameter('state', PushNotificationHistoryInterface::STATE_NOT_RECEIVED)
             ->setParameter('channel', $channel)
+            ->setParameter('code', PushNotificationHistoryInterface::RESPONSE_CREATED_CODE)
             ->getQuery()
             ->getSingleScalarResult();
     }

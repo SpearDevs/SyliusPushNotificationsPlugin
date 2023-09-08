@@ -14,6 +14,8 @@ interface PushNotificationHistoryInterface extends ResourceInterface
 
     public const STATE_RECEIVED = 'received';
 
+    public const RESPONSE_CREATED_CODE = 201;
+
     public function getTitle(): string;
 
     public function setTitle(string $title): void;
