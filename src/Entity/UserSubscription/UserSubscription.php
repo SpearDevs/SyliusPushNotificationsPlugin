@@ -7,11 +7,10 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\UserSubscription;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
 use Doctrine\ORM\Mapping as ORM;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\Traits\EntityIdTrait;
-use Sylius\Component\Core\Model\Channel;
-use Sylius\Component\Core\Model\Customer;
-use Sylius\Component\Core\Model\ShopUser;
+use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
+use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Sylius\Component\User\Model\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -24,18 +23,18 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     use EntityIdTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser")
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUserInterface")
      *
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    private ShopUserInterface $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class)
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Customer\Model\CustomerInterface")
      *
      * @ORM\JoinColumn(nullable=false, name="customer_id",)
      */
-    private Customer $customer;
+    private CustomerInterface $customer;
 
     /** @ORM\Column(type="string") */
     private string $subscriptionHash;
@@ -43,10 +42,10 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     /** @ORM\Column(type="json") */
     private array $subscription;
 
-    /** @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\Channel") */
-    private Channel $channel;
+    /** @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ChannelInterface") */
+    private ChannelInterface $channel;
 
-    public function __construct(ShopUser $user, string $subscriptionHash, array $subscription)
+    public function __construct(ShopUserInterface $user, string $subscriptionHash, array $subscription)
     {
         $this->user = $user;
         $this->subscriptionHash = $subscriptionHash;
@@ -61,12 +60,12 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
         return $this->user;
     }
 
-    public function getCustomer(): ?Customer
+    public function getCustomer(): ?CustomerInterface
     {
         return $this->customer;
     }
 
-    public function setCustomer(?Customer $customer): self
+    public function setCustomer(?CustomerInterface $customer): self
     {
         $this->customer = $customer;
 
@@ -110,12 +109,12 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
         return $this->subscription['content-encoding'] ?? 'aesgcm';
     }
 
-    public function getChannel(): Channel
+    public function getChannel(): ChannelInterface
     {
         return $this->channel;
     }
 
-    public function setChannel(Channel $channel): void
+    public function setChannel(ChannelInterface $channel): void
     {
         $this->channel = $channel;
     }
