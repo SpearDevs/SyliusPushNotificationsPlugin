@@ -20,7 +20,7 @@ interface PushNotificationConfigurationInterface extends ResourceInterface
 
     public function hasIcon(): bool;
 
-    public function getChannel(): ?ChannelInterface;
+    public function getChannel(): ChannelInterface;
 
-    public function setChannel(?ChannelInterface $channel): void;
+    public function setChannel(ChannelInterface $channel): void;
 }

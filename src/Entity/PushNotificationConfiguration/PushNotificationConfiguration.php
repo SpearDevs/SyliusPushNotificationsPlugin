@@ -60,12 +60,12 @@ class PushNotificationConfiguration implements PushNotificationConfigurationInte
         return null !== $this->icon;
     }
 
-    public function getChannel(): ?ChannelInterface
+    public function getChannel(): ChannelInterface
     {
         return $this->channel;
     }
 
-    public function setChannel(?ChannelInterface $channel): void
+    public function setChannel(ChannelInterface $channel): void
     {
         $this->channel = $channel;
     }
