@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory;
 
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
-use Sylius\Component\User\Model\User;
 
 interface PushNotificationHistoryInterface extends ResourceInterface
 {
@@ -24,9 +24,9 @@ interface PushNotificationHistoryInterface extends ResourceInterface
 
     public function setContent(string $content): void;
 
-    public function getUser(): User;
+    public function getUser(): ShopUserInterface;
 
-    public function setUser(User $user): void;
+    public function setUser(ShopUserInterface $user): void;
 
     public function getChannel(): ChannelInterface;
 
