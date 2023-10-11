@@ -15,15 +15,14 @@ sylius_grid:
                         choices:
                             speardevs_sylius_push_notifications_plugin.ui.yes: received
                             speardevs_sylius_push_notifications_plugin.ui.no: not_received
-                user:
-                    type: entity
+                search:
+                    type: string
                     label: speardevs_sylius_push_notifications_plugin.ui.user
-                    enabled: true
-                    position: 100
                     options:
-                        fields: [ user ]
+                        fields:
+                            - user.username
                     form_options:
-                        class: "%sylius.model.shop_user.class%"
+                        type: contains
                 channel:
                     type: entity
                     label: sylius.ui.channel
