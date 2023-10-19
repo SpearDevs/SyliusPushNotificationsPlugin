@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\Generator;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Generator\IconPathGenerator;
@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\File\File;
 
 final class IconPathGeneratorTest extends TestCase
 {
-    /** @var IconPathGeneratorInterface&MockObject */
     private IconPathGeneratorInterface $iconPathGenerator;
 
     protected function setUp(): void
@@ -21,17 +20,17 @@ final class IconPathGeneratorTest extends TestCase
         $this->iconPathGenerator = new IconPathGenerator();
     }
 
-    public function testGenerateReturnsExpectedPath()
+    public function testGenerateReturnsExpectedPath(): void
     {
         //Given
         $configuration = $this->createMock(PushNotificationConfigurationInterface::class);
         $iconFile = $this->createMock(File::class);
 
-        $configuration->expects($this->once())
+        $configuration->expects(self::once())
             ->method('getIcon')
             ->willReturn($iconFile);
 
-        $iconFile->expects($this->once())
+        $iconFile->expects(self::once())
             ->method('guessExtension')
             ->willReturn('png');
 
@@ -39,6 +38,6 @@ final class IconPathGeneratorTest extends TestCase
         $path = $this->iconPathGenerator->generate($configuration);
 
         //Then
-        $this->assertIsString($path);
+        Assert::assertIsString($path);
     }
 }

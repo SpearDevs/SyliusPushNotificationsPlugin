@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\Twig\Extension;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepositoryInterface;
@@ -20,7 +21,6 @@ final class PushNotificationHistoryTwigExtensionTest extends TestCase
     /** @var ChannelContextInterface&MockObject */
     private ChannelContextInterface $channelContext;
 
-    /** @var PushNotificationHistoryTwigExtension&MockObject */
     private PushNotificationHistoryTwigExtension $pushNotificationHistoryTwigExtension;
 
     public function setUp(): void
@@ -34,18 +34,18 @@ final class PushNotificationHistoryTwigExtensionTest extends TestCase
         );
     }
 
-    public function testGetCountOfNotReceivedPushNotifications()
+    public function testGetCountOfNotReceivedPushNotifications(): void
     {
         //Given
         $user = $this->createMock(ShopUserInterface::class);
         $channel = $this->createMock(ChannelInterface::class);
 
-        $this->pushNotificationHistoryRepository->expects($this->once())
+        $this->pushNotificationHistoryRepository->expects(self::once())
             ->method('getCountOfNotReceivedCustomerPushNotifications')
             ->with($user, $channel)
             ->willReturn(5);
 
-        $this->channelContext->expects($this->once())
+        $this->channelContext->expects(self::once())
             ->method('getChannel')
             ->willReturn($channel);
 
@@ -53,6 +53,6 @@ final class PushNotificationHistoryTwigExtensionTest extends TestCase
         $result = $this->pushNotificationHistoryTwigExtension->getCountOfNotReceivedPushNotifications($user);
 
         //Then
-        $this->assertEquals(5, $result);
+        Assert::assertEquals(5, $result);
     }
 }

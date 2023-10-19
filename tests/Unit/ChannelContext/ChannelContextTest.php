@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\ChannelContext;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContext;
-use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Channel\Repository\ChannelRepositoryInterface;
@@ -17,8 +17,7 @@ final class ChannelContextTest extends TestCase
     /** @var ChannelRepositoryInterface&MockObject */
     private ChannelRepositoryInterface $channelRepository;
 
-    /** @var ChannelContextInterface&MockObject */
-    private ChannelContextInterface $channelContext;
+    private ChannelContext $channelContext;
 
     protected function setUp(): void
     {
@@ -42,7 +41,7 @@ final class ChannelContextTest extends TestCase
         $this->expectException(ChannelNotFoundException::class);
 
         //Then
-        $this->channelRepository->expects($this->once())
+        $this->channelRepository->expects(self::once())
             ->method('findOneByCode')
             ->with($channelCode)
             ->willReturn(null);
@@ -58,7 +57,7 @@ final class ChannelContextTest extends TestCase
         $channelCode = 'channel_code';
         $channel = $this->createMock(ChannelInterface::class);
 
-        $this->channelRepository->expects($this->once())
+        $this->channelRepository->expects(self::once())
             ->method('findOneByCode')
             ->with($channelCode)
             ->willReturn($channel);
@@ -69,6 +68,6 @@ final class ChannelContextTest extends TestCase
         $result = $this->channelContext->getChannel();
 
         //Then
-        $this->assertSame($channel, $result);
+        Assert::assertSame($channel, $result);
     }
 }

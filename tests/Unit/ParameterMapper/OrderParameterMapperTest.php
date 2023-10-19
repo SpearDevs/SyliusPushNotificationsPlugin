@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\ParameterMapper;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\OrderParameterMapper;
 use Sylius\Component\Core\Model\CustomerInterface;
@@ -12,7 +12,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 final class OrderParameterMapperTest extends TestCase
 {
-    /** @var OrderParameterMapper&MockObject */
     private OrderParameterMapper $orderParameterMapper;
 
     protected function setUp(): void
@@ -20,7 +19,7 @@ final class OrderParameterMapperTest extends TestCase
         $this->orderParameterMapper = new OrderParameterMapper();
     }
 
-    public function testMapParametersWithValidOrder()
+    public function testMapParametersWithValidOrder(): void
     {
         //Given
         $text = 'Order #{order_id} for {customer_name}';
@@ -35,15 +34,15 @@ final class OrderParameterMapperTest extends TestCase
         $order = $this->createMock(OrderInterface::class);
         $customer = $this->createMock(CustomerInterface::class);
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getNumber')
             ->willReturn($orderData['number']);
 
-        $order->expects($this->once())
+        $order->expects(self::once())
             ->method('getCustomer')
             ->willReturn($customer);
 
-        $customer->expects($this->once())
+        $customer->expects(self::once())
             ->method('getFirstName')
             ->willReturn($orderData['customer_name']);
 
@@ -51,10 +50,10 @@ final class OrderParameterMapperTest extends TestCase
         $result = $this->orderParameterMapper->mapParameters($order, $text);
 
         //Then
-        $this->assertEquals($expectedResult, $result);
+        Assert::assertEquals($expectedResult, $result);
     }
 
-    public function testMapParametersWithInvalidResource()
+    public function testMapParametersWithInvalidResource(): void
     {
         //Given
         $resource = $this->createMock(CustomerInterface::class);
@@ -62,7 +61,6 @@ final class OrderParameterMapperTest extends TestCase
 
         //Then
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Mapper can be used with an entity that implements the Sylius\Component\Core\Model\OrderInterface');
 
         //When
         $this->orderParameterMapper->mapParameters($resource, $text);

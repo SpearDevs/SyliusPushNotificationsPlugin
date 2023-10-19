@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\Service;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfigurationInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationConfiguration\PushNotificationConfigurationRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Service\PushNotificationConfigurationService;
-use Sylius\Component\Core\Model\Channel;
+use Sylius\Component\Channel\Model\ChannelInterface;
 
 final class PushNotificationConfigurationServiceTest extends TestCase
 {
@@ -20,49 +21,42 @@ final class PushNotificationConfigurationServiceTest extends TestCase
     /** @var ChannelContextInterface&MockObject */
     private ChannelContextInterface $channelContext;
 
-    private string $appScheme;
-
-    private string $imagesDirectory;
-
-    /** @var PushNotificationConfigurationService&MockObject */
     private PushNotificationConfigurationService $pushNotificationConfigurationService;
 
     protected function setUp(): void
     {
         $this->pushNotificationConfigurationRepository = $this->createMock(PushNotificationConfigurationRepositoryInterface::class);
         $this->channelContext = $this->createMock(ChannelContextInterface::class);
-        $this->appScheme = 'https';
-        $this->imagesDirectory = '/media/image';
 
         $this->pushNotificationConfigurationService = new PushNotificationConfigurationService(
             $this->pushNotificationConfigurationRepository,
             $this->channelContext,
-            $this->appScheme,
-            $this->imagesDirectory,
+            'https',
+            '/media/image',
         );
     }
 
-    public function testGetLinkToPushNotificationIconWithConfiguration()
+    public function testGetLinkToPushNotificationIconWithConfiguration(): void
     {
         //Given
-        $channel = $this->createMock(Channel::class);
+        $channel = $this->createMock(ChannelInterface::class);
         $pushNotificationConfiguration = $this->createMock(PushNotificationConfigurationInterface::class);
         $expectedLink = 'https://example.com/media/image/icon.png';
 
-        $this->channelContext->expects($this->once())
+        $this->channelContext->expects(self::once())
             ->method('getChannel')
             ->willReturn($channel);
 
-        $this->pushNotificationConfigurationRepository->expects($this->once())
+        $this->pushNotificationConfigurationRepository->expects(self::once())
             ->method('findOneBy')
             ->with(['channel' => $channel->getId()])
             ->willReturn($pushNotificationConfiguration);
 
-        $channel->expects($this->once())
+        $channel->expects(self::once())
             ->method('getHostname')
             ->willReturn('example.com');
 
-        $pushNotificationConfiguration->expects($this->once())
+        $pushNotificationConfiguration->expects(self::once())
             ->method('getIconPath')
             ->willReturn('/icon.png');
 
@@ -70,19 +64,19 @@ final class PushNotificationConfigurationServiceTest extends TestCase
         $link = $this->pushNotificationConfigurationService->getLinkToPushNotificationIcon();
 
         //Then
-        $this->assertEquals($expectedLink, $link);
+        Assert::assertEquals($expectedLink, $link);
     }
 
-    public function testGetLinkToPushNotificationIconWithoutConfiguration()
+    public function testGetLinkToPushNotificationIconWithoutConfiguration(): void
     {
         //Given
-        $channel = $this->createMock(Channel::class);
+        $channel = $this->createMock(ChannelInterface::class);
 
-        $this->channelContext->expects($this->once())
+        $this->channelContext->expects(self::once())
             ->method('getChannel')
             ->willReturn($channel);
 
-        $this->pushNotificationConfigurationRepository->expects($this->once())
+        $this->pushNotificationConfigurationRepository->expects(self::once())
             ->method('findOneBy')
             ->with(['channel' => $channel->getId()])
             ->willReturn(null);
@@ -91,6 +85,6 @@ final class PushNotificationConfigurationServiceTest extends TestCase
         $link = $this->pushNotificationConfigurationService->getLinkToPushNotificationIcon();
 
         //Then
-        $this->assertNull($link);
+        Assert::assertNull($link);
     }
 }

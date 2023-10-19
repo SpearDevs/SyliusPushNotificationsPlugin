@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\WebPush;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPush;
 
 final class WebPushTest extends TestCase
 {
-    public function testGetTitle()
+    public function testGetTitle(): void
     {
         //Given
         $title = 'Test Title';
@@ -20,7 +21,7 @@ final class WebPushTest extends TestCase
         $result = $webPush->getTitle();
 
         //Then
-        $this->assertEquals($title, $result);
+        Assert::assertEquals($title, $result);
     }
 
     public function testGetContent(): void
@@ -34,6 +35,6 @@ final class WebPushTest extends TestCase
         $result = $webPush->getContent();
 
         //Then
-        $this->assertEquals($content, $result);
+        Assert::assertEquals($content, $result);
     }
 }

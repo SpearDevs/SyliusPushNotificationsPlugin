@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\Factory;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplateInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
@@ -21,7 +22,7 @@ final class WebPushFactoryTest extends TestCase
         $this->webPushFactory = new WebPushFactory();
     }
 
-    public function testCreateWithValidParameters()
+    public function testCreateWithValidParameters(): void
     {
         //Given
         $parameterMapper = $this->createMock(ParameterMapperInterface::class);
@@ -30,11 +31,11 @@ final class WebPushFactoryTest extends TestCase
         $customTitle = 'Custom Title';
         $customContent = 'Custom Content';
 
-        $parameterMapper->expects($this->once())
+        $parameterMapper->expects(self::once())
             ->method('getTitle')
             ->with($resource, $pushNotificationTemplate, $customTitle)
             ->willReturn($customTitle);
-        $parameterMapper->expects($this->once())
+        $parameterMapper->expects(self::once())
             ->method('getContent')
             ->with($resource, $pushNotificationTemplate, $customContent)
             ->willReturn($customContent);
@@ -49,8 +50,8 @@ final class WebPushFactoryTest extends TestCase
         );
 
         //Then
-        $this->assertInstanceOf(WebPushInterface::class, $webPush);
-        $this->assertEquals($customTitle, $webPush->getTitle());
-        $this->assertEquals($customContent, $webPush->getContent());
+        Assert::assertInstanceOf(WebPushInterface::class, $webPush);
+        Assert::assertEquals($customTitle, $webPush->getTitle());
+        Assert::assertEquals($customContent, $webPush->getContent());
     }
 }

@@ -16,7 +16,6 @@ final class PushNotificationConfigurationEventSubscriberTest extends TestCase
     /** @var PushNotificationIconUploaderInterface&MockObject */
     private PushNotificationIconUploaderInterface $pushNotificationIconUploader;
 
-    /** @var PushNotificationConfigurationEventSubscriber&MockObject */
     private PushNotificationConfigurationEventSubscriber $pushNotificationConfigurationEventSubscriber;
 
     protected function setUp(): void
@@ -38,7 +37,7 @@ final class PushNotificationConfigurationEventSubscriberTest extends TestCase
 
         //Then
         $this->pushNotificationIconUploader
-            ->expects($this->never())
+            ->expects(self::never())
             ->method('upload')
             ->with($customer);
 

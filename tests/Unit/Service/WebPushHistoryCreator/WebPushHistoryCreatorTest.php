@@ -11,7 +11,6 @@ use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushN
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationHistory\PushNotificationHistoryRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Service\WebPushHistoryCreator\WebPushHistoryCreator;
-use SpearDevs\SyliusPushNotificationsPlugin\Service\WebPushHistoryCreator\WebPushHistoryCreatorInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
 
 final class WebPushHistoryCreatorTest extends TestCase
@@ -22,8 +21,7 @@ final class WebPushHistoryCreatorTest extends TestCase
     /** @var PushNotificationHistoryRepositoryInterface&MockObject */
     private PushNotificationHistoryRepositoryInterface $pushNotificationHistoryRepository;
 
-    /** @var WebPushHistoryCreatorInterface&MockObject */
-    private WebPushHistoryCreatorInterface $webPushHistoryCreator;
+    private WebPushHistoryCreator $webPushHistoryCreator;
 
     protected function setUp(): void
     {
@@ -36,7 +34,7 @@ final class WebPushHistoryCreatorTest extends TestCase
         );
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         //Given
         $webPush = $this->createMock(WebPushInterface::class);
@@ -45,12 +43,12 @@ final class WebPushHistoryCreatorTest extends TestCase
         $pushNotificationHistory = $this->createMock(PushNotificationHistoryInterface::class);
 
         //Then
-        $this->pushNotificationHistoryFactory->expects($this->once())
+        $this->pushNotificationHistoryFactory->expects(self::once())
             ->method('createNewWithPushNotificationData')
             ->with($webPush->getTitle(), $webPush->getContent(), $pushResponse)
             ->willReturn($pushNotificationHistory);
 
-        $this->pushNotificationHistoryRepository->expects($this->once())
+        $this->pushNotificationHistoryRepository->expects(self::once())
             ->method('save')
             ->with($pushNotificationHistory);
 

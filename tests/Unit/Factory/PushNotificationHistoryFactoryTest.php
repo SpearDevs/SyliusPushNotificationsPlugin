@@ -6,6 +6,7 @@ namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\Factory;
 
 use BenTools\WebPushBundle\Model\Response\PushResponse;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionInterface;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
@@ -23,7 +24,6 @@ final class PushNotificationHistoryFactoryTest extends TestCase
     /** @var ChannelContextInterface&MockObject */
     private ChannelContextInterface $channelContext;
 
-    /** @var PushNotificationHistoryFactory&MockObject */
     private PushNotificationHistoryFactory $pushNotificationHistoryFactory;
 
     protected function setUp(): void
@@ -37,12 +37,12 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         );
     }
 
-    public function testCreateNew()
+    public function testCreateNew(): void
     {
         //Given
         $pushNotificationHistory = $this->createMock(PushNotificationHistoryInterface::class);
 
-        $this->factory->expects($this->once())
+        $this->factory->expects(self::once())
             ->method('createNew')
             ->willReturn($pushNotificationHistory);
 
@@ -53,7 +53,7 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         $this->assertInstanceOf(PushNotificationHistoryInterface::class, $result);
     }
 
-    public function testCreateNewWithPushNotificationData()
+    public function testCreateNewWithPushNotificationData(): void
     {
         //Given
         $pushTitle = 'Test Title';
@@ -62,21 +62,21 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         $subscription = $this->createMock(UserSubscriptionInterface::class);
         $pushNotificationHistory = $this->createMock(PushNotificationHistoryInterface::class);
 
-        $pushResponse->expects($this->once())
+        $pushResponse->expects(self::once())
             ->method('getSubscription')
             ->willReturn($subscription);
 
         $user = $this->createMock(ShopUserInterface::class);
 
-        $this->factory->expects($this->once())
+        $this->factory->expects(self::once())
             ->method('createNew')
             ->willReturn($pushNotificationHistory);
 
-        $subscription->expects($this->once())
+        $subscription->expects(self::once())
             ->method('getUser')
             ->willReturn($user);
 
-        $this->channelContext->expects($this->once())
+        $this->channelContext->expects(self::once())
             ->method('getChannel')
             ->willReturn($this->createMock(Channel::class));
 
@@ -88,6 +88,6 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         );
 
         //Then
-        $this->assertInstanceOf(PushNotificationHistoryInterface::class, $result);
+        Assert::assertInstanceOf(PushNotificationHistoryInterface::class, $result);
     }
 }
