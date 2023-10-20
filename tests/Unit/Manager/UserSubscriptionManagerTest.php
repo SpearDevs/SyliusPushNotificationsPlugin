@@ -61,17 +61,21 @@ final class UserSubscriptionManagerTest extends TestCase
 
     public function testHash(): void
     {
+        //When
         $endpoint = 'example.com';
         $user = $this->createMock(ShopUser::class);
-
-        $hashedEndpoint = $this->userSubscriptionManager->hash($endpoint, $user);
         $expectedHash = md5($endpoint);
 
+        //Given
+        $hashedEndpoint = $this->userSubscriptionManager->hash($endpoint, $user);
+
+        //Then
         Assert::assertEquals($expectedHash, $hashedEndpoint);
     }
 
     public function testGetUserSubscription(): void
     {
+        //Given
         $user = $this->createMock(ShopUser::class);
         $subscriptionHash = 'subscriptionHash';
         $userSubscription = $this->createMock(UserSubscription::class);
@@ -81,12 +85,16 @@ final class UserSubscriptionManagerTest extends TestCase
             ->with(['user' => $user, 'subscriptionHash' => $subscriptionHash])
             ->willReturn($userSubscription);
 
+        //WHen
         $result = $this->userSubscriptionManager->getUserSubscription($user, $subscriptionHash);
+
+        //Then
         Assert::assertSame($userSubscription, $result);
     }
 
     public function testFindByUser(): void
     {
+        //Given
         $user = $this->createMock(ShopUser::class);
         $userSubscription = $this->createMock(UserSubscription::class);
 
@@ -97,12 +105,16 @@ final class UserSubscriptionManagerTest extends TestCase
             ->with(['user' => $user])
             ->willReturn($userSubscriptions);
 
+        //When
         $result = $this->userSubscriptionManager->findByUser($user);
+
+        //Then
         Assert::assertEquals($userSubscriptions, $result);
     }
 
     public function testFindByHash(): void
     {
+        //Given
         $subscriptionHash = 'subscriptionHash';
         $userSubscription = $this->createMock(UserSubscription::class);
 
@@ -113,18 +125,23 @@ final class UserSubscriptionManagerTest extends TestCase
             ->with(['subscriptionHash' => $subscriptionHash])
             ->willReturn($userSubscriptions);
 
+        //When
         $result = $this->userSubscriptionManager->findByHash($subscriptionHash);
+
+        //Then
         Assert::assertEquals($userSubscriptions, $result);
     }
 
     public function testSave(): void
     {
+        //Given
         $userSubscription = $this->createMock(UserSubscription::class);
         $user = $this->createMock(ShopUser::class);
         $request = $this->createMock(Request::class);
         $channel = $this->createMock(Channel::class);
         $customer = $this->createMock(CustomerInterface::class);
 
+        //Then
         $this->requestStack->expects(self::once())
             ->method('getCurrentRequest')
             ->willReturn($request);
@@ -150,17 +167,21 @@ final class UserSubscriptionManagerTest extends TestCase
             ->method('add')
             ->with($userSubscription);
 
+        //When
         $this->userSubscriptionManager->save($userSubscription);
     }
 
     public function testDelete(): void
     {
+        //Given
         $userSubscription = $this->createMock(UserSubscription::class);
 
+        //Then
         $this->userSubscriptionRepository->expects(self::once())
             ->method('remove')
             ->with($userSubscription);
 
+        //When
         $this->userSubscriptionManager->delete($userSubscription);
     }
 }

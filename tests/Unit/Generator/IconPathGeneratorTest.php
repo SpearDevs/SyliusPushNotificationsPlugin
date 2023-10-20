@@ -38,6 +38,6 @@ final class IconPathGeneratorTest extends TestCase
         $path = $this->iconPathGenerator->generate($configuration);
 
         //Then
-        Assert::assertIsString($path);
+        Assert::assertStringEndsWith('.png', $path);
     }
 }

@@ -27,8 +27,10 @@ final class ChannelContextTest extends TestCase
 
     public function testThrowExceptionWhenChannelCodeIsNull(): void
     {
+        //Then
         $this->expectException(ChannelNotFoundException::class);
 
+        //When
         $this->channelContext->setChannelCode(null);
         $this->channelContext->getChannel();
     }

@@ -10,6 +10,7 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistory;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationHistory\PushNotificationHistoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\PushNotificationHistoryFactory;
 use Sylius\Component\Core\Model\Channel;
@@ -60,7 +61,7 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         $pushContent = 'Test Content';
         $pushResponse = $this->createMock(PushResponse::class);
         $subscription = $this->createMock(UserSubscriptionInterface::class);
-        $pushNotificationHistory = $this->createMock(PushNotificationHistoryInterface::class);
+        $pushNotificationHistory = new PushNotificationHistory();
 
         $pushResponse->expects(self::once())
             ->method('getSubscription')
@@ -89,5 +90,7 @@ final class PushNotificationHistoryFactoryTest extends TestCase
 
         //Then
         Assert::assertInstanceOf(PushNotificationHistoryInterface::class, $result);
+        Assert::assertSame($pushTitle, $pushNotificationHistory->getTitle());
+        Assert::assertSame($pushContent, $pushNotificationHistory->getContent());
     }
 }
