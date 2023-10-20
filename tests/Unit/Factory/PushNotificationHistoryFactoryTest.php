@@ -59,13 +59,11 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         //Given
         $pushTitle = 'Test Title';
         $pushContent = 'Test Content';
-        $pushResponse = $this->createMock(PushResponse::class);
+        $responseStatusCode = 200;
         $subscription = $this->createMock(UserSubscriptionInterface::class);
         $pushNotificationHistory = new PushNotificationHistory();
 
-        $pushResponse->expects(self::once())
-            ->method('getSubscription')
-            ->willReturn($subscription);
+        $pushResponse = new PushResponse($subscription, $responseStatusCode);
 
         $user = $this->createMock(ShopUserInterface::class);
 
@@ -92,5 +90,6 @@ final class PushNotificationHistoryFactoryTest extends TestCase
         Assert::assertInstanceOf(PushNotificationHistoryInterface::class, $result);
         Assert::assertSame($pushTitle, $pushNotificationHistory->getTitle());
         Assert::assertSame($pushContent, $pushNotificationHistory->getContent());
+        Assert::assertSame($responseStatusCode, $pushNotificationHistory->getResponseStatusCode());
     }
 }
