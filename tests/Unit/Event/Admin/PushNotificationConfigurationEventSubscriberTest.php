@@ -6,6 +6,7 @@ namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Unit\Event\Admin;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationConfiguration\PushNotificationConfiguration;
 use SpearDevs\SyliusPushNotificationsPlugin\Event\Admin\PushNotificationConfigurationEventSubscriber;
 use SpearDevs\SyliusPushNotificationsPlugin\Uploader\PushNotificationIconUploaderInterface;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
@@ -40,6 +41,25 @@ final class PushNotificationConfigurationEventSubscriberTest extends TestCase
             ->expects(self::never())
             ->method('upload')
             ->with($customer);
+
+        //When
+        $this->pushNotificationConfigurationEventSubscriber->prePushNotificationConfigurationUpdate($event);
+    }
+
+    public function testItUploadIfEventIsRelatedWithPushNotificationConfiguration(): void
+    {
+        //Given
+        $pushNotificationConfiguration = $this->createMock(PushNotificationConfiguration::class);
+
+        $event = $this->createMock(ResourceControllerEvent::class);
+        $event->method('getSubject')
+            ->willReturn($pushNotificationConfiguration);
+
+        //Then
+        $this->pushNotificationIconUploader
+            ->expects(self::once())
+            ->method('upload')
+            ->with($pushNotificationConfiguration);
 
         //When
         $this->pushNotificationConfigurationEventSubscriber->prePushNotificationConfigurationUpdate($event);
