@@ -61,12 +61,12 @@ final class UserSubscriptionManagerTest extends TestCase
 
     public function testHash(): void
     {
-        //When
+        //Given
         $endpoint = 'example.com';
         $user = $this->createMock(ShopUser::class);
         $expectedHash = md5($endpoint);
 
-        //Given
+        //When
         $hashedEndpoint = $this->userSubscriptionManager->hash($endpoint, $user);
 
         //Then

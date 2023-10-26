@@ -40,6 +40,7 @@ final class ChannelContextTest extends TestCase
         //Given
         $channelCode = 'channel_code';
 
+        //Then
         $this->expectException(ChannelNotFoundException::class);
 
         //Then
