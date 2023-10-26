@@ -12,7 +12,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\User\Model\User;
 use Webmozart\Assert\Assert;
 
-final class PushNotificationHistoryFactory implements FactoryInterface
+final class PushNotificationHistoryFactory implements PushNotificationHistoryFactoryInterface
 {
     public function __construct(
         private FactoryInterface $factory,
@@ -45,9 +45,8 @@ final class PushNotificationHistoryFactory implements FactoryInterface
         $pushNotificationHistory->setUser($user);
         $pushNotificationHistory->setResponseStatusCode($pushResponse->getStatusCode());
 
-        $channel = $this->channelContext->getChannel();
-
         /** @var Channel $channel * */
+        $channel = $this->channelContext->getChannel();
         $pushNotificationHistory->setChannel($channel);
 
         return $pushNotificationHistory;

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace SpearDevs\SyliusPushNotificationsPlugin\Repository;
 
 use Sylius\Component\Core\Model\ChannelInterface;
+use Sylius\Component\Resource\Repository\RepositoryInterface;
 
-interface UserSubscriptionRepositoryInterface
+interface UserSubscriptionRepositoryInterface extends RepositoryInterface
 {
     public function getSubscriptionsForAllUsers(ChannelInterface $channel): iterable;
 
