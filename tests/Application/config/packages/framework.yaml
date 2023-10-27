@@ -7,3 +7,7 @@ framework:
     serializer:
         mapping:
             paths: [ '%kernel.project_dir%/config/serialization' ]
+            
+when@test:
+    framework:
+        test: true

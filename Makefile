@@ -1,3 +1,5 @@
+ARGUMENTS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+
 start:
 	(cd tests/Application && docker compose up -d)
 	(cd tests/Application && APP_ENV=dev symfony server:start -d)
@@ -6,8 +8,14 @@ stop:
 	(cd tests/Application && docker compose down)
 	(cd tests/Application && APP_ENV=dev symfony server:stop)
 
+ecs:
+	vendor/bin/ecs check "$(ARGUMENTS)"
+
+ecs-fix:
+	vendor/bin/ecs check "$(ARGUMENTS)" --fix
+
 phpunit:
-	vendor/bin/phpunit
+	APP_ENV=test vendor/bin/phpunit
 
 phpspec:
 	vendor/bin/phpspec run --ansi --no-interaction -f dot
