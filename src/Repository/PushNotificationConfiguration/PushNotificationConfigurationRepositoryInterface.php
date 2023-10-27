@@ -9,5 +9,5 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 
 interface PushNotificationConfigurationRepositoryInterface extends RepositoryInterface
 {
-    public function save(PushNotificationConfigurationInterface $pushNotificationHistory): void;
+    public function save(PushNotificationConfigurationInterface $pushNotificationConfiguration): void;
 }

@@ -9,9 +9,9 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 final class PushNotificationConfigurationRepository extends EntityRepository implements PushNotificationConfigurationRepositoryInterface
 {
-    public function save(PushNotificationConfigurationInterface $pushNotificationHistory): void
+    public function save(PushNotificationConfigurationInterface $pushNotificationConfiguration): void
     {
-        $this->_em->persist($pushNotificationHistory);
+        $this->_em->persist($pushNotificationConfiguration);
         $this->_em->flush();
     }
 }
