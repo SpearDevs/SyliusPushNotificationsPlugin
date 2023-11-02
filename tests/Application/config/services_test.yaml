@@ -5,10 +5,3 @@ imports:
 # see https://github.com/FriendsOfBehat/SymfonyExtension/issues/88
 services:
     Symfony\Component\BrowserKit\AbstractBrowser: '@test.client'
-
-    SpearDevs\SyliusPushNotificationsPlugin\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'

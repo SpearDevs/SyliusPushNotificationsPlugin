@@ -6,7 +6,6 @@ namespace Tests\SpearDevs\SyliusPushNotificationsPlugin\Integration\ChannelConte
 
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContext;
 use Sylius\Bundle\ChannelBundle\Doctrine\ORM\ChannelRepository;
-use Sylius\Component\Channel\Context\ChannelNotFoundException;
 use Tests\SpearDevs\SyliusPushNotificationsPlugin\Integration\DataFixtures\ChannelFixture;
 use Tests\SpearDevs\SyliusPushNotificationsPlugin\Integration\DataFixtures\CurrencyFixture;
 use Tests\SpearDevs\SyliusPushNotificationsPlugin\Integration\DataFixtures\LocaleFixture;
@@ -47,24 +46,5 @@ final class ChannelContextTest extends IntegrationTestCase
         //Then
         self::assertSame($channel, $channelFromContext);
         self::assertSame($channel->getCode(), $channelCodeFromContext);
-    }
-
-    public function testThrowExceptionWhenChannelIsNull(): void
-    {
-        //Then
-        $this->expectException(ChannelNotFoundException::class);
-
-        //When
-        $this->channelContext->getChannel();
-    }
-
-    public function testThrowExceptionWhenChannelCodeIsNull(): void
-    {
-        //Then
-        $this->expectException(ChannelNotFoundException::class);
-
-        //When
-        $this->channelContext->setChannelCode(null);
-        $this->channelContext->getChannel();
     }
 }

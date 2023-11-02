@@ -15,7 +15,7 @@ ecs-fix:
 	vendor/bin/ecs check "$(ARGUMENTS)" --fix
 
 phpunit:
-	APP_ENV=test vendor/bin/phpunit
+	vendor/bin/phpunit
 
 phpspec:
 	vendor/bin/phpspec run --ansi --no-interaction -f dot
