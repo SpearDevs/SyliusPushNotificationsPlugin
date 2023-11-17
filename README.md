@@ -1,6 +1,14 @@
+![img.png](docs/images/img_header.png)
 # Sylius Push Notification Plugin
 
 Plugin for Sylius, based on the [bpolaszek/webpush-bundle](https://github.com/bpolaszek/webpush-bundle) package, enabling the sending of push notifications within an online store. This plugin provides the functionality to send push notifications in two key scenarios: after order placement and after order shipment. Additionally, it allows for the sending of push notifications to individual users or user groups.
+
+### Documentation:
+After installation, read more about using the plugin and its functions for the user and administrator.
+
+1. [More about plugin usage.](docs/usage.md)
+2. [Customer section.](docs/customer_experience.md)
+3. [Administrator section.](docs/admin_experience.md)
 
 ### Instalation
 
