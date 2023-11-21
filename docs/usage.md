@@ -145,7 +145,7 @@ winzou_state_machine:
                     priority: 100
 ```
 
-Example of callback off:
+Example of turning callback off:
 ```yaml
 winzou_state_machine:
     sylius_order:
