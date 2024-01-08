@@ -25,7 +25,7 @@ class UserSubscription implements UserSubscriptionInterface, ResourceInterface
     /**
      * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUserInterface")
      *
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private ShopUserInterface $user;
 
