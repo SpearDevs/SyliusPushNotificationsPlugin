@@ -6,7 +6,7 @@
         "sylius",
         "sylius-plugin"
     ],
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": "^8.0",
         "bentools/webpush-bundle": "0.9",
