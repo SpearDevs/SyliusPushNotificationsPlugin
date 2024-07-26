@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "bentools/webpush-bundle": "0.9",
+        "bentools/webpush-bundle": "0.12",
         "sylius/mailer-bundle": "^1.8 || ^2.0@beta",
         "sylius/sylius": "^1.9",
         "symfony/webpack-encore-bundle": "^1.15"

@@ -1,0 +1,4 @@
+push_notifications:
+    send:
+        user_subscription_not_exist: The user with the provided email address has not consented to receiving push notifications.
+        

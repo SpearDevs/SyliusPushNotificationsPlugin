@@ -10,14 +10,12 @@
 
             {{ form_row(form.receiver, { attr: { 'data-form-field': 'receiver' } }) }}
 
-            <div class="field" data-form-row="send-to">
-                {{ form_label(form.groups) }}
-                {{ form_widget(form.groups) }}
+            <div data-form-row="send-to">
+                {{ form_row(form.group) }}
             </div>
 
-            <div class="field" data-form-row="user">
-                {{ form_label(form.user) }}
-                {{ form_widget(form.user) }}
+            <div data-form-row="user">
+                {{ form_row(form.userEmail) }}
             </div>
         </div>
     </div>
