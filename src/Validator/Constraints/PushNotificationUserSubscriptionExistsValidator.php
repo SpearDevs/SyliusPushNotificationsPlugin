@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Traversable;
 
-final class PushNotificationUserValidator extends ConstraintValidator
+final class PushNotificationUserSubscriptionExistsValidator extends ConstraintValidator
 {
     public function __construct(
         private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
@@ -24,7 +24,7 @@ final class PushNotificationUserValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (!$constraint instanceof PushNotificationUser) {
+        if (!$constraint instanceof PushNotificationUserSubscriptionExists) {
             throw new UnexpectedTypeException($constraint, PushNotificationUser::class);
         }
 

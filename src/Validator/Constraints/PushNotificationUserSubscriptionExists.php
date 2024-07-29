@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class PushNotificationUser extends Constraint
+class PushNotificationUserSubscriptionExists extends Constraint
 {
     public string $message = 'push_notifications.send.user_subscription_not_exist';
 

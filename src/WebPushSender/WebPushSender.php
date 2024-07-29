@@ -51,17 +51,17 @@ final class WebPushSender implements WebPushSenderInterface
         $pushContent = $sendPushNotificationFormModel->body;
         $receiver = $sendPushNotificationFormModel->receiver;
         $channel = $sendPushNotificationFormModel->channel;
-        $userEmail = $sendPushNotificationFormModel->userEmail;
-        $customerGroup = $sendPushNotificationFormModel->group;
 
         $webPush = $this->webPushFactory->create($this->orderParameterMapper, null, null, $pushTitle, $pushContent);
 
         if ($receiver === self::USER_RECEIVER) {
+            $userEmail = $sendPushNotificationFormModel->userEmail;
             $this->sendToUser($webPush, $channel, $userEmail);
         }
 
         if ($receiver === self::GROUP_RECEIVER) {
-            $this->sendToGroup($webPush, $channel, $customerGroup);
+            $customerGroup = $sendPushNotificationFormModel->group;
+            $this->sendToGroup($webPush, $channel, $customerGroup?->getName());
         }
     }
 
