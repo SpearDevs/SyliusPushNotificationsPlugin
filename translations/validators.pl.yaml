@@ -1,0 +1,3 @@
+push_notifications:
+    send:
+        user_subscription_not_exist: Użytkownik o podanym adresie email nie wyraził zgody na otrzymywanie push notyfikacji.

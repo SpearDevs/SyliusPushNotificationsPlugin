@@ -23,6 +23,7 @@ speardevs_sylius_push_notifications_plugin:
         content: Treść
         code: Kod
         sent_success: Wysłano notyfikacje push
+        sent_error: Wystąpił błąd podczas wysyłki notyfikacji push
         send_to: Wyślij do
         receiver: Odbiorca
         group: Grupa

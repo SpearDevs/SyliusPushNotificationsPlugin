@@ -4,31 +4,22 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\Controller\Admin;
 
+use Psr\Log\LoggerInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
-use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Form\Model\SendPushNotificationFormModel;
 use SpearDevs\SyliusPushNotificationsPlugin\Form\Type\Admin\SendPushNotificationType;
-use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\ParameterMapperInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPushSender\WebPushSenderInterface;
-use Sylius\Component\Core\Model\ChannelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
+use Symfony\Component\Translation\TranslatableMessage;
 
 final class SendPushNotificationAction extends AbstractController
 {
-    public const USER_RECEIVER = 'user';
-
-    public const GROUP_RECEIVER = 'group';
-
     public function __construct(
-        private Environment $twig,
-        private TranslatorInterface $translator,
         private WebPushSenderInterface $webPushSender,
         private ChannelContextInterface $channelContext,
-        private WebPushFactoryInterface $webPushFactory,
-        private ParameterMapperInterface $orderParameterMapper,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -39,37 +30,27 @@ final class SendPushNotificationAction extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            try {
+                /** @var SendPushNotificationFormModel $data */
+                $data = $form->getData();
+                $channel = $data->channel;
+                $this->channelContext->setChannelCode($channel->getCode());
+                $this->webPushSender->sendWebPush($data);
 
-            $pushTitle = $data['title'] ?? '';
-            $pushContent = $data['body'] ?? '';
-            $customerGroup = $data['groups']?->getName() ?? '';
-            $receiver = $data['receiver'] ?? '';
-            $user = $data['user']?->getUsername() ?? '';
+                $this->addFlash('success', new TranslatableMessage(
+                    'speardevs_sylius_push_notifications_plugin.ui.sent_success',
+                ));
+            } catch (\Exception $exception) {
+                $this->logger->error('Problem while sending push notifications ' . $exception->getMessage());
 
-            $this->channelContext->setChannelCode($data['channel']->getCode());
-
-            /** @var ChannelInterface $channel */
-            $channel = $this->channelContext->getChannel();
-
-            $webPush = $this->webPushFactory->create($this->orderParameterMapper, null, null, $pushTitle, $pushContent);
-
-            if ($receiver === self::USER_RECEIVER) {
-                $this->webPushSender->sendToUser($webPush, $channel, $user);
+                $this->addFlash('error', new TranslatableMessage(
+                    'speardevs_sylius_push_notifications_plugin.ui.sent_error',
+                ));
             }
-
-            if ($receiver === self::GROUP_RECEIVER) {
-                $this->webPushSender->sendToGroup($webPush, $channel, $customerGroup);
-            }
-
-            $this->addFlash('success', $this->translator->trans('speardevs_sylius_push_notifications_plugin.ui.sent_success'));
 
             return $this->redirect($request->getUri());
         }
 
-        return new Response($this->twig->render(
-            $request->get('template'),
-            ['form' => $form->createView()],
-        ));
+        return $this->render($request->get('template'), ['form' => $form->createView()]);
     }
 }

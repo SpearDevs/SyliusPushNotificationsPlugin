@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace SpearDevs\SyliusPushNotificationsPlugin\WebPushSender;
 
+use SpearDevs\SyliusPushNotificationsPlugin\Form\Model\SendPushNotificationFormModel;
 use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
 interface WebPushSenderInterface
 {
+    public function sendWebPush(SendPushNotificationFormModel $sendPushNotificationFormModel): void;
+
     public function sendToGroup(WebPushInterface $webPush, ChannelInterface $channel, ?string $receiver = null): void;
 
     public function sendToUser(WebPushInterface $webPush, ChannelInterface $channel, ?string $receiver = null): void;

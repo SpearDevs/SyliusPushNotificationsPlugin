@@ -23,6 +23,7 @@ speardevs_sylius_push_notifications_plugin:
         content: Content
         code: Code
         sent_success: Push notification sent
+        sent_error: An error occurred while sending push notifications
         send_to: Send to
         receiver: Receiver
         group: Group

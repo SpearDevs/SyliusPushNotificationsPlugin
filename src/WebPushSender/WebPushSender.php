@@ -10,6 +10,7 @@ use BenTools\WebPushBundle\Sender\PushMessageSender;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
+use SpearDevs\SyliusPushNotificationsPlugin\Form\Model\SendPushNotificationFormModel;
 use SpearDevs\SyliusPushNotificationsPlugin\ParameterMapper\ParameterMapperInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\PushNotificationTemplate\PushNotificationTemplateRepositoryInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Repository\UserSubscriptionRepositoryInterface;
@@ -27,6 +28,10 @@ final class WebPushSender implements WebPushSenderInterface
 
     public const PUSH_ORDER_SHIPPED_CODE = "'push_order_shipped'";
 
+    public const USER_RECEIVER = 'user';
+
+    public const GROUP_RECEIVER = 'group';
+
     public function __construct(
         private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
         private UserSubscriptionManagerInterface $userSubscriptionManager,
@@ -38,6 +43,26 @@ final class WebPushSender implements WebPushSenderInterface
         private WebPushFactoryInterface $webPushFactory,
         private ParameterMapperInterface $orderParameterMapper,
     ) {
+    }
+
+    public function sendWebPush(SendPushNotificationFormModel $sendPushNotificationFormModel): void
+    {
+        $pushTitle = $sendPushNotificationFormModel->title;
+        $pushContent = $sendPushNotificationFormModel->body;
+        $receiver = $sendPushNotificationFormModel->receiver;
+        $channel = $sendPushNotificationFormModel->channel;
+
+        $webPush = $this->webPushFactory->create($this->orderParameterMapper, null, null, $pushTitle, $pushContent);
+
+        if ($receiver === self::USER_RECEIVER) {
+            $userEmail = $sendPushNotificationFormModel->userEmail;
+            $this->sendToUser($webPush, $channel, $userEmail);
+        }
+
+        if ($receiver === self::GROUP_RECEIVER) {
+            $customerGroup = $sendPushNotificationFormModel->group;
+            $this->sendToGroup($webPush, $channel, $customerGroup?->getName());
+        }
     }
 
     public function sendToGroup(WebPushInterface $webPush, ChannelInterface $channel, ?string $receiver = null): void
