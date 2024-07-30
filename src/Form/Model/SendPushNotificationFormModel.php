@@ -10,7 +10,7 @@ use Sylius\Component\Customer\Model\CustomerGroupInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /** @PushNotificationUserSubscriptionExists() */
-final class SendPushNotificationFormModel
+class SendPushNotificationFormModel
 {
     /** @Assert\NotBlank() */
     public string $title;
