@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\WebPushSender;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
+use Psr\Log\LoggerInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
@@ -20,6 +21,8 @@ use SpearDevs\SyliusPushNotificationsPlugin\WebPush\WebPushInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\User\Model\UserInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 use Traversable;
 
 final class WebPushSender implements WebPushSenderInterface
@@ -33,16 +36,19 @@ final class WebPushSender implements WebPushSenderInterface
     public const GROUP_RECEIVER = 'group';
 
     public function __construct(
-        private UserSubscriptionRepositoryInterface $userSubscriptionRepository,
-        private UserSubscriptionManagerInterface $userSubscriptionManager,
-        private PushMessageSender $sender,
+        private UserSubscriptionRepositoryInterface         $userSubscriptionRepository,
+        private UserSubscriptionManagerInterface            $userSubscriptionManager,
+        private PushMessageSender                           $sender,
         private PushNotificationTemplateRepositoryInterface $pushNotificationTemplateRepository,
-        private PushNotificationConfigurationService $pushNotificationConfigurationService,
-        private WebPushHistoryCreatorInterface $webPushHistoryCreator,
-        private ChannelContextInterface $channelContext,
-        private WebPushFactoryInterface $webPushFactory,
-        private ParameterMapperInterface $orderParameterMapper,
-    ) {
+        private PushNotificationConfigurationService        $pushNotificationConfigurationService,
+        private WebPushHistoryCreatorInterface              $webPushHistoryCreator,
+        private ChannelContextInterface                     $channelContext,
+        private WebPushFactoryInterface                     $webPushFactory,
+        private ParameterMapperInterface                    $orderParameterMapper,
+        private LoggerInterface                             $logger,
+        private SessionInterface                            $session,
+    )
+    {
     }
 
     public function sendWebPush(SendPushNotificationFormModel $sendPushNotificationFormModel): void
@@ -93,13 +99,21 @@ final class WebPushSender implements WebPushSenderInterface
             $this->channelContext->setChannelCode($channel->getCode());
 
             $webPush = $this->webPushFactory->create($this->orderParameterMapper, $order, $pushNotificationTemplate);
-
-            $this->sendToUser(
-                $webPush,
-                $channel,
-                $user->getEmail(),
-            );
+            try {
+                $this->sendToUser(
+                    $webPush,
+                    $channel,
+                    $user->getEmail(),
+                );
+            } catch (\Exception $e) {
+                $this->session->getFlashBag()->add(
+                    'error',
+                    new TranslatableMessage('speardevs_sylius_push_notifications_plugin.ui.sent_error')
+                );
+                $this->logger->error('Problem while sending push notifications ' . $e->getMessage());
+            }
         }
+
     }
 
     private function send(WebPushInterface $webPush, iterable $subscriptions): void
