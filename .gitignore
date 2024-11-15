@@ -4,6 +4,7 @@
 
 /etc/build/*
 !/etc/build/.gitignore
+/.idea
 
 /tests/Application/yarn.lock
 

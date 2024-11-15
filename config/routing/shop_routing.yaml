@@ -1,11 +1,5 @@
-speardevs_push_notifications_section:
-    path: /account/push-notifications
-    defaults:
-        _controller: 'SpearDevs\SyliusPushNotificationsPlugin\Controller\Shop\PushNotificationAction'
-        template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification.html.twig'
-
-speardevs_push_notifications_history_index:
-    path: /account/push-notifications-history
+speardevs_push_notifications:
+    path: /account/push-notifications-section
     methods: [ GET ]
     defaults:
         _controller: speardevs_sylius_push_notifications_plugin.controller.push_notification_history::indexAction
@@ -16,7 +10,7 @@ speardevs_push_notifications_history_index:
             grid: speardevs_push_notification_history
             section: shop_account
             permission: true
-            template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/push_notification_history.html.twig'
+            template: '@SpearDevsSyliusPushNotificationsPlugin/Shop/Account/index.html.twig'
             repository:
                 method: findByCustomer
                 arguments:
