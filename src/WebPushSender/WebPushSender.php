@@ -7,6 +7,7 @@ namespace SpearDevs\SyliusPushNotificationsPlugin\WebPushSender;
 use BenTools\WebPushBundle\Model\Message\PushNotification;
 use BenTools\WebPushBundle\Model\Subscription\UserSubscriptionManagerInterface;
 use BenTools\WebPushBundle\Sender\PushMessageSender;
+use Psr\Log\LoggerInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Context\ChannelContextInterface;
 use SpearDevs\SyliusPushNotificationsPlugin\Entity\PushNotificationTemplate\PushNotificationTemplate;
 use SpearDevs\SyliusPushNotificationsPlugin\Factory\Interfaces\WebPushFactoryInterface;
@@ -42,6 +43,7 @@ final class WebPushSender implements WebPushSenderInterface
         private ChannelContextInterface $channelContext,
         private WebPushFactoryInterface $webPushFactory,
         private ParameterMapperInterface $orderParameterMapper,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -93,12 +95,15 @@ final class WebPushSender implements WebPushSenderInterface
             $this->channelContext->setChannelCode($channel->getCode());
 
             $webPush = $this->webPushFactory->create($this->orderParameterMapper, $order, $pushNotificationTemplate);
-
-            $this->sendToUser(
-                $webPush,
-                $channel,
-                $user->getEmail(),
-            );
+            try {
+                $this->sendToUser(
+                    $webPush,
+                    $channel,
+                    $user->getEmail(),
+                );
+            } catch (\Exception $e) {
+                $this->logger->error('Problem while sending push notifications ' . $e->getMessage());
+            }
         }
     }
 
